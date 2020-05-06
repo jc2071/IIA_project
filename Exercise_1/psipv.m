@@ -11,8 +11,7 @@ psi = -T*log((xg - xc).^2 + (yg - yc).^2)/(4*pi);
 
 c = -0.4:0.2:1.2;
 [C,h] = contour(xg,yg,psi,c);
-
-title("Point Vortex Stream Function");
+title("Point Vortex Stream Function " + '$ \psi = \frac{\Gamma}{4\pi}log(r^2)$','Interpreter','latex');
 xlabel("x");
 ylabel("y");
 set(gca,'fontname','Latin Modern Math');
