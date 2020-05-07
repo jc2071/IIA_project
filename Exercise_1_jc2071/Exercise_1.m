@@ -1,4 +1,7 @@
 
+clear
+close all
+
 xc = 0.50;
 yc = 0.25;
 gamma = 3.0;
