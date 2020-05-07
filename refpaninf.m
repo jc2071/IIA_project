@@ -17,3 +17,5 @@ I1 = ( (X.^2 + Y.^2).*log(X.^2 + Y.^2) ...
 %Calculate influence coefficients
 infa = (1-X/del).*I0 - I1/del;
 infb = (X/del).*I0 + I1/del;
+
+end
