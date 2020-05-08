@@ -39,8 +39,8 @@ for k = 1:nv
     yc = 0;
     Gamma_a = (1-(k-0.5)/nv)*del/nv;
     Gamma_b = ((k-0.5)/nv)*del/nv;
-    aprxinfa = aprxinfa + psipv(xc, yc, gamma_a, xm , ym);
-    aprxinfb = aprxinfb + psipv(xc, yc, gamma_b, xm , ym);
+    aprxinfa = aprxinfa + psipv(xc, yc, Gamma_a, xm , ym);
+    aprxinfb = aprxinfb + psipv(xc, yc, Gamma_b, xm , ym);
 end
 
 figure(3)
