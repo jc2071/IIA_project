@@ -1,6 +1,6 @@
 
 r = 1;
-N = 20;
+N = 5;
 theta = (0:N)*2*pi/N;
 
 xs = r*cos(theta); % surface of cyclinder x

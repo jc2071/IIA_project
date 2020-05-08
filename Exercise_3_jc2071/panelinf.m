@@ -7,11 +7,9 @@ function [infa ,infb] = panelinf(xa, ya, xb, yb, x, y)
     ty = yb - ya;
     nx = ya - yb;
     ny = xb - xa;
-    X = (rx*tx + ry*ty)/sqrt(tx.^2 + ty.^2);
-    Y = (rx*nx + ry*ny)/sqrt(nx.^2 + ny.^2);
+    X = (rx*tx + ry*ty)/del;
+    Y = (rx*nx + ry*ny)/del;
 
     [infa ,infb] = refpaninf(del, X, Y);
 
-
 end
-
