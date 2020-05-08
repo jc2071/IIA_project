@@ -1,15 +1,12 @@
 function [infa, infb] = refpaninf(del, X, Yin)
 %Calculate the influence coefficients for a reference panel of vorticity
 
-Y = zeros(size(Yin));
-for k = 1:numel(Yin)
-    if abs(Yin(k)) < 1e-8
-        Y(k) = 1e-8; % why not using a *sign(Yin)??? why does it nan my matrix
-    else
-        Y(k) = Yin(k);
-    end
+for 
+if abs(Yin) < 1e-8
+    Y = 1e-8; % why not using a *sign(Yin)
+else
+    Y = Yin;
 end
-
 
 %Calculate integrals using elemenet operations where neccesary
 I0 = -( X.*log(X.^2 + Y.^2) - (X-del).*log((X-del).^2 + Y.^2)...

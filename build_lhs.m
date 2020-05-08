@@ -14,10 +14,11 @@ ys_trun = ys(1:np)';
 %matrix
 for j = 1:np
     [infa, infb] = panelinf(xs(j), ys(j), xs(j+1), ys(j+1), xs_trun, ys_trun);
-    psip(:,j:j+1) = psip(:,j:j+1) + [infa; infb];
+    psip(:,j:j+1) = psip(:,j:j+1) + [infa, infb];
 end
 
 %Construct the [A] matrix. 1st + Last row same as identity matrix. Central
 %bit is [A]i = psip(i+1) - psip(i).
-lhsmat = [1, zeros(np); psip(2:end,:) - psip(1:np-1,:); zeros(np), 1];
+lhsmat = [1, zeros(1,np); psip(2:end,:) - psip(1:np-1,:); zeros(1,np), 1];
+
 end
