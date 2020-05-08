@@ -2,7 +2,7 @@ function [infa, infb] = refpaninf(del, X, Yin)
 %Calculate the influence coefficients for a reference panel of vorticity
 
 if abs(Yin) < 1e-8
-    Y = sign(Yin)*1e-8;
+    Y = 1e-8; % why not using a *sign(Yin)
 else
     Y = Yin;
 end
