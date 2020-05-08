@@ -1,6 +1,7 @@
 function lhsmat = build_lhs(xs, ys)
 %lhsmat returns the [A] matrix. If we can get panelinf to output 3d arrays
-%we can even remove the last for loop.
+%we can even remove the last for loop. Currently this calculates all edge
+%points at once but still loops over panels.
 
 np = length(xs) - 1;
 psip = zeros(np, np+1);

@@ -14,9 +14,10 @@ ny = 201;
 
 %Define the cylinder and its circulation
 np = 100;
+r = 1;
 theta = (0:np)*2*pi/np;
-xs = cos(theta);
-ys = sin(theta);
+xs = r*cos(theta);
+ys = r*sin(theta);
 gamma_s = -2*sin(theta);
 
 %Create matrices
