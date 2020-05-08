@@ -35,7 +35,7 @@ function lhsmat = build_lhs(xs, ys)
    rowToInsert = length(xs);
    psi_i = [x(1:rowToInsert-1,:); rowVectorToInsert; x(rowToInsert:end,:)];
 
-   lhsmat = psi_i1 - psi_i;
+   lhsmat =  psi_i - psi_i1;
    
    
     end
