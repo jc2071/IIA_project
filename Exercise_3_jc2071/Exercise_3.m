@@ -1,7 +1,7 @@
 clear
 close all
 
-N =  200;
+N =  50;
 x = linspace(0,5,N);
 y = linspace(0,4,N);
 
