@@ -30,7 +30,6 @@ for p = 1:np %loop over the panels
 psi = psi + gamma_s(p)*infa + gamma_s(p+1)*infb;
 end
 
-
 c = -1.75:0.05:1.75;
 contour(xm, ym, psi, c)
 hold on
