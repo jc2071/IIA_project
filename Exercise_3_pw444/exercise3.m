@@ -41,8 +41,8 @@ aprxinfb = zeros(size(xm));
 for k = 1:nv
     xc = xa + (k-0.5)/nv*(xb-xa);
     yc = ya + (k-0.5)/nv*(yb-ya);
-    gamma_a = (1-(k-0.5)/nv)*del/nv;
-    gamma_b = ((k-0.5)/nv)*del/nv;
+    Gamma_a = (1-(k-0.5)/nv)*del/nv;
+    Gamma_b = ((k-0.5)/nv)*del/nv;
     aprxinfa = aprxinfa + psipv(xc, yc, gamma_a, xm , ym);
     aprxinfb = aprxinfb + psipv(xc, yc, gamma_b, xm , ym);
 end
