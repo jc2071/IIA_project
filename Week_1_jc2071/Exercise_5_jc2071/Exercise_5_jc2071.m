@@ -9,9 +9,6 @@ theta = (0:N)*2*pi/N;
 xs = r*cos(theta); % surface of cyclinder x
 ys = r*sin(theta); % surface of cyclinder y 
 
-x = linspace(-2.5,2.5,N);
-y = linspace(-2,2,N);
-
 alpha = pi/18;
 
 A = build_lhs(xs,ys);
@@ -20,8 +17,8 @@ gam = inv(A)*b;
 
 plot(theta/pi, gam, 'color' , 'red');
 title("Total circulation as fucntion of theta",'Interpreter','latex');
-xticks([0 1/2 1 3/2 2])
-xticklabels({'0','\pi/2' '\pi', '3\pi/2' '2\pi'})
+%xticks([0 1/2 1 3/2 2])
+%xticklabels({'0','\pi/2' '\pi', '3\pi/2' '2\pi'})
 xlabel("x");
 ylabel("y");
 axis normal
