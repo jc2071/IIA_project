@@ -17,7 +17,5 @@ xlabel("x");
 ylabel("y");
 text(-2.3,-1.8,'Vortex at x = 0.5, y = 0.25','FontName','Latin Modern Math')
 clabel(C,h,c,'FontName','Latin Modern Math')
-set(gca,'fontname','Latin Modern Math');
-
-
-
+set(gca,'fontname','Latin Modern Math', 'FontSize',12, 'TickLabelInterpreter','latex');
+print('-painters','-depsc','tester.eps')
