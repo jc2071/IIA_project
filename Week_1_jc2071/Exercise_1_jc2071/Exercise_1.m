@@ -20,4 +20,4 @@ text(-2.3,-1.8,'Vortex at x = 0.5, y = 0.25','FontName','Times')
 clabel(C,h,c,'FontName','Times')
 set(gca,'fontname','Times', 'FontSize',12, 'TickLabelInterpreter','latex','Units','inches');
 box on
-print (gcf, '/Users/MCJON/Documents/Part IIA SA1 Project/IIA_project/LaTeX/Week_1\Exercise_1_Contourplot', '-deps2' )
+print (gcf, '/Users/MCJON/Documents/Part IIA SA1 Project/IIA_project/LaTeX/Week_1\Exercise_1_Contourplot', '-depsc' )
