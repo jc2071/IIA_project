@@ -16,10 +16,16 @@ alpha = pi/18;
 
 A = build_lhs(xs,ys);
 b = build_rhs(xs, ys, alpha);
-gam = inv(A)*b
+gam = inv(A)*b;
 
-plot(theta/pi, gam);
-
+plot(theta/pi, gam, 'color' , 'red');
+title("Total circulation as fucntion of theta",'Interpreter','latex');
+xticks([0 1/2 1 3/2 2])
+xticklabels({'0','\pi/2' '\pi', '3\pi/2' '2\pi'})
+xlabel("x");
+ylabel("y");
+axis normal
+set(gca,'fontname','Latin Modern Math');
 
 
 

@@ -1,44 +1,17 @@
 function lhsmat = build_lhs(xs, ys)
     
-    % build_lhs takes arguments xs and ys, the positions of point vortex (x,y) 
-    
-    np = length(xs) - 1; % number of panels  % matrix for psip (np) x (np -1)
-    %i = linspace(1,np,1);
-    %j = linspace(1, np +1,1);
-    %ia, ja = meshgrid(i,j);
-    
-    psip = zeros(np, np +1);
-    
-    for i = 1:np 
-        for j = 1:np + 1 
-            if j == 1
-                [infa ,infb] = panelinf(xs(j), ys(j), xs(j+1), ys(j+1), xs(i), ys(i));
-                psip(i,j) = infa;
-                
-            elseif j == np +1
-                [infa, infb] = panelinf(xs(j-1), ys(j-1), xs(j), ys(j), xs(i), ys(i));
-                psip(i,j) = infb;
-                
-            else 
-                [infa ,jgjh] = panelinf(xs(j), ys(j), xs(j+1), ys(j+1), xs(i), ys(i));
-                [jguu ,infb] = panelinf(xs(j-1), ys(j-1), xs(j), ys(j), xs(i), ys(i));
-                psip(i,j) = infa + infb;    
-        end
-        end        
-    
-   %can't use last panel as would repeat
-   
-   x = psip;
-   rowToInsert = 1;
-   rowVectorToInsert = [1,zeros(1,np)];
-   psi_i1 = [x(1:rowToInsert-1,:); rowVectorToInsert; x(rowToInsert:end,:)];
-   rowToInsert = length(xs);
-   psi_i = [x(1:rowToInsert-1,:); rowVectorToInsert; x(rowToInsert:end,:)];
+    np = length(xs) - 1; %number of panels
+    psip = zeros(np, np+1); %initilise matrix its hights is all the i, its j is all the pannel
 
-   lhsmat =  psi_i - psi_i1;
-   
-   
-    end
-
+for j = 1:np
+    [infa, infb] = panelinf(xs(j), ys(j), xs(j+1), ys(j+1), xs(1:end -1).', ys(1:end-1).');
+    psip(:,j:j+1) = psip(:,j:j+1) + [infa, infb]; %copied but understood, mostly, from pw444 :) 
     
+    % gets the j and j +1 column and adds to it infa(j) at j and infb(j)
+    % at j+1, therefore satisfying j-1 at j. at j = 1 we only have infa(j)
+    % at j = np the last one only gets j-1, so also okay.
+end
 
+
+lhsmat = [1, zeros(1,np); psip(2:end,:) - psip(1:np-1,:); zeros(1,np), 1];
+end
