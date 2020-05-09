@@ -16,6 +16,6 @@ title("Point Vortex Stream Function " + '$\psi = \frac{\Gamma}{4\pi}log(r^2)$','
 xlabel("x");
 ylabel("y");
 text(-2.3,-1.8,'Vortex at x = 0.5, y = 0.25','FontName','Latin Modern Math')
-clabel(C,h,c,'FontName','Latin Modern Math')
-set(gca,'fontname','Latin Modern Math', 'FontSize',12, 'TickLabelInterpreter','latex');
-print('-painters','-depsc','tester.eps')
+clabel(C,h,c,'FontName','Times')
+set(gca,'fontname','Times', 'FontSize',12, 'TickLabelInterpreter','latex');
+print('-painters','-depsc','Exercise_1_coutour_plot.eps')
