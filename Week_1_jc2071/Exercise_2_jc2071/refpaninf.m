@@ -2,7 +2,7 @@ function [infa ,infb] = refpaninf(del, x, yin)
 
 
   y = zeros(size(yin));
-  for i = 1:length(yin)
+  for i = 1:numel(yin)
     if abs(yin(i)) < 1e-8
         y(i) = 1e-8; % why not using a *sign(Yin)??? why does it nan my matrix
     else
