@@ -13,8 +13,8 @@ ys = r*sin(theta);
 alpha = pi/18;
 
 %Calculate gamma vector
-A = build_lhs(xs,ys)
-b = build_rhs(xs,ys,alpha)
+A = build_lhs(xs,ys);
+b = build_rhs(xs,ys,alpha);
 gam = A\b;
 
 %For total circulation - if np is big Gam2 is close to Gam
