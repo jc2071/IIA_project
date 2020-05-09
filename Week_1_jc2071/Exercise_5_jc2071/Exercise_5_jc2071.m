@@ -24,6 +24,8 @@ ylabel("y");
 axis normal
 set(gca,'fontname','Latin Modern Math');
 
+panel_len = (2*pi*r)/N;
 
+circulation = sum(gam)*panel_len
 
-
+velocity = gam/2
