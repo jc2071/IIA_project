@@ -20,10 +20,13 @@
 \usepackage[normalem]{ulem}
 \usepackage{colortbl}
 \pagestyle{fancy}
-\RequirePackage{textcomp}
-\RequirePackage{xcolor}
-\RequirePackage{listings}
-%\usepackage[framed, numbered, autolinebreaks]{mcode}
+\usepackage{xcolor}
+\usepackage{listings}
+%make numbers not high-lightable
+\usepackage{accsupp}% http://ctan.org/pkg/accsupp
+\renewcommand{\thelstnumber}{% Line number printing mechanism
+  \protect\BeginAccSupp{ActualText={}}\arabic{lstnumber}\protect\EndAccSupp{}
+}
 \usepackage[T1]{fontenc}
 \usepackage[framed,numbered]{matlab-prettifier}
 \usepackage{epstopdf}
@@ -59,7 +62,7 @@
 %\section{Exercise 4}
 %\input{Exercise4}
 
-%\section{Exercise 5}
-%\input{Exercise5}
+\section{Exercise 5}
+\input{Exercise5}
 
 \end{document}
