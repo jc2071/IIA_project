@@ -1,0 +1,13 @@
+function rhsvec = build_rhs(xs, ys, alpha)
+% b is length np+1 and first and last elements are 0 to satisfy auxillary
+% equations.
+% The intermediate elements are psi_fs(i) - psi_fs(i+1) positioned such
+% that b(2) = psi_fs(i=1) - 
+
+    %Make psi_fs
+    psi_fs = ( ys*cos(alpha) - xs*sin(alpha) );
+    
+    %Truncate the first and last elements of psi and replace them with 0
+    %Then transpose to column vector
+    rhsvec = [0, psi_fs(1:end-2) - psi_fs(2:end-1), 0]';
+end
