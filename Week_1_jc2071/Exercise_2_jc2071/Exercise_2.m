@@ -57,8 +57,7 @@ end
 % ylabel("y");
 % clabel(C,h,c,'FontName','Latin Modern Math')
 % set(gca,'fontname','Latin Modern Math');
-% 
-% figure(4); 
+
 % numColors = 6;
 % colormap(jet(numColors))
 % [C,h] = contour(xg,yg,be,c);
@@ -67,8 +66,7 @@ end
 % ylabel("y");
 % clabel(C,h,c,'FontName','Latin Modern Math')
 % set(gca,'fontname','Latin Modern Math');
-% 
-
+ 
 subplot(2,2,1)
 numColors = 6;
 colormap(jet(numColors))

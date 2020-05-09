@@ -21,24 +21,24 @@ colormap(jet(numColors))
     
 c = -0.15:0.05:0.15;
 
-figure(1)
-
-[C,h] = contour(xg,yg,infa,c);
-title('$f_{a}$' + " Countour Plot",'Interpreter','latex');
-xlabel("x");
-ylabel("y");
-clabel(C,h,c,'FontName','Latin Modern Math')
-set(gca,'fontname','Latin Modern Math');
-
-figure(2)
-numColors = 10;
-colormap(jet(numColors))
-[C,h] = contour(xg,yg,infb,c);
-title('$f_{b}$' + " Countour Plot",'Interpreter','latex');
-xlabel("x");
-ylabel("y");
-clabel(C,h,c,'FontName','Latin Modern Math')
-set(gca,'fontname','Latin Modern Math');
+% figure(1)
+% 
+% [C,h] = contour(xg,yg,infa,c);
+% title('$f_{a}$' + " Countour Plot",'Interpreter','latex');
+% xlabel("x");
+% ylabel("y");
+% clabel(C,h,c,'FontName','Latin Modern Math')
+% set(gca,'fontname','Latin Modern Math');
+% 
+% figure(2)
+% numColors = 10;
+% colormap(jet(numColors))
+% [C,h] = contour(xg,yg,infb,c);
+% title('$f_{b}$' + " Countour Plot",'Interpreter','latex');
+% xlabel("x");
+% ylabel("y");
+% clabel(C,h,c,'FontName','Latin Modern Math')
+% set(gca,'fontname','Latin Modern Math');
 
 n = 100;
 
@@ -55,24 +55,69 @@ for i = 1:n
 end
 
 
-figure(3);
-numColors = 6;
-colormap(jet(numColors))
-[C,h] = contour(xg,yg,ae,c);
-title('$f_{a}$' + " Countour Plot estimate",'Interpreter','latex');
-xlabel("x");
-ylabel("y");
-clabel(C,h,c,'FontName','Latin Modern Math')
-set(gca,'fontname','Latin Modern Math');
+% figure(3);
+% numColors = 6;
+% colormap(jet(numColors))
+% [C,h] = contour(xg,yg,ae,c);
+% title('$f_{a}$' + " Countour Plot estimate",'Interpreter','latex');
+% xlabel("x");
+% ylabel("y");
+% clabel(C,h,c,'FontName','Latin Modern Math')
+% set(gca,'fontname','Latin Modern Math');
+% 
+% figure(4); 
+% numColors = 6;
+% colormap(jet(numColors))
+% [C,h] = contour(xg,yg,be,c);
+% title('$f_{b}$' + " Countour Plot estimate",'Interpreter','latex');
+% xlabel("x");
+% ylabel("y");
+% clabel(C,h,c,'FontName','Latin Modern Math')
+% set(gca,'fontname','Latin Modern Math');
 
-figure(4); 
+subplot(2,2,1)
 numColors = 6;
 colormap(jet(numColors))
 [C,h] = contour(xg,yg,be,c);
 title('$f_{b}$' + " Countour Plot estimate",'Interpreter','latex');
 xlabel("x");
 ylabel("y");
-clabel(C,h,c,'FontName','Latin Modern Math')
-set(gca,'fontname','Latin Modern Math');
+clabel(C,h,c,'FontName','Times', 'FontSize', 6)
+set(gca,'fontname','Times');
+
+subplot(2,2,2)
+numColors = 10;
+colormap(jet(numColors))
+[C,h] = contour(xg,yg,ae,c);
+title('$f_{a}$' + " Countour Plot estimate",'Interpreter','latex');
+xlabel("x");
+ylabel("y");
+clabel(C,h,c,'FontName','Times', 'FontSize', 6)
+set(gca,'fontname','Times');
+
+subplot(2,2,3)
+numColors = 10;
+colormap(jet(numColors))
+[C,h] = contour(xg,yg,infa,c);
+title('$f_{a}$' + " Countour Plot",'Interpreter','latex');
+xlabel("x");
+ylabel("y");
+clabel(C,h,c,'FontName','Times', 'FontSize', 6)
+set(gca,'fontname','Times');
+
+subplot(2,2,4)
+numColors = 6;
+colormap(jet(numColors))
+[C,h] = contour(xg,yg,infb,c);
+title('$f_{b}$' + " Countour Plot",'Interpreter','latex');
+xlabel("x");
+ylabel("y");
+clabel(C,h,c,'FontName','Times', 'FontSize', 6)
+set(gca,'fontname','Times');
+
+box on
+print (gcf, '/Users/MCJON/Documents/Part IIA SA1 Project/IIA_project/LaTeX/Week_1\Exercise_3_Contourplots', '-depsc' )
+
+
 
 
