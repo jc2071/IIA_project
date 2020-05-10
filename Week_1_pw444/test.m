@@ -7,10 +7,10 @@ close all
 %Set parameters
 xmin = -2.5;
 xmax = 2.5;
-nx = 251;
+nx = 101;
 ymin = -2;
 ymax = 2;
-ny = 201;
+ny = 81;
 
 %Create spatial matrices
 x = linspace(xmin, xmax, nx);
@@ -23,7 +23,8 @@ r = 1;
 theta = (0:np)*2*pi/np;
 xs = r*cos(theta);
 ys = r*sin(theta)./(xs*4+8) + 0.2*(1-xs.^2); % mess around with y to get a nice shape
-alpha = pi/18;
+alpha = pi/20;
+
 
 %Calculate gamma vector. This assumes that we are in a free stream already
 A = build_lhs(xs,ys);
@@ -31,17 +32,18 @@ b = build_rhs(xs,ys,alpha);
 gam = A\b;
 
 % Reshape gamma to be in k direction & calculate infa and infb arrays
-gam = reshape(gam, 1, 1, np+1);
+gamk = reshape(gam, 1, 1, np+1);
 [infa, infb] = panelinf(xs(1:np), ys(1:np), xs(2:end), ys(2:end), xm, ym);
 
 %free stream + circulation on surface
 psi = ( ym*cos(alpha) - xm*sin(alpha) ) ...
-    + sum(infa.*gam(1:np) + infb.*gam(2:np+1), 3);
+    + sum(infa.*gamk(1:np) + infb.*gamk(2:np+1), 3);
 
 % Plot the streamfunction contours
-c = -5:0.08:5;
-contour(xm, ym, psi, c)
+c = -5:0.15:5;
+contour(xm, ym, psi, c, 'k')
 hold on
-plot(xs, ys)
+d = zeros(size(xs));
+surface([xs;xs],[ys;ys],[d;d], -[gam';gam'].^2+3,'facecol','no','edgecol','interp','linew',2);
 hold off
 daspect([1 1 1])
