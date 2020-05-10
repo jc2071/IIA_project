@@ -4,7 +4,7 @@
 clear
 close all
 
-%Define the cylinder, its circulation & angle of attack
+%Define the cylinder & angle of attack
 np = 100;
 r = 1;
 theta = (0:np)*2*pi/np;
