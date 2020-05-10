@@ -4,7 +4,7 @@
 clear
 close all
 
-%Define the cylinder and its circulation
+%Define the cylinder, its circulation & angle of attack
 np = 100;
 r = 1;
 theta = (0:np)*2*pi/np;
@@ -17,7 +17,6 @@ A = build_lhs(xs,ys);
 b = build_rhs(xs,ys,alpha);
 gam = A\b;
 
-%Total circulation
 Gam = total_circulation(xs, ys, gam);
 Gam %#ok<NOPTS>
 
