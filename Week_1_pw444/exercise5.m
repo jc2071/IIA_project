@@ -17,8 +17,7 @@ A = build_lhs(xs,ys);
 b = build_rhs(xs,ys,alpha);
 gam = A\b;
 
-Gam = total_circulation(xs, ys, gam);
-Gam %#ok<NOPTS>
+Gam = total_circulation(xs, ys, gam) %#ok<NOPTS>
 
 %Plot gamma values against theta/pi
 plot(theta/pi, gam);

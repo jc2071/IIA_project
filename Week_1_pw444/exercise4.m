@@ -25,14 +25,14 @@ xs = r*cos(theta);
 ys = r*sin(theta);
 gammas = -2*sin(theta);
 
-% Reshape gamma into k-index vector
-gammas = reshape(gammas, 1, 1, np+1);
-
 % psi due to free stream
 psi = ym;
 
 % psi due to np panels.
-% first calculate 3D array infa & infb, each sheet is a different panel
+% first reshape gamma into k-index vector, we can calculate all panel
+% contributions simultaneously 
+gammas = reshape(gammas, 1, 1, np+1);
+% then calculate 3D array infa & infb, each sheet is a different panel
 [infa, infb] = panelinf(xs(1:np), ys(1:np), xs(2:end), ys(2:end), xm, ym);
 % then multiply by gamma (k-vector) and sum along k axis
 psi = psi + sum(infa.*gammas(1:np) + infb.*gammas(2:np+1), 3);

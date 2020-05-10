@@ -1,24 +1,31 @@
 function lhsmat = build_lhs(xs, ys)
-%lhsmat returns the [A] matrix. If we can get panelinf to output 3d arrays
-%we can even remove the last for loop. Currently this calculates all edge
-%points at once but still loops over panels.
+
+% psip is an infa (np*np) matrix and an infb (np*np) matrix added together 
+% but the infb matrix is shifted by one along the j axis. 
+% psip = [ fa_1 [ fa_2 + fb_1 ... fa_np + fb_np-1 ] fb_np ]
+%      = [ fa_1 ... fa_np, 0]
+%      + [  0, fb_1 ... fb_np]
 
 np = length(xs) - 1;
-psip = zeros(np, np+1);
 
-%Get shorter versions of xs and ys of length np and as column vectors
-xs_trun = xs(1:np)';
-ys_trun = ys(1:np)';
+% Get xs and ys as column vectors of length np
+% These are the spatial coordinates at which we calculate psi
+xs_spatial = xs(1:np)';
+ys_spatial = ys(1:np)';
 
-%Loop over the panels and add the influence coefficients to the psi_p
-%matrix
-for j = 1:np
-    [infa, infb] = panelinf(xs(j), ys(j), xs(j+1), ys(j+1), xs_trun, ys_trun);
-    psip(:,j:j+1) = psip(:,j:j+1) + [infa, infb];
-end
+% return infa and infb np,1,np array
+[infa, infb] = panelinf(xs(1:np), ys(1:np), xs(2:end), ys(2:end), ...
+xs_spatial, ys_spatial);
 
-%Construct the [A] matrix. 1st + Last row same as identity matrix. Central
-%bit is [A]i = psip(i+1) - psip(i).
+%reshape so that k axis is along j axis instead
+infa = reshape(infa, np, np);
+infb = reshape(infb, np, np);
+
+% combine infa and infb into psip
+psip = [infa, zeros(np,1)] + [zeros(np,1), infb];
+
+% Construct [A]. 1st + Last row same as identity matrix.
+% Central elements are [A]i = psip(i+1) - psip(i).
 lhsmat = [1, zeros(1,np); psip(2:end,:) - psip(1:np-1,:); zeros(1,np), 1];
 
 end

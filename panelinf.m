@@ -10,6 +10,7 @@ function [infa, infb] = panelinf(xa, ya, xb, yb, x, y)
 
 % Coming in, xa is a normal j-index row vector of length np
 np = length(xa);
+
 % Reshape panel coords to k-index vectors
 xa = reshape(xa, 1, 1, np);
 ya = reshape(ya, 1, 1, np);
