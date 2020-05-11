@@ -2,9 +2,9 @@
 
 Aircraft wing analysis for easter term project
 
-jc2071 - MATLAB
+jc2071 - Chief Plotter AKA Captain Contour
 
-pw444 - MATLAB not so bad
+pw444 - Array Visionary
 
 
 

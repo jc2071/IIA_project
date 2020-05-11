@@ -1,9 +1,10 @@
 function [infa, infb] = refpaninf(del, X, Y)
 %
+% function [infa, infb] = refpaninf(del, X, Y)
+%
 % Calculate the influence coefficients for a reference panel of vorticity.
 % X and Y can be 3D arrays with del as a k-vector giving length of each
 % panel. Where each panel is a page of the 3D array.
-%
 
 % Trap to make min(abs(Y)) 1e-8 to avoid numerical difficulties
 Y = Y .* (abs(Y) >= 1e-8) + sign(Y) .* (abs(Y) < 1e-8) * 1e-8;
@@ -20,5 +21,4 @@ I1 = ( (X.^2 + Y.^2).*log(X.^2 + Y.^2) ...
 % divides each sheet by k-vector value at that k index.
 infa = (1-X./del).*I0 - I1./del;
 infb = (X./del).*I0 + I1./del;
-
 end

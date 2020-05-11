@@ -13,15 +13,16 @@
 \usepackage{pgfplots} % allows graphs and plots
 \usepackage{graphicx} % allows images
 \usepackage{pdfpages} % allows to import other PDF pages
+\usepackage{float}
 
 %Prettifying packages
 \usepackage[document]{ragged2e}
-\usepackage[margin=1cm]{caption}
-\usepackage{subcaption}
+\usepackage[margin=1cm]{caption} % spacing for captions, 1cm in from border
+\usepackage{subcaption} 
 \usepackage{fancyhdr}
+\pagestyle{fancy}
 \usepackage[normalem]{ulem}
 \usepackage{colortbl}
-\pagestyle{fancy}
 \usepackage{xcolor}
 \usepackage{listings}
 
@@ -49,9 +50,6 @@
 %\maketitle
 \input{Title.tex}
 \pagenumbering{arabic}
-
-%\section{Introduction}
-%\input{Introduction}
 
 \section{Exercise 1}
 \input{Exercise1}
