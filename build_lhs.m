@@ -4,7 +4,6 @@ function lhsmat = build_lhs(xs, ys)
 % 
 % Using surface coordinates calculate [A] matrix
 
-
 np = length(xs) - 1;
 
 % Spatial coords for which to calculate infa and infb
