@@ -1,6 +1,5 @@
 function  fancyplot( xm, ym, height, c, title1, xlabel1, ylabel1 )
 
-
 [C,h] = contour( xm, ym, height, c );
 title(title1,'Interpreter','latex');
 xlabel(xlabel1);
