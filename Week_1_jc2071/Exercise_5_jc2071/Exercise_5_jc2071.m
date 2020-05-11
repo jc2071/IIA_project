@@ -13,12 +13,12 @@ alpha = pi/18;
 
 A = build_lhs(xs,ys);
 b = build_rhs(xs, ys, alpha);
-gam = inv(A)*b;
+gam = A\b;
 
 plot(theta/pi, gam, 'color' , 'red');
 title("Total circulation as fucntion of theta",'Interpreter','latex');
-%xticks([0 1/2 1 3/2 2])
-%xticklabels({'0','\pi/2' '\pi', '3\pi/2' '2\pi'})
+xticks([0 1/2 1 3/2 2])
+xticklabels({'0','\pi/2' '\pi', '3\pi/2' '2\pi'})
 xlabel("x");
 ylabel("y");
 axis normal
@@ -28,4 +28,3 @@ panel_len = (2*pi*r)/N;
 
 circulation = sum(gam)*panel_len
 
-velocity = gam/2

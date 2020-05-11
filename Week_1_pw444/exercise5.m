@@ -10,7 +10,7 @@ r = 1;
 theta = (0:np)*2*pi/np;
 xs = r*cos(theta);
 ys = r*sin(theta);
-alpha = pi/18;
+alpha = 0;
 
 %Calculate gamma vector
 A = build_lhs(xs,ys);
@@ -22,3 +22,4 @@ Gam = total_circulation(xs, ys, gam) %#ok<NOPTS>
 %Plot gamma values against theta/pi
 plot(theta/pi, gam);
 axis([0 2 -2.5 2.5]);
+
