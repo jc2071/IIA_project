@@ -28,6 +28,6 @@ title("Point Vortex Stream Function " + ...
     '$\psi = \frac{\Gamma}{4\pi}log(r^2)$','Interpreter','latex');
 xlabel("x");
 ylabel("y");
-clabel(C,h,c,'FontName','Times')
+clabel(C,h,c,'FontName','Times', 'FontSize',8)
 set(gca,'fontname','Times', 'FontSize',12);
-print (gcf, 'LaTeX/Week_1\e1g1', '-depsc' )
+print (gcf, 'LaTeX/Week_1/graphs\e1g1', '-depsc' )
