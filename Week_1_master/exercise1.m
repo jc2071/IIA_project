@@ -24,4 +24,4 @@ psi = psipv(xc, yc, Gamma, xm, ym);
 %Generate contour plot
 c = -0.4:0.2:1.2;
 contour(xm, ym, psi,c)
-print (gcf, 'LaTeX/Week_1/graphs\exercise6', '-depsc' )
+print (gcf, 'LaTeX/Week_1\e1g1', '-depsc' )
