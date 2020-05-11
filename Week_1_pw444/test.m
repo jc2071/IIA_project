@@ -18,12 +18,12 @@ y = linspace(ymin, ymax, ny);
 [xm, ym] = meshgrid(x, y);
 
 %Define a surface & angle of attack
-np = 100;
+np = 30;
 % r = 1;
 theta = (0:np)*2*pi/np;
 % xs = r*cos(theta);
 % ys = r*sin(theta)./(xs*4+8) + 0.2*(1-xs.^2); % mess around with y to get a nice shape
-alpha = pi/2;
+alpha = pi/20;
 
 %-- makes JOUKOWSKI AEROFOILS --
 % + imaginary gives camber
@@ -32,8 +32,8 @@ alpha = pi/2;
 a = 1;
 c = 0.1;
 r = a*(1 +c);
-z = -a*c + 1i*a*c + r*exp(1i*theta);
-zeta = z + (a^2)./z
+z = -a*c + 1.3i*a*c + r*exp(1i*theta);
+zeta = z + (a^2)./z;
 xs = real(zeta);
 ys = imag(zeta);
 
@@ -52,10 +52,11 @@ psi = ( ym*cos(alpha) - xm*sin(alpha) ) ...
 
 % Plot the streamfunction contours
 c = -100:0.06:100;
-contour(xm, ym, psi, c, 'k')
+contour(xm, ym, psi, c)
 hold on
 d = zeros(size(xs));
 %surface([xs;xs],[ys;ys],[d;d], -[gam';gam'].^2+3,'facecol','no','edgecol','interp','linew',2);
-plot(xs,ys, 'color','blue')
+fill(xs,ys, [200 200 200]/255)
+%plot(xs,ys, 'color','magenta')
 hold off
 daspect([1 1 1])
