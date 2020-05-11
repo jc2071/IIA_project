@@ -4,7 +4,7 @@ Aircraft wing analysis for easter term project
 
 jc2071 - MATLAB
 
-pw444 - Wants to use python because MATLAB doesn't support greek characters like σ
+pw444 - MATLAB not so bad
 
 
 
@@ -12,4 +12,3 @@ Moodle PDF - https://www.vle.cam.ac.uk/pluginfile.php/17030501/mod_resource/cont
 
 Matlab code in files in root directory
 
-Python files in their own directory, we'll see how we get on with those. Hope to use Numpy and all the opensource scientific libraries that emulate MATLAB functionality.
