@@ -1,4 +1,7 @@
 function Gamma = total_circulation(xs, ys, g)
+%
+% function Gamma = total_circulation(xs, ys, g)
+%
 % Takes 2 row vectors describing surface points and one col vec describing
 % the circulation per unit length of each point and returns the total
 % circulation due to this surface.
