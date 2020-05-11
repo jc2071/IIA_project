@@ -11,8 +11,8 @@ colormap(jet(numColors))
 title(title1,'Interpreter','latex');
 xlabel(x1label);
 ylabel(y1label);
-clabel(C,h,c1,'FontName','Times', 'FontSize', 6)
-set(gca,'fontname','Times');
+clabel(C,h,c1,'FontName','Times', 'FontSize', 4)
+set(gca,'fontname','Times','FontSize' , 14);
 axis equal
 
 subplot(2,1,2)
@@ -22,8 +22,8 @@ colormap(jet(numColors))
 title(title2,'Interpreter','latex');
 xlabel(x2label);
 ylabel(y2label);
-clabel(C,h,c2,'FontName','Times', 'FontSize', 6)
-set(gca,'fontname','Times');
+clabel(C,h,c2,'FontName','Times', 'FontSize', 4)
+set(gca,'fontname','Times','FontSize', 14);
 axis equal
 
 end
