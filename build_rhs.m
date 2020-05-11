@@ -8,7 +8,6 @@ function rhsvec = build_rhs(xs, ys, alpha)
 psi_fs = ( ys*cos(alpha) - xs*sin(alpha) );
 
 %Set first + last elements to zero and fill b(2:np) with difference of
-%psi_fs vectors.
-%Then transpose to column vector
+%psi_fs vectors. Then transpose to column vector
 rhsvec = [0, psi_fs(1:end-2) - psi_fs(2:end-1), 0]';
 end
