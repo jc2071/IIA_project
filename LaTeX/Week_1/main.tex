@@ -3,9 +3,8 @@
 %% PREAMBLE %%
 
 % Packages
-\setcounter{secnumdepth}{0}
-\usepackage[margin=1cm]{caption}
 \usepackage[utf8]{inputenc} % UTF-8 is a good thing I guess
+\setcounter{secnumdepth}{0}
 \usepackage[a4paper, total={150mm, 225mm}]{geometry} % use reasonable amount of the page
 \usepackage{amsmath}  % allows unnumbered equations
 \usepackage{textcomp} % explicitly imported to calm gensymb
@@ -17,6 +16,7 @@
 
 %Prettifying packages
 \usepackage[document]{ragged2e}
+\usepackage[margin=1cm]{caption}
 \usepackage{subcaption}
 \usepackage{fancyhdr}
 \usepackage[normalem]{ulem}
@@ -24,13 +24,14 @@
 \pagestyle{fancy}
 \usepackage{xcolor}
 \usepackage{listings}
-%make numbers not high-lightable
-\usepackage{accsupp}% http://ctan.org/pkg/accsupp
+
+%make numbers not selectable
+\usepackage{accsupp}
 \renewcommand{\thelstnumber}{% Line number printing mechanism
   \protect\BeginAccSupp{ActualText={}}\arabic{lstnumber}\protect\EndAccSupp{}
 }
 \usepackage[T1]{fontenc}
-\usepackage[framed,numbered]{matlab-prettifier}
+\usepackage[framed,numbered]{matlab-prettifier} %print pretty code
 \usepackage{epstopdf}
 
 % Titlepage variables
@@ -66,5 +67,8 @@
 
 \section{Exercise 5}
 \input{Exercise5}
+
+\section{Auxiliary Code}
+\input{auxiliarycode}
 
 \end{document}
