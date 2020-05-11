@@ -1,20 +1,14 @@
-function [infa, infb] = refpaninf(del, X, Yin)
+function [infa, infb] = refpaninf(del, X, Y)
 % Calculate the influence coefficients for a reference panel of vorticity.
-% X and Y can be 3D arrays with del a k-index vector giving length of each
+% X and Y can be 3D arrays with del a k-vector giving length of each
 % panel.
 
-%This still needs sorting out
-Y = zeros(size(Yin));
-for n = 1:numel(Yin)
-    if abs(Yin(n)) < 1e-8
-        Y(n) = 1e-8; % why not using a *sign(Yin)??? why does it nan my matrix
-    else
-        Y(n) = Yin(n);
-    end
-end
+% Set all small Y to 0 + sign(Y)*1e-8. Then put all zeros
+% to 1e-8 to avoid division errors in refpaninf.m
+Y = Y .* (abs(Y) >= 1e-8) + sign(Y) .* (abs(Y) < 1e-8) * 1e-8;
+Y(Y==0) = 1e-8;
 
-
-%Calculate integrals using elemenet operations where neccesary
+%Calculate integrals using element operations
 I0 = -( X.*log(X.^2 + Y.^2) - (X-del).*log((X-del).^2 + Y.^2) ...
 -2*del +2*Y.*(atan(X./Y)-atan((X-del)./Y)) )/(4*pi);
 
