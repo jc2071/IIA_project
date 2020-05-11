@@ -1,4 +1,4 @@
-function [xvdv yvdv cpvdv] = vdvfoil ( npan, alpha )
+function [xvdv, yvdv, cpvdv] = adj_vdvfoil ( npan, alpha )
 %
 %  function [xvdv yvdv cpvdv] = vdvfoil ( npan, alpha )
 %
