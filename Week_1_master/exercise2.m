@@ -33,13 +33,11 @@ for k = 1:nv
     aprxinfb = aprxinfb + psipv(xc, yc, Gamma_b, xm , ym);
 end
 
-% Plotting Options
 c = -0.15:0.05:0.15;
 figure(1)
 fancyplotsubplot(xm,ym,infa,c,'$f_{a}$ Countour Plot', 'x', 'y', ...
     xm, ym, aprxinfa, c,'$f_{a}$ Countour Plot Estimate' , 'x', 'y',6,7)
 print (gcf, 'LaTeX/Week_1/graphs\e2g1', '-depsc' )
-
 figure(2)
 fancyplotsubplot(xm,ym,infb,c,'$f_{b}$ Countour Plot', 'x', 'y', ...
     xm, ym, aprxinfb, c,'$f_{b}$ Countour Plot Estimate' , 'x', 'y',6,7)
