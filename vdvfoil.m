@@ -1,6 +1,6 @@
 function [xvdv, yvdv, cpvdv] = vdvfoil ( npan, alpha )
 %
-%  function [xvdv yvdv cpvdv] = adj_vdvfoil ( npan, alpha )
+%  function [xvdv yvdv cpvdv] = vdvfoil ( npan, alpha )
 %
 %  Produces coordinates (xvdv,yvdv) and cps for Van de Vooren foil.
 %  Geometry parameters: k defines t.e. angle as pi*(2-k)
