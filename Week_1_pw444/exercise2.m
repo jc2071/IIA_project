@@ -22,6 +22,7 @@ y = linspace(ymin, ymax, ny);
 
 [infa, infb] = refpaninf(del, xm, ym);
 
+
 c = -0.15:0.05:0.15;
 contour(xm, ym, infa, c)
 figure(2)

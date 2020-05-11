@@ -23,7 +23,7 @@ np = 100;
 A = build_lhs ( xs, ys );
 b = build_rhs ( xs, ys, alpha );
 
-gams = inv(A) * b;
+gams = A\b;
 xs1 = xs;
 cp1 = 1 - gams.^2;
 
@@ -34,7 +34,7 @@ np = 200;
 A = build_lhs ( xs, ys );
 b = build_rhs ( xs, ys, alpha );
 
-gams = inv(A) * b;
+gams = A\b;
 xs2 = xs;
 cp2 = 1 - gams.^2;
 
@@ -45,7 +45,7 @@ np = 400;
 A = build_lhs ( xs, ys );
 b = build_rhs ( xs, ys, alpha );
 
-gams = inv(A) * b;
+gams = A\b;
 xs4 = xs;
 cp4 = 1 - gams.^2;
 
@@ -56,7 +56,7 @@ np = 800;
 A = build_lhs ( xs, ys );
 b = build_rhs ( xs, ys, alpha );
 
-gams = inv(A) * b;
+gams = A\b;
 xs8 = xs;
 cp8 = 1 - gams.^2;
 
@@ -69,12 +69,16 @@ legend('exact','100pans','200pans','400pans','800pans')
 
 figure(3)
 plot(xsin,-cpex,xs1,-cp1,'--')
+legend('exact','100 panels')
 
 figure(4)
 plot(xsin,-cpex,xs2,-cp2,'--')
+legend('exact','200 panels')
 
 figure(5)
 plot(xsin,-cpex,xs4,-cp4,'--')
+legend('exact','400 panels')
 
 figure(6)
 plot(xsin,-cpex,xs8,-cp8,'--')
+legend('exact','800 panels')
