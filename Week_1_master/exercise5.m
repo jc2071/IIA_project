@@ -23,8 +23,9 @@ disp(Gam)
 % Plot gamma values against theta/pi
 figure(i)
 plot(theta/pi, gam, 'color', color(i));
-xlabel('$\frac{\theta}{\pi}$','FontSize', 18, 'Interpreter','latex')
-ylabel('\gamma', 'FontSize', 18)
+xlabel('$\frac{\theta}{\pi}$','FontSize', 22, 'Interpreter','latex')
+ylabel('\gamma', 'FontSize', 22)
+set(gca,'fontname','Times', 'FontSize',14);
 axis([0 2 -2.5 2.5]);
 print (gcf, ['LaTeX/Week_1/graphs\e5g', num2str(i)], '-depsc' )
 end
