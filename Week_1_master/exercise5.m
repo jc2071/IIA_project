@@ -8,6 +8,7 @@ theta = (0:np)*2*pi/np;
 xs = r*cos(theta);
 ys = r*sin(theta);
 alpha = [0, pi/18];
+color = ['r', 'b']
 
 for i = 1:length(alpha)
 % Calculate gamma vector
@@ -21,7 +22,7 @@ disp(Gam)
 
 % Plot gamma values against theta/pi
 figure(i)
-plot(theta/pi, gam);
+plot(theta/pi, gam, 'color', color(i));
 xlabel('$\frac{\theta}{\pi}$','FontSize', 18, 'Interpreter','latex')
 ylabel('\gamma', 'FontSize', 18)
 axis([0 2 -2.5 2.5]);
