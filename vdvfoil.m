@@ -1,4 +1,4 @@
-function [xvdv, yvdv, cpvdv] = vdvfoil ( npan, alpha, k, eps)
+function [xvdv, yvdv, cpvdv] = vdvfoil ( npan, alpha )
 %
 %  function [xvdv yvdv cpvdv] = adj_vdvfoil ( npan, alpha )
 %
@@ -12,8 +12,8 @@ function [xvdv, yvdv, cpvdv] = vdvfoil ( npan, alpha, k, eps)
 %
 
 % parameters for thin (approx 8%) section
-%k = 1.95;
-%eps = 0.03;
+k = 1.95;
+eps = 0.03;
 
 % parameters for thick (approx 14%) section
 %k = 1.9;
