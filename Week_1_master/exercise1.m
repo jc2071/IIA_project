@@ -23,11 +23,8 @@ psi = psipv(xc, yc, Gamma, xm, ym);
 
 % Generate contour plot
 c = -0.4:0.2:1.2;
-[C,h] = contour( xm, ym, psipv(xc ,yc, Gamma, xm, ym), c );
-title("Point Vortex Stream Function " + ...
-    '$\psi = \frac{\Gamma}{4\pi}log(r^2)$','Interpreter','latex');
-xlabel("x");
-ylabel("y");
-clabel(C,h,c,'FontName','Times', 'FontSize',8)
-set(gca,'fontname','Times', 'FontSize',12);
+fancyplot(xm, ym, psi, c, ...
+  'Point Vortex Stream Function $\psi = \frac{\Gamma}{4\pi}log(r^2)$',...
+  'x', 'y') 
+
 print (gcf, 'LaTeX/Week_1/graphs\e1g1', '-depsc' )
