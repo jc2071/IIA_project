@@ -19,12 +19,23 @@ y = linspace(ymin, ymax, ny);
 
 %Define a surface & angle of attack
 np = 100;
-r = 1;
+% r = 1;
 theta = (0:np)*2*pi/np;
-xs = r*cos(theta);
-ys = r*sin(theta)./(xs*4+8) + 0.2*(1-xs.^2); % mess around with y to get a nice shape
-alpha = pi/20;
+% xs = r*cos(theta);
+% ys = r*sin(theta)./(xs*4+8) + 0.2*(1-xs.^2); % mess around with y to get a nice shape
+alpha = pi/2;
 
+%-- makes JOUKOWSKI AEROFOILS --
+% + imaginary gives camber
+% - real gives thicknes 
+
+a = 1;
+c = 0.1;
+r = a*(1 +c);
+z = -a*c + 1i*a*c + r*exp(1i*theta);
+zeta = z + (a^2)./z
+xs = real(zeta);
+ys = imag(zeta);
 
 %Calculate gamma vector. This assumes that we are in a free stream already
 A = build_lhs(xs,ys);
@@ -40,10 +51,11 @@ psi = ( ym*cos(alpha) - xm*sin(alpha) ) ...
     + sum(infa.*gamk(1:np) + infb.*gamk(2:np+1), 3);
 
 % Plot the streamfunction contours
-c = -5:0.15:5;
+c = -100:0.06:100;
 contour(xm, ym, psi, c, 'k')
 hold on
 d = zeros(size(xs));
-surface([xs;xs],[ys;ys],[d;d], -[gam';gam'].^2+3,'facecol','no','edgecol','interp','linew',2);
+%surface([xs;xs],[ys;ys],[d;d], -[gam';gam'].^2+3,'facecol','no','edgecol','interp','linew',2);
+plot(xs,ys, 'color','blue')
 hold off
 daspect([1 1 1])
