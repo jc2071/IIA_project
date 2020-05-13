@@ -8,7 +8,7 @@ theta = (0:np)*2*pi/np;
 xs = r*cos(theta);
 ys = r*sin(theta);
 alpha = [0, pi/18];
-color = ['r', 'b']
+color = ['r', 'b'];
 
 for i = 1:length(alpha)
 % Calculate gamma vector
