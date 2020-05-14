@@ -5,7 +5,7 @@ close all
 np = 101; % intergration spacing 
 x = linspace(0,1,np); % this is (x/L)
 
-for Rel = [5e6, 10e6, 896000] 
+for Rel = [1000, 10000, 100000] 
     disp(['Reynolds Number: ', num2str(Rel)])
     for ugrad = [-0.1,0, 0.1]
         laminar = true;
