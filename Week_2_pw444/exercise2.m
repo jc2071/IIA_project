@@ -24,7 +24,7 @@ for ue_gradient = [-0.1, 0, 0.1]
             integral(i) = integral(i-1) + ueintbit(x(i-1), ue(i-1), x(i), ue(i));
             theta(i) = sqrt( 0.45/ReL * integral(i)/ue(i)^6 );
 
-            % Check for transtion
+            % Check for transition
             Rethet = ReL * ue(i) * theta(i);
             m = -ReL * theta(i)^2 * (ue(i)-ue(i-1)) / (x(i)-x(i-1));
             He = laminar_He( thwaites_lookup(m) );
