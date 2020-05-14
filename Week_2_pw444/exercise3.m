@@ -1,8 +1,10 @@
 close all
 
+% ReL = 1e5; % Defined externally when running the script
+% output = true % Defined externally to silence script
+
 n = 101; % Number of panels
-ue_gradient = -0.25; % Edge velocity gradient
-%ReL = 1e5;
+duedx = -0.25; % Edge velocity gradient
 int = 0; % Location of natural transition
 ils = 0; % Location of laminar seperation 
 
@@ -10,7 +12,7 @@ ils = 0; % Location of laminar seperation
 x = linspace(0, 1, n);
 integral = zeros(n);
 theta = zeros(n); %Thwaites solution
-ue = linspace(1, 1+ue_gradient, n);
+ue = linspace(1, 1+duedx, n);
 
 % Loop Parameters
 laminar = true;

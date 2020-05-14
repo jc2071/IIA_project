@@ -3,9 +3,9 @@ close all
 
 n = 101; % Number of panels
 
-for ue_gradient = [-0.1, 0, 0.1]
-    ue = linspace(1, 1+ue_gradient, n);
-    disp(['Velocity gradient: ', num2str(ue_gradient)])
+for duedx = [-0.1, 0, 0.1]
+    ue = linspace(1, 1+duedx, n);
+    disp(['Velocity gradient: ', num2str(duedx)])
     for ReL = [5e6, 1e7, 2e7]
         disp(['ReL = ', num2str(ReL)])
         % Reset arrays
