@@ -22,6 +22,10 @@ theta9 = 0.023.*x.*(Re*x).^(-1/6);
 
 plot(x, thickhist(:,1))
 hold on
-plot(x,theta9);
-hold on
 plot(x,theta7);
+hold on
+plot(x,theta9);
+xlabel("x/L");
+ylabel("\theta/L");
+legend('Numerical Solution','1/7 power law','1/9 power law','location', 'NorthWest')
+set(gca,'fontname','Times');
