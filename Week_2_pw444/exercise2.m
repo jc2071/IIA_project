@@ -10,7 +10,7 @@ for u_gradient = [-0.1, 0, 0.1]
         disp(['ReL = ', num2str(ReL)])
         % Reset arrays
         x = linspace(0, 1, n);
-        int = zeros(n);
+        integral = zeros(n);
         theta = zeros(n);
         
         % Loop parameters
@@ -21,8 +21,8 @@ for u_gradient = [-0.1, 0, 0.1]
             i = i + 1; % Effectively start loop at i = 2
 
             % Calculate momentum thickness
-            int(i) = int(i-1) + ueintbit(x(i-1), ue(i-1), x(i), ue(i));
-            theta(i) = sqrt( 0.45/ReL * int(i)/ue(i)^6 );
+            integral(i) = integral(i-1) + ueintbit(x(i-1), ue(i-1), x(i), ue(i));
+            theta(i) = sqrt( 0.45/ReL * integral(i)/ue(i)^6 );
 
             % Check for transtion
             Rethet = ReL * ue(i) * theta(i);
