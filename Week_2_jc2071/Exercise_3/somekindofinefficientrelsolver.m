@@ -4,10 +4,11 @@ close all
 
 np = 101; % intergration spacing 
 x = linspace(0,1,np); % this is (x/L)
-
-for Rel = [1e5, 1e4, 1e3, 896000] 
-    disp(['Reynolds Number: ', num2str(Rel)])
-    for ugrad = [-0.25]
+Rels = 0:1000:1e7;
+type = zeros(size(Rels));
+typei = 1;
+for Rel = Rels
+        ugrad = -0.25;
         laminar = true;
         ustart = 1; % this is Ue/U at x = 0
         ue = linspace(ustart,ustart + ugrad,np); % this is array of velocity
@@ -24,17 +25,19 @@ for Rel = [1e5, 1e4, 1e3, 896000]
             Rethet = Rel * ue(i) * theta(i);
             if log(Rethet) >= 18.4*He - 21.74
                 laminar = false;
-                disp(['at grad = ' num2str(ugrad) ' natural transition at x/L: ' ...
-                    num2str(x(i)) ' Retheta: ' num2str(Rethet/1000)]);
+                type(typei) = 1;
+                typei = typei +1;
             elseif m >= 0.09
                 laminar = false; 
-                disp(['at grad = ' num2str(ugrad) ' laminar seperation at x/L: ' ...
-                    num2str(x(i)) ' Retheta: ' num2str(Rethet/1000)]);
-            elseif i == np
-                disp(['at grad = ' num2str(ugrad) ' : No Turbulence'])
+                type(typei) = 0;
+                typei = typei +1;
             end
        end
            
-   end 
 end
 
+for i = 1:length(type) -1
+    if type(i) < type(i+1)
+        disp(Rels(i+1))
+    end
+end 
