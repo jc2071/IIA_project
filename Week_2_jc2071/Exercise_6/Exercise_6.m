@@ -5,8 +5,8 @@ global Re duedx
 
 np = 101; % intergration spacing 
 x = linspace(0,1,np); % this is (x/L)
-Re = 1e5;
-duedx = -0.25;
+Re = 1e7;
+duedx = 0;
 u0 = 1;
 %disp(['Reynolds Number: ', num2str(Re)])
 laminar = true;
