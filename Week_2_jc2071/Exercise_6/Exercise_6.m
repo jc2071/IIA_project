@@ -1,55 +1,77 @@
 
-clear
-close all
+clear; close all; clc
+
+global Re duedx
 
 np = 101; % intergration spacing 
 x = linspace(0,1,np); % this is (x/L)
-ugrad = -0.25;
-Rel = 9e6;
-%disp(['Reynolds Number: ', num2str(Rel)])
+Re = 1e5;
+duedx = -0.25;
+u0 = 1;
+%disp(['Reynolds Number: ', num2str(Re)])
 laminar = true;
-ustart = 1; % this is Ue/U at x = 0
-ue = linspace(ustart,ustart + ugrad,np); % this is array of velocity
-intergral = zeros(size(x));
-theta = zeros(size(x));
-i = 1;
-int = 0;
-ils = 0;
-itr = 0;
-its = 0;
-Helam = zeros(size(x));
-Helam(1) = 1.57258;
+ue = linspace(u0,u0 + duedx,np); % this is array of velocity
+intergral = zeros(size(x)); % an intermediate step
+theta = zeros(size(x)); % momentum thickness
+
+int = 0; % check for natural trans
+ils = 0; % check for laminar seperation
+itr = 0; % check for turbulent reattachment
+its = 0; % check for turbulent seperation
+
+i = 1; 
+He = zeros(size(x)); % He for all positions
+He(1) = 1.57258; % set He(1) as not defined otherwise, use Blassius
 
 while laminar && i < np
     i = i +1;
     intergral(i) = intergral(i-1) + ueintbit(x(i-1), ue(i-1), x(i), ue(i));
-    theta(i) = sqrt(intergral(i)  * 0.45/ Rel /ue(i)^6);
-    m = - Rel* theta(i)^2 * ugrad;
+    theta(i) = sqrt(intergral(i)  * 0.45/ Re /ue(i)^6);
+    m = - Re* theta(i)^2 * duedx;
     H = thwaites_lookup(m);
-    Helam(i) = laminar_He(H);
-    Rethet = Rel * ue(i) * theta(i);
-    if log(Rethet) >= 18.4*Helam(i) - 21.74
-        Helam(i) = 1.51509;
+    He(i) = laminar_He(H);
+    Rethet = Re * ue(i) * theta(i);
+    if log(Rethet) >= 18.4*He(i) - 21.74
         laminar = false;
-        int = i;
-        disp(['at grad = ' num2str(ugrad) ' natural transition at x/L: ' ...
-            num2str(x(int)) ' Retheta: ' num2str(Rethet/1000)]);
+        int = i; % marks postion at which natural transiton
+        deltae = He(i) * theta(i);
     elseif m >= 0.09
-        Helam(i) = 1.51509;
+        He(i) = 1.51509;
         laminar = false; 
-        ils = i;
-        disp(['at grad = ' num2str(ugrad) ' laminar seperation at x/L: ' ...
-            num2str(x(ils)) ' Retheta: ' num2str(Rethet/1000)]);
-    elseif i == np
-        disp(['at grad = ' num2str(ugrad) ' : No Turbulence'])
+        ils = i; % marks position at whih seperation
+        deltae = He(i) * theta(i);
+    elseif i == np -1
+        disp(['at grad = ' num2str(duedx) ' : No Turbulence'])
+        deltae = He(i) * theta(i);
     end
 end
 
-dlam = Helam.*theta;
-i = 1;
-while its == 0 && i < np
-    i = i +1:
+global ue0 % setting global variables, 
+         ... pw444 does this slightly different
+     
+while i <np && its == 0
+    i = i +1;
+    ue0 = ue(i-1);
+    thick0 = zeros(2,1);
+    thick0(1) = theta(i-1);
+    thick0(2) = deltae;
+    [delx, thickhist] = ode45(@thickdash,[0, x(i) - x(i-1)], thick0);
+    thickhist(:,2);
+    theta(i) = thickhist(end,1);
+    deltae = thickhist(end,2);
+    He(i) = thickhist(end,2)/ thickhist(end,1);
     
-    
+    if He < 1.46
+        its = i;
+    elseif itr ==0 && ils > 0 && He(i) > 1.58 % not too sure on this?
+        itr = i;
+    end
+end
 
+if i < np && its == 0
+    H = 2.803;
+    i = i +1;
+    theta(i) = theta(i-1)*(ue(i-1)/ue(i))^(H+2);
+end
 
+plot(x, theta)
