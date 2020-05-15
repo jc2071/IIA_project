@@ -1,11 +1,9 @@
-function dthickdx = thickdash(xmx0, thick)
+function dthickdx = thickdash(xmx0, thick, ReL, ue0, duedx)
 %
 % function dthickdx = thickdash(xmx0, thick)
 %
 % used in ode45 to solve for boundary layer thickness.
 % thick = [theta; He] NB is a col vector for some reason
-
-global ReL ue0 duedx
 
 ue = ue0 + xmx0*duedx;
 Rethet = ReL * ue * thick(1);

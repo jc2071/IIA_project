@@ -1,11 +1,9 @@
 clear
 close all
 
-global ReL ue0 duedx
-
 ReL = 1e7;
-duedx = 0;
 ue0 = 1;
+duedx = 0;
 
 % Set up initial conditions of ODE
 x0 = 0.01;
@@ -13,8 +11,8 @@ thick0 = zeros(2, 1);
 thick0(1) = 0.023*x0*(ReL*x0)^(-1/6);
 thick0(2) = 1.83*thick0(1);
 
-% Solve ODE
-[delx, thickhist] = ode45(@thickdash, [0, 0.99], thick0);
+% Solve ODE - pass in extra parameters through an anonymous function
+[delx, thickhist] = ode45(@(xmx0, thick)thickdash(xmx0, thick, ReL, ue0, duedx), [0, 0.99], thick0);
 x = x0 + delx;
 
 % Generate 7th and 9th power law solutions

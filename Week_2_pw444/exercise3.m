@@ -1,7 +1,7 @@
 close all
 
 % ReL = 1e5; % Defined externally when running the script
-% output = true % Defined externally to silence script
+% output = true; % Defined externally to silence script
 
 n = 101; % Number of panels
 duedx = -0.25; % Edge velocity gradient
