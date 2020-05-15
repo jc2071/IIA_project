@@ -24,6 +24,6 @@ plot(x,thickhist(:,1), 'b')
 plot(x, th7, 'r')
 plot(x, th9, 'g')
 hold off
-xlabel('Distance along wall: x/L');
-ylabel('Momentum thickness \theta / L' );
+xlabel('x/L');
+ylabel('\theta / L' );
 legend('ODE Solution', '7th Power law', '9th power law');

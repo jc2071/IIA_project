@@ -12,9 +12,10 @@ its = 0; % Location of turbulent seperation
 
 % Arrays
 x = linspace(0, 1, n);
-integral = zeros(1,n);
-theta = zeros(1,n); %Thwaites solution
-He = zeros(1,n);
+sz = size(x);
+integral = zeros(sz);
+theta = zeros(sz); %Thwaites solution
+He = zeros(sz);
 ue = linspace(1, 1+duedx, n);
 
 laminar = true;
@@ -59,7 +60,7 @@ while its == 0 && i < n
     
     % Put ODE result into array
     theta(i) = thickhist(end, 1);
-    He(i) = thickhist(end, 2);
+    He(i) = thickhist(end, 2)/theta(i);
     
     % Check for turbulent reattachement if laminar seperated
     if ils > 0 && itr == 0 && He(i) > 1.58
