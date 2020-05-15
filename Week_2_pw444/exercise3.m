@@ -1,17 +1,18 @@
+% clear % toggle when running consecutively from cmdline
 close all
 
-% ReL = 1e5; % Defined externally when running the script
-% output = true; % Defined externally to silence script
+ ReL = 1e4; % Defined externally when running the script
+ output = true; % Defined externally to silence script
 
-n = 101; % Number of panels
-duedx = -0.25; % Edge velocity gradient
+n = 101; % Number of points. 100 panels
+duedx = 0; % Edge velocity gradient
 int = 0; % Location of natural transition
 ils = 0; % Location of laminar seperation 
 
 % Arrays
 x = linspace(0, 1, n);
-integral = zeros(n);
-theta = zeros(n); %Thwaites solution
+integral = zeros(1,n);
+theta = zeros(1,n); %Thwaites solution
 ue = linspace(1, 1+duedx, n);
 
 % Loop Parameters
@@ -26,7 +27,7 @@ end
 
 while laminar && i < n
     i = i + 1;
-
+    disp(i)
     % Calculate momentum thickness
     integral(i) = integral(i-1) + ueintbit(x(i-1), ue(i-1), x(i), ue(i));
     theta(i) = sqrt( 0.45/ReL * integral(i)/ue(i)^6 );
