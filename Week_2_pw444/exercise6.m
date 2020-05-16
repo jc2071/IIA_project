@@ -2,7 +2,7 @@ clear
 close all
 
 n = 101; % Number of points
-ReL = 1e5;
+ReL = 1e6;
 duedx = -0.25;
 
 int = 0; % Location of natural transition
@@ -76,7 +76,7 @@ end
 % Set remaining panels for seperated flow
 if i < n
      H = 2.803;
-     theta(i+1:end) = (ue(i)./ue(i+1:end)).^(H+2);
+     theta(i+1:end) = theta(i)*(ue(i)./ue(i+1:end)).^(H+2);
      He(i+1:end) = He(i)*ones(size(He(i+1:end))); % not sure about this
 end
 
