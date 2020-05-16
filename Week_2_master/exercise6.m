@@ -126,7 +126,7 @@ ylabel("\theta/L");
 legend('show', 'location','NorthWest')
 set(gca,'fontname','Times');
 box on
-
+print (gcf, 'LaTeX/Week_2/graphs\e6g1', '-depsc' )
 
 figure(2)
 xlabel("x/L");
@@ -134,7 +134,7 @@ ylabel("He");
 legend('show', 'location','NorthWest')
 set(gca,'fontname','Times');
 box on
-
+print (gcf, 'LaTeX/Week_2/graphs\e6g2', '-depsc' )
 
 figure(3)
 xlabel("x/L");
@@ -142,7 +142,7 @@ ylabel("\theta/L");
 legend('show', 'location','NorthWest')
 set(gca,'fontname','Times');
 box on
-
+print (gcf, 'LaTeX/Week_2/graphs\e6g3', '-depsc' )
 
 figure(4)
 xlabel("x/L");
@@ -150,4 +150,4 @@ ylabel("He");
 legend('show', 'location','NorthWest')
 set(gca,'fontname','Times');
 box on
-
+print (gcf, 'LaTeX/Week_2/graphs\e6g4', '-depsc' )
