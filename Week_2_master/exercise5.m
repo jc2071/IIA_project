@@ -49,13 +49,13 @@ for ReL = [1e6,1e7, 1e8]
             disp(['For ReL = ' num2str(ReL)...
             ' No seperation'])
         end 
-    end    
+    end
 end
 
 % Solve ODE
 thick0(1) = 0.023*x0*(ReL*x0)^(-1/6);
 thick0(2) = 1.83*thick0(1);
-[delx, thickhist] = ode45( ...
+[delx, thickhist] = ode45(...
     @(xmx0, thick)thickdash(xmx0, thick, ReL, ue0, duedx), ...
     [0, 0.99], thick0);
 x = x0 + delx;
