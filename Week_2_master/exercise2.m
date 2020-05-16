@@ -1,22 +1,22 @@
 clear; close all; clc;
 
-np = 101; % Defines number of panels
+n = 101; % Defines number of panels
 
 for ReL = [5e6, 100.29e6, 20e6] 
     disp(['ReL: ', num2str(ReL)])
     for duedx = [-0.1, 0, 0.1]
-        ue = linspace(1, 1+duedx, np);
+        ue = linspace(1, 1+duedx, n);
         disp(['Velocity gradient = ', num2str(duedx)])
         % Reset arrays
-        x = linspace(0, 1, np);
-        integral = zeros(1,np);
-        theta = zeros(1,np);
+        x = linspace(0, 1, n);
+        integral = zeros(1,n);
+        theta = zeros(1,n);
       
         % Loop parameters
         laminar = true;
         i = 1;
 
-        while laminar && i < np
+        while laminar && i < n
             i = i + 1;
 
             % Calculate momentum thickness
@@ -31,7 +31,7 @@ for ReL = [5e6, 100.29e6, 20e6]
                laminar = false; % Stop loop if natural transition
                disp([x(i) Rethet])
             end
-            if i == np
+            if i == n
                disp('No transition occured') 
             end
         end
