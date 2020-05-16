@@ -1,12 +1,17 @@
 clear; close all; clc
 
 n = 101; % Number of points
-colors = ['r', 'm','b']; 
-c = 1;
-
-for ReL = [1e4, 1e5, 1e6]
-    duedx = -0.25;
-
+colors = ['r', 'm','b','r']; 
+figure_num = 1;
+fig = 1;
+for duedx = [0, -0.25]
+    fig = fig +2;
+    c = 1;
+    ReLarray = [1e6, 1e7];
+    if duedx == -0.25
+        ReLarray = [1e4, 1e5, 1e6];
+    end
+    for ReL = ReLarray
     int = 0; % Location of natural transition
     ils = 0; % Location of laminar seperation 
     itr = 0; % Location of turbulent reattachment
@@ -42,10 +47,10 @@ for ReL = [1e4, 1e5, 1e6]
            int = i;
            c = c+1;
         elseif m >= 0.09 % Seperation
-            laminar = false;
-            ils = i;
-            He(i) = 1.51509; % Laminar seperation value of He
-            c = c+1;
+           laminar = false;
+           ils = i;
+           He(i) = 1.51509; % Laminar seperation value of He
+           c = c+1;
         end
     end
 
@@ -103,24 +108,46 @@ for ReL = [1e4, 1e5, 1e6]
        disp(['Turbulent seperation at x = ' num2str(x(its))]) 
     end
     
-    figure(1)
+    figure(fig-2)
     hold on
     plot(x, theta, 'DisplayName', ...
-        ['Re = ' num2str(ReL, '%.1e')], 'Color', num2str(colors(c-1)))
-    figure(2)
+        ['Re = ' num2str(ReL, '%.1e')], 'Color', num2str(colors(c)))
+    figure(fig-1)
     hold on
     plot(x, He, 'DisplayName', ...
-        ['Re = ' num2str(ReL, '%.1e')], 'Color', num2str(colors(c-1)))
-    
+        ['Re = ' num2str(ReL, '%.1e')], 'Color', num2str(colors(c)))
+    figure_num = figure_num +1;
+    end
 end
+
 figure(1)
 xlabel("x/L");
 ylabel("\theta/L");
 legend('show', 'location','NorthWest')
 set(gca,'fontname','Times');
+box on
+
 
 figure(2)
 xlabel("x/L");
 ylabel("He");
 legend('show', 'location','NorthWest')
 set(gca,'fontname','Times');
+box on
+
+
+figure(3)
+xlabel("x/L");
+ylabel("\theta/L");
+legend('show', 'location','NorthWest')
+set(gca,'fontname','Times');
+box on
+
+
+figure(4)
+xlabel("x/L");
+ylabel("He");
+legend('show', 'location','NorthWest')
+set(gca,'fontname','Times');
+box on
+
