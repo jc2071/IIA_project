@@ -5,9 +5,7 @@ function dthickdx = thickdash(xmx0, thick)
     ue = ue0 + xmx0*duedx;
     He = thick(2) / thick(1);
     
-    Retheta = Re*thick(1)*(ue0 +xmx0*duedx);
-    
-    
+    Retheta = Re*thick(1)*ue;
   
     if He >= 1.46
         H = (11*He + 15)/(48*He - 59);
@@ -21,7 +19,6 @@ function dthickdx = thickdash(xmx0, thick)
     
     dthickdx = [(cf/2 - (H+2)/ue * duedx *thick(1));...
         (cdiss - 3/ue * duedx.*thick(2))];
-    
     
 end
 
