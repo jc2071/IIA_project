@@ -28,5 +28,4 @@ ylabel('\theta / L' );
 legend('ODE Solution', '1/7^{th} Power law', '1/9^{th} power law',...
     'Location', 'NorthWest');
 set(gca,'fontname','Times');
-box on;
 print (gcf, 'LaTeX/Week_2/graphs\e4g1', '-depsc' )
