@@ -10,8 +10,8 @@ for duedx = [-0.1, 0, 0.1]
         disp(['ReL = ', num2str(ReL)])
         % Reset arrays
         x = linspace(0, 1, n);
-        integral = zeros(n);
-        theta = zeros(n);
+        integral = zeros(1,n);
+        theta = zeros(1,n);
         
         % Loop parameters
         laminar = true;
