@@ -1,4 +1,4 @@
-clear; close all; clc
+clear; close all; clc;
 
 n = 101;                          % Defines number of panels
 x = linspace(0,1,n);              % This is x/L
