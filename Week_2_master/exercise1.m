@@ -1,4 +1,3 @@
-
 clear; close all; clc
 
 np = 101; % Defines number of panels

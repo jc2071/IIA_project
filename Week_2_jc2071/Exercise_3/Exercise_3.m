@@ -3,8 +3,8 @@ clear
 close all
 
 np = 101; % intergration spacing 
-x = linspace(0,1,np); % this is (x/L)
-ugrad = -0.25;
+x = linspace(0,1,np); % This is x/L
+duedx = -0.25; % Edge velocity gradient
 
 for Rel = [1e5, 1e4, 1e3] 
     disp(['Reynolds Number: ', num2str(Rel)])
