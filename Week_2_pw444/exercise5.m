@@ -1,11 +1,10 @@
 clear
 close all
 
-% to fix this use https://uk.mathworks.com/matlabcentral/answers/274406-ode45-extra-parameters
+%https://uk.mathworks.com/matlabcentral/answers/274406-ode45-extra-parameters
 
 ReL = 1e7;
 ue0 = 1;
-duedx = -0.5;
 
 % Set up initial conditions of ODE
 x0 = 0.01;
@@ -19,6 +18,7 @@ for duedx = [-0.25, -0.5, -0.95]
         @(xmx0, thick)thickdash(xmx0, thick, ReL, ue0, duedx), ...
         [0, 0.99], thick0);
     x = x0 + delx;
+    
     figure(-20*duedx)
     hold on
     plot(x, thickhist(:,2)./thickhist(:,1), 'b')
@@ -31,7 +31,7 @@ end
 % b)
 duedx = -0.5;
 for ReL = [1e6, 1e8]
-        thick0(1) = 0.023*x0*(ReL*x0)^(-1/6);
+    thick0(1) = 0.023*x0*(ReL*x0)^(-1/6);
     thick0(2) = 1.83*thick0(1);
     [delx, thickhist] = ode45( ... 
         @(xmx0, thick)thickdash(xmx0, thick, ReL, ue0, duedx), ...
