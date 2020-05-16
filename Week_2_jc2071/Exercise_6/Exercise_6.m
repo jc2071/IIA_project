@@ -58,7 +58,7 @@ for Rel = [1e4,1e5,1e6]
         theta(i) = thickhist(end,1);
         deltae = thickhist(end,2);
         He(i) = thickhist(end,2)/ thickhist(end,1);
-
+        
         if He(i) < 1.46
             its = i;
         elseif ils > 0 && itr ==0 && He(i) > 1.58 % not too sure on this?
@@ -67,7 +67,6 @@ for Rel = [1e4,1e5,1e6]
     end
     
     while i <np
-        disp('going into loop')
         H = 2.803;
         i = i +1;
         theta(i) = theta(i-1)*(ue(i-1)/ue(i))^(H+2);
