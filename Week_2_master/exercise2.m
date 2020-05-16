@@ -2,7 +2,8 @@ clear; close all; clc;
 
 n = 101; % Defines number of panels
 
-for ReL = [5e6, 10e6, 20e6] 
+for ReL = [5e6, 10e6, 20e6]
+    disp(['---------------------', fprintf('\n')])
     disp(['ReL: ', num2str(ReL)])
     
     for duedx = [-0.1, 0, 0.1]

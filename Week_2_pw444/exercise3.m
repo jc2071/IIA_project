@@ -37,6 +37,7 @@ while laminar && i < n
     Rethet = ReL * ue(i) * theta(i);
     m = -ReL * theta(i)^2 * (ue(i)-ue(i-1)) / (x(i)-x(i-1));
     He = laminar_He( thwaites_lookup(m) );
+    
     if log(Rethet) >= 18.4*He - 21.74 % Transition
        laminar = false;
        int = i;
