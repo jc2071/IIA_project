@@ -3,7 +3,7 @@ clear; close all; clc
 np = 101; % Defines number of panels
 x = linspace(0,1,np); % This is x/L
 ues = 1; % This is Ue/U at x = 0
-duedx = 0; % This is constant velocity gradient
+duedx = 0; % Velocity gradient
 ue = linspace(ues,ues + duedx,np); % Array of Ue/U
 ReL = 1000;
 integral = zeros(size(x));
@@ -24,4 +24,5 @@ xlabel("x/L");
 ylabel("\theta/L");
 legend('Blasius','Thwaites','location', 'NorthWest')
 set(gca,'fontname','Times');
+box on;
 print (gcf, 'LaTeX/Week_2/graphs\e1g1', '-depsc' )

@@ -2,7 +2,7 @@ clear; close all; clc;
 
 np = 101; % Defines number of panels
 
-for ReL = [5e6, 1e7, 2e7] 
+for ReL = [5e6, 100.29e6, 20e6] 
     disp(['ReL: ', num2str(ReL)])
     for duedx = [-0.1, 0, 0.1]
         ue = linspace(1, 1+duedx, np);
@@ -29,7 +29,7 @@ for ReL = [5e6, 1e7, 2e7]
             He = laminar_He( thwaites_lookup(m) );
             if log(Rethet) >= 18.4*He - 21.74
                laminar = false; % Stop loop if natural transition
-               disp([x(i) Rethet/1000])
+               disp([x(i) Rethet])
             end
             if i == np
                disp('No transition occured') 
