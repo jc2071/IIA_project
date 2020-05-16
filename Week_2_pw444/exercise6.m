@@ -2,7 +2,7 @@ clear
 close all
 
 n = 101; % Number of points
-ReL = 1e6;
+ReL = 1e4;
 duedx = -0.25;
 
 int = 0; % Location of natural transition
@@ -16,6 +16,7 @@ sz = size(x);
 integral = zeros(sz);
 theta = zeros(sz); %Thwaites solution
 He = zeros(sz);
+He(1) = 1.57258;
 ue = linspace(1, 1+duedx, n);
 
 laminar = true;
@@ -51,7 +52,7 @@ while its == 0 && i < n
     % Calculate ODE initial conditions & parameters
     thick0 = [theta(i-1); He(i-1)*theta(i-1)]; % [theta;de]
     ue_grad = (ue(i)-ue(i-1))/(x(i)-x(i-1)); % ue grad. of panel
-    ue0 = ue(i);
+    ue0 = ue(i-1);
     
     % Perform ODE calculation using anonymous function
     [delx, thickhist] = ode45(...
@@ -107,3 +108,4 @@ figure(2)
 plot(x, He)
 xlabel('x')
 ylabel('He')
+
