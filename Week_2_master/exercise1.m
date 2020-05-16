@@ -1,7 +1,7 @@
 
 clear; close all; clc
 
-np = 101;
+np = 101; % Defines number of panels
 x = linspace(0,1,np); % This is x/L
 ues = 1; % This is Ue/U at x = 0
 duedx = 0; % This is constant velocity gradient
@@ -13,6 +13,7 @@ theta = zeros(size(x));
 Blasius = (0.664/sqrt(ReL)) * sqrt(x); 
 
 for i = 2:length(x)
+     % Calculate momentum thickness
     integral(i) = integral(i-1) + ueintbit(x(i-1), ue(i-1), x(i), ue(i));
     theta(i) = sqrt(integral(i)  * 0.45/ ReL /ue(i)^6);
 end 
