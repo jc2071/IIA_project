@@ -21,9 +21,9 @@ th7 = 0.037 * x .* (ReL*x).^(-1/5);
 th9 = 0.023 * x .* (ReL*x).^(-1/6);
 
 hold on
-plot(x,thickhist(:,1), 'b', 'LineWidth', 1.2)
-plot(x, th7, 'r', 'LineWidth', 1.2)
-plot(x, th9, 'g', 'LineWidth', 1.2)
+plot(x,thickhist(:,1), 'color',[0.6350 0.0780 0.1840], 'LineWidth', 1.2)
+plot(x, th7, 'color', [0 0.4470 0.7410], 'LineWidth', 1.2)
+plot(x, th9, 'color', [0.9290 0.6940 0.1250], 'LineWidth', 1.2)
 hold off
 xlabel('x/L');
 ylabel('\theta / L' );

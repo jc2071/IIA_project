@@ -19,8 +19,8 @@ end
 
 % Plot results
 hold on
-plot(x, Blasius, 'color', 'magenta');
-plot(x, theta,'-', 'color', 'blue');
+plot(x, Blasius, 'color', [0.6350 0.0780 0.1840],'LineWidth', 1.2);
+plot(x, theta, 'color', [0 0.4470 0.7410],'LineWidth', 1.2);
 hold off
 xlabel("x/L");
 ylabel("\theta/L");

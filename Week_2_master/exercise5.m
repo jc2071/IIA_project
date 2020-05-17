@@ -62,8 +62,8 @@ x = x0 + delx;
 
 figure(1);
 hold on
-plot(x, thickhist(:,1), 'g','LineWidth',1.2);
-plot(x, thickhist(:,2), 'm','LineWidth',1.2);
+plot(x, thickhist(:,1), 'color',[0.6350 0.0780 0.1840],'LineWidth',1.2);
+plot(x, thickhist(:,2), 'color',[0 0.4470 0.7410] ,'LineWidth',1.2);
 hold off
 xlabel('x/L')
 ylabel('Nondimensional boundary layer thickness')
