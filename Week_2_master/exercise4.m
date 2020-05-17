@@ -29,5 +29,5 @@ xlabel('x/L');
 ylabel('\theta / L' );
 legend('ODE Solution', '1/7^{th} Power law', '1/9^{th} Power law',...
     'Location', 'NorthWest');
-set(gca,'FontName','Times');
+set(gca,'FontName','Times','FontSize',16);
 print (gcf, 'LaTeX/Week_2/graphs\e4g1', '-depsc' )
