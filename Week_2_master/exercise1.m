@@ -25,5 +25,5 @@ hold off
 xlabel("x/L");
 ylabel("\theta/L");
 legend('Blasius','Thwaites','location', 'NorthWest')
-set(gca,'fontname','Times','FontSize',15);
+set(gca,'fontname','Times','FontSize',16);
 print (gcf, 'LaTeX/Week_2/graphs\e1g1', '-depsc' )
