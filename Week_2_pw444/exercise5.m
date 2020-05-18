@@ -12,8 +12,8 @@ thick0 = zeros(2, 1);
 
 % a)
 for duedx = [-0.25, -0.5, -0.95]
-    thick0(1) = 0.023*x0*(ReL*x0)^(-1/6);
-    thick0(2) = 1.83*thick0(1);
+    thick0(1) = 0.023* x0 * (ReL*x0)^(-1/6);
+    thick0(2) = 1.83 * thick0(1);
     [delx, thickhist] = ode45( ...
         @(xmx0, thick)thickdash(xmx0, thick, ReL, ue0, duedx), ...
         [0, 0.99], thick0);

@@ -1,67 +1,62 @@
 clear; close all; clc
 
-ReL = 1e7;
-ue0 = 1;
-
-% Set up initial conditions of ODE
-x0 = 0.01;
-thick0 = zeros(2, 1);
-% Part a)
-disp(['For ReL = ' num2str(ReL)]);
+% Loop over 5 different required cases
 for duedx = [-0.25, -0.5, -0.95]
-    thick0(1) = 0.023*x0*(ReL*x0)^(-1/6);
-    thick0(2) = 1.83*thick0(1);
-    [delx, thickhist] = ode45( ...
-        @(xmx0, thick)thickdash(xmx0, thick, ReL, ue0, duedx), ...
-        [0, 0.99], thick0);
-    x = x0 + delx;
-    for i = 1:length(x)
-        if thickhist(i:i,2:2)/ thickhist(i:i,1:1) < 1.46
-        disp(['For duedx = ' num2str(duedx)...
-            ' seperation occurs at x/L = ' num2str(x(i))])
-        break
-        
-        elseif i == length(x)
-            disp(['For duedx = ' num2str(duedx)...
-            ' No seperation'])
-        end 
-    end    
-end
+    ReLArr = 1e7;
+    if duedx == -0.5
+       ReLArr = [1e6, 1e7, 1e8];
+    end
+    
+    for ReL = ReLArr
+        % Set up initial conditions of ODE
+        ue0 = 1;
+        x0 = 0.01;
+        thick0 = zeros(2, 1);
+        thick0(1) = 0.023 * x0 * (ReL*x0)^(-1/6);
+        thick0(2) = 1.83 * thick0(1);
 
-% Part b)
-thick0 = zeros(2,1);
-duedx = -0.5;
-disp(['For duedx = ' num2str(duedx)]);
-for ReL = [1e6,1e7, 1e8]
-    thick0(1) = 0.023*x0*(ReL*x0)^(-1/6);
-    thick0(2) = 1.83*thick0(1);
-    [delx, thickhist] = ode45( ... 
-        @(xmx0, thick)thickdash(xmx0, thick, ReL, ue0, duedx), ...
-        [0, 0.99], thick0);
-    x = x0 + delx;
-    for i = 1:length(x)
-        if thickhist(i:i,2:2)/ thickhist(i:i,1:1) < 1.46 ...
-        disp(['For ReL = ' num2str(ReL)...
-            ' seperation occurs at x/L = ' num2str(x(i))]);
-        break
+        % Solve ODE
+        [delx, thickhist] = ode45( ...
+            @(xmx0, thick)thickdash(xmx0, thick, ReL, ue0, duedx), ...
+            [0, 0.99], thick0);
+        x = x0 + delx;
+        He = thickhist(:,2)./thickhist(:,1);
         
-        elseif i == length(x)
-            disp(['For ReL = ' num2str(ReL)...
-            ' No seperation'])
-        end 
+        % Determine seperation value
+        xsep = 1; % x value when seperation has occured
+        for i = 1:length(x)
+            if He(i) < 1.46
+                % Linearly interpolate to find correct x value
+                xsep = x(i-1) + (1.46-He(i-1))*(x(i)-x(i-1))/(He(i)-He(i-1)); 
+                break;
+            end
+        end
+        
+        % Plot graph of seperation
+        figure('Name', ['du/dx = ', num2str(duedx),...
+            ' and Re_L = 1e', num2str(log10(ReL))])
+        plot(x, He, 'b') % He
+        yline(1.46, 'r') % 1.46 crossing
+        xline(xsep, 'g') % x point of seperation
+        xlabel('x/L')
+        ylabel('He')
+        title(['du/dx = ', num2str(duedx),' and Re_L = 1e',...
+            num2str(log10(ReL)), '. Seperation at x/L = ', num2str(xsep)])
     end
 end
 
-% Solve ODE
-thick0(1) = 0.023*x0*(ReL*x0)^(-1/6);
-thick0(2) = 1.83*thick0(1);
+% Generate plot of theta and de
+duedx = -0.5;
+ReL = 1e7;
+thick0(1) = 0.023 * x0 * (ReL*x0)^(-1/6);
+thick0(2) = 1.83 * thick0(1);
+
 [delx, thickhist] = ode45(...
     @(xmx0, thick)thickdash(xmx0, thick, ReL, ue0, duedx), ...
     [0, 0.99], thick0);
 x = x0 + delx;
 
-
-figure(1);
+figure(6);
 hold on
 plot(x, thickhist(:,1), 'color',[0.6350 0.0780 0.1840],'LineWidth',1.2);
 plot(x, thickhist(:,2), 'color',[0 0.4470 0.7410] ,'LineWidth',1.2);
