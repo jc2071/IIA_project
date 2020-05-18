@@ -2,14 +2,15 @@
 %  calculation.  To alter incidence, edit 'alpha' below.  To alter
 %  Van de Vooren geometry parameters, see vdvfoil.m.
 
+clear; close all; clc
 %  free-stream incidence
-alpha = 0;
+alpha = pi/12;
 
 %  Van de Vooren geometry and pressure distribution
 npin = 2000;
 [xsin, ysin, cpex] = vdvfoil( npin, alpha );
 
-figure(1)
+figure('name','Van de Vooren Aerofoil')
 plot(xsin,ysin)
 axis('equal')
 xlabel('x/c')
@@ -67,14 +68,14 @@ ylabel('-c_p')
 title('Van de Vooren cps; varying panel size')
 legend('exact','100pans','200pans','400pans','800pans')
 
-figure(3)
+figure('name','100 panels')
 plot(xsin,-cpex,xs1,-cp1,'--')
 
-figure(4)
+figure('name','200 panels')
 plot(xsin,-cpex,xs2,-cp2,'--')
 
-figure(5)
+figure('name','400 panels')
 plot(xsin,-cpex,xs4,-cp4,'--')
 
-figure(6)
+figure('name','800 panels')
 plot(xsin,-cpex,xs8,-cp8,'--')
