@@ -122,10 +122,10 @@ for duedx = [0, -0.25]
             % Select graph and plot data
             figure(fig + f)
             hold on
-            plot(x, y, 'DisplayName', ...
+            p(i) = plot(x, y, 'DisplayName', ...
                 ['Re_L = 1e' num2str(log10(ReL))], ...
                 'Color', colors(c,:),...
-                'LineWidth', 1.2)
+                'LineWidth', 1.2);
             
             % Plot transition markers
             if int > 0
@@ -153,7 +153,7 @@ for i = 1:4
     if rem (i, 2) == 0
         ylabel("He");
     end
-    legend(legendUnq(gca, 'alpha'), 'location', 'SouthOutside')
-    set(gca, 'FontName','Times', 'FontSize', 16);
+    legend(legendUnq(gca, 'alpha'), 'location', 'Best')
+    set(gca, 'FontName','Times', 'FontSize', 12);
     print (gcf, ['LaTeX/Week_2/graphs\e6g' num2str(i)], '-depsc' )
 end
