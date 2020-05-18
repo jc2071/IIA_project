@@ -7,7 +7,7 @@ for Rel = [1e4,1e5,1e6]
     global Re duedx ue0
     np = 101; % intergration spacing 
     x = linspace(0,1,np); % this is (x/L)
-    Re = Rel; % weird but has to be done, maybe?
+    Re = Rel; 
     duedx = -0.25;
     laminar = true;
     ue = linspace(1,1 + duedx,np); % this is array of velocity

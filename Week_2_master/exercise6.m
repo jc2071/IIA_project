@@ -1,7 +1,7 @@
 clear; close all; clc
 
 n = 101; % Number of points
-colors = ['r', 'm','b','r']; 
+colors = [[0.6350 0.0780 0.1840];[0 0.447 0.741];[0.929 0.6940 0.125]]; 
 figure_num = 1;
 fig = 1;
 for duedx = [0, -0.25]
@@ -45,12 +45,10 @@ for duedx = [0, -0.25]
         if log(Rethet) >= 18.4*He - 21.74 % Transition
            laminar = false;
            int = i;
-           c = c+1;
         elseif m >= 0.09 % Seperation
            laminar = false;
            ils = i;
            He(i) = 1.51509; % Laminar seperation value of He
-           c = c+1;
         end
     end
 
@@ -111,11 +109,14 @@ for duedx = [0, -0.25]
     figure(fig-2)
     hold on
     plot(x, theta, 'DisplayName', ...
-        ['Re = ' num2str(ReL, '%.1e')], 'Color', num2str(colors(c)))
+        ['Re = ' num2str(ReL, '%.1e')], 'Color', colors(c,:),...
+        'LineWidth', 1.2)
     figure(fig-1)
     hold on
     plot(x, He, 'DisplayName', ...
-        ['Re = ' num2str(ReL, '%.1e')], 'Color', num2str(colors(c)))
+        ['Re = ' num2str(ReL, '%.1e')], 'Color', colors(c,:),...
+        'LineWidth', 1.2)
+    c = c+1;
     figure_num = figure_num +1;
     end
 end
@@ -124,30 +125,26 @@ figure(1)
 xlabel("x/L");
 ylabel("\theta/L");
 legend('show', 'location','NorthWest')
-set(gca,'fontname','Times');
-box on
+set(gca,'FontName','Times','FontSize',16);
 print (gcf, 'LaTeX/Week_2/graphs\e6g1', '-depsc' )
 
 figure(2)
 xlabel("x/L");
 ylabel("He");
 legend('show', 'location','NorthWest')
-set(gca,'fontname','Times');
-box on
+set(gca,'FontName','Times','FontSize',16);
 print (gcf, 'LaTeX/Week_2/graphs\e6g2', '-depsc' )
 
 figure(3)
 xlabel("x/L");
 ylabel("\theta/L");
 legend('show', 'location','NorthWest')
-set(gca,'fontname','Times');
-box on
+set(gca,'FontName','Times','FontSize',16);
 print (gcf, 'LaTeX/Week_2/graphs\e6g3', '-depsc' )
 
 figure(4)
 xlabel("x/L");
 ylabel("He");
 legend('show', 'location','NorthWest')
-set(gca,'fontname','Times');
-box on
+set(gca,'FontName','Times','FontSize',16);
 print (gcf, 'LaTeX/Week_2/graphs\e6g4', '-depsc' )
