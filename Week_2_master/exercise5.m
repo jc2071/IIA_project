@@ -41,9 +41,8 @@ for ReL = [1e6,1e7, 1e8]
     x = x0 + delx;
     for i = 1:length(x)
         if thickhist(i:i,2:2)/ thickhist(i:i,1:1) < 1.46 ...
-                && x(i) > 0.1
         disp(['For ReL = ' num2str(ReL)...
-            ' seperation occurs at x/L = ' num2str(x(i))])
+            ' seperation occurs at x/L = ' num2str(x(i))]);
         break
         
         elseif i == length(x)
@@ -60,6 +59,7 @@ thick0(2) = 1.83*thick0(1);
     @(xmx0, thick)thickdash(xmx0, thick, ReL, ue0, duedx), ...
     [0, 0.99], thick0);
 x = x0 + delx;
+
 
 figure(1);
 hold on
