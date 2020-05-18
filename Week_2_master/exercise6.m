@@ -1,13 +1,14 @@
 clear; close all; clc;
 
+% Colour scheme for graphs
+colors = [[0.6350 0.0780 0.1840];[0 0.447 0.741];[0.929 0.6940 0.125]];
+
 n = 101; % Number of points
-colors = [[0.6350 0.0780 0.1840];[0 0.447 0.741];[0.929 0.6940 0.125]]; 
-figure_num = 1;
-fig = 1;
+
 for duedx = [0, -0.25]
-    fig = fig +2;
-    c = 1;
+    c = 1; % colour of line on graph
     
+    % Decide ReL values to loop over
     ReLarray = [1e6, 1e7];
     if duedx == -0.25
         ReLarray = [1e4, 1e5, 1e6];
@@ -78,7 +79,7 @@ for duedx = [0, -0.25]
                itr = i;
             end
 
-            % Check for turbulent seperation
+            % Check for turbulent separation
             if He(i) < 1.46
                its = i; 
             end
@@ -87,8 +88,8 @@ for duedx = [0, -0.25]
         % Set remaining panels for seperated flow
         if i < n
              H = 2.803;
-             theta(i+1:end) = theta(i)*(ue(i)./ue(i+1:end)).^(H+2);
-             He(i+1:end) = He(i)*ones(size(He(i+1:end))); % not sure about this
+             theta(i+1:end) = theta(i) * (ue(i) ./ ue(i+1:end)).^(H+2);
+             He(i+1:end) = He(i) * ones(size(He(i+1:end))); %He const
         end
 
         % Display how boundary layer evolved
@@ -100,54 +101,59 @@ for duedx = [0, -0.25]
             disp(['Natural Transition at x = ' num2str(x(int))])
         end
         if ils > 0
-            disp(['Laminar seperation at x = ' num2str(x(ils))])
+            disp(['Laminar separation at x = ' num2str(x(ils))])
         end
         if itr > 0
            disp(['Turbulent reattachment at x = ' num2str(x(itr))])
         end
         if its > 0
-           disp(['Turbulent seperation at x = ' num2str(x(its))]) 
+           disp(['Turbulent separation at x = ' num2str(x(its))]) 
         end
-
-        figure(fig-2)
-        hold on
-        plot(x, theta, 'DisplayName', ...
-            ['Re = ' num2str(ReL, '%.1e')], 'Color', colors(c,:),...
-            'LineWidth', 1.2)
-        figure(fig-1)
-        hold on
-        plot(x, He, 'DisplayName', ...
-            ['Re = ' num2str(ReL, '%.1e')], 'Color', colors(c,:),...
-            'LineWidth', 1.2)
-        c = c+1;
-        figure_num = figure_num +1;
+        
+        % Plot figures (a & b) or (c & d)
+        fig =  -duedx*8; % 1 or 3 depending on gradient
+        for f = 1:2
+            % Decide which dependent variable to plot
+            y = theta;
+            if rem(f, 2) == 0
+                y = He;
+            end
+            
+            % Select graph and plot data
+            figure(fig + f)
+            hold on
+            plot(x, y, 'DisplayName', ...
+                ['Re_L = 1e' num2str(log10(ReL))], ...
+                'Color', colors(c,:),...
+                'LineWidth', 1.2)
+            
+            % Plot transition markers
+            if int > 0
+                plot(x(int), y(int), 'ko', 'DisplayName', 'natural transition')
+            end
+            if ils > 0
+                plot(x(ils), y(ils), 'kx', 'DisplayName', 'laminar separation')
+            end
+            if itr > 0
+                plot(x(itr), y(itr), 'ks', 'DisplayName', 'turbulent reattachment')
+            end
+            if its > 0
+                plot(x(its), y(its), 'kd', 'DisplayName', 'turbulent separation')
+            end
+        end
+        c = c+1; % increment colour of plotted line
     end
 end
 
-figure(1)
-xlabel("x/L");
-ylabel("\theta/L");
-legend('show', 'location','NorthWest')
-set(gca,'FontName','Times','FontSize',16);
-print (gcf, 'LaTeX/Week_2/graphs\e6g1', '-depsc' )
-
-figure(2)
-xlabel("x/L");
-ylabel("He");
-legend('show', 'location','NorthWest')
-set(gca,'FontName','Times','FontSize',16);
-print (gcf, 'LaTeX/Week_2/graphs\e6g2', '-depsc' )
-
-figure(3)
-xlabel("x/L");
-ylabel("\theta/L");
-legend('show', 'location','NorthWest')
-set(gca,'FontName','Times','FontSize',16);
-print (gcf, 'LaTeX/Week_2/graphs\e6g3', '-depsc' )
-
-figure(4)
-xlabel("x/L");
-ylabel("He");
-legend('show', 'location','NorthWest')
-set(gca,'FontName','Times','FontSize',16);
-print (gcf, 'LaTeX/Week_2/graphs\e6g4', '-depsc' )
+% Set all graph options
+for i = 1:4
+    figure(i)
+    xlabel("x/L");
+    ylabel("\theta/L");
+    if rem (i, 2) == 0
+        ylabel("He");
+    end
+    legend(legendUnq(gca, 'alpha'), 'location', 'WestOutside')
+    set(gca, 'FontName','Times', 'FontSize', 16);
+    print (gcf, ['LaTeX/Week_2/graphs\e6g' num2str(i)], '-depsc' )
+end
