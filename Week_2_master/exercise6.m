@@ -125,7 +125,7 @@ figure(1)
 xlabel("x/L");
 ylabel("\theta/L");
 legend('show', 'location','NorthWest')
-set(gca,'FontName','Times','FontSize',20);
+set(gca,'FontName','Times','FontSize',16);
 print (gcf, 'LaTeX/Week_2/graphs\e6g1', '-depsc' )
 
 figure(2)
