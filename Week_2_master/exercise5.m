@@ -66,5 +66,5 @@ hold off
 xlabel('x/L')
 ylabel('Boundary layer thickness')
 legend('\theta/L', '\delta_e/L','Location','NorthWest')
-set(gca,'FontName','Times','FontSize',16);
+set(gca,'FontName','Times','FontSize',14);
 print (gcf, 'LaTeX/Week_2/graphs\e5g1', '-depsc' )
