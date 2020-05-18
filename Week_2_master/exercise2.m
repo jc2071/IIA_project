@@ -31,7 +31,7 @@ for ReL = [5e6, 10e6, 20e6]
             He = laminar_He( thwaites_lookup(m) );
             if log(Rethet) >= 18.4*He - 21.74
                laminar = false; % Stop loop if natural transition
-               disp([x(i) Rethet])
+               disp([num2str(x(i)),'   :   ',num2str(Rethet)])
             end
             if i == n
                disp('No transition occured') 
