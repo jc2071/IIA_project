@@ -155,5 +155,84 @@ for i = 1:4
     end
     set(gca, 'FontName','Times', 'FontSize', 14);
     legend(legendUnq(gca, 'alpha'), 'location', 'NorthWest', 'FontSize', 10);
-    print (gcf, ['LaTeX/Week_2/graphs\e6g' num2str(i)], '-depsc' )
+    print (gcf, ['LaTeX/Week_2/graphs/e6g' num2str(i)], '-depsc' )
 end
+
+
+% Determine critical velocity gradient
+ReL = 1e5;
+duedx = -3;
+transition_occurs = true;
+while transition_occurs && duedx > 0
+    duedx = duedx + 0.01;
+    int = 0; % Location of natural transition
+    ils = 0; % Location of laminar seperation 
+    itr = 0; % Location of turbulent reattachment
+    its = 0; % Location of turbulent seperation
+
+    integral = zeros(sz);
+    theta = zeros(sz);
+    He = zeros(sz);
+    He(1) = 1.57258;
+    ue = linspace(1, 1+duedx, n);
+    laminar = true;
+    i = 1;
+
+    while laminar && i < n
+        i = i + 1; % start at n == 2
+
+        integral(i) = integral(i-1) + ueintbit(x(i-1), ue(i-1), x(i), ue(i));
+        theta(i) = sqrt( 0.45/ReL * integral(i)/ue(i)^6 );
+
+        Rethet = ReL * ue(i) * theta(i);
+        m = -ReL * theta(i)^2 * (ue(i)-ue(i-1)) / (x(i)-x(i-1));
+        He(i) = laminar_He( thwaites_lookup(m) );
+
+        % Check for transition or seperation
+        if log(Rethet) >= 18.4*He - 21.74 % Transition
+           laminar = false;
+           int = i;
+        elseif m >= 0.09 % Seperation
+           laminar = false;
+           ils = i;
+           He(i) = 1.51509; % Laminar seperation value of He
+        end
+    end
+
+    % Turbulent section of BL
+    while its == 0 && i < n
+        i = i + 1;
+
+        % Calculate ODE initial conditions & parameters
+        thick0 = [theta(i-1); He(i-1)*theta(i-1)]; % [theta;de]
+        u_grad = (ue(i)-ue(i-1))/(x(i)-x(i-1)); % ue grad. of panel
+        ue0 = ue(i-1);
+
+        % Perform ODE calculation using anonymous function
+        [delx, thickhist] = ode45(...
+            @(xmx0, thick)thickdash(xmx0, thick, ReL, ue0, u_grad), ...
+            [0, x(i)-x(i-1)], thick0);
+
+        % Put ODE result into array
+        theta(i) = thickhist(end, 1);
+        He(i) = thickhist(end, 2)/theta(i);
+
+        % Check for turbulent reattachement if laminar seperated
+        if ils > 0 && itr == 0 && He(i) > 1.58
+           itr = i;
+        end
+
+        % Check for turbulent separation
+        if He(i) < 1.46
+           its = i; 
+        end
+    end
+    
+    disp(['Velocity gradient: ', num2str(duedx)])
+    disp(['Turbulent seperation occured at x: ', num2str(x(its))])
+    if its == 0
+        transition_occurs = false;
+    end
+    
+end
+
