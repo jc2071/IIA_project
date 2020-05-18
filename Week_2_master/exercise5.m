@@ -68,6 +68,6 @@ plot(x, thickhist(:,2), 'color',[0 0.4470 0.7410] ,'LineWidth',1.2);
 hold off
 xlabel('x/L')
 ylabel('Nondimensional boundary layer thickness')
-legend('\theta/L', '\delta_e/L')
+legend('\theta/L', '\delta_e/L','Location','NorthWest')
 set(gca,'FontName','Times','FontSize',16);
 print (gcf, 'LaTeX/Week_2/graphs\e5g1', '-depsc' )
