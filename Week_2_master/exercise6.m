@@ -151,7 +151,7 @@ for i = 1:4
     xlabel("x/L");
     ylabel("\theta/L");
     if rem (i, 2) == 0
-        ylabel("He");
+        ylabel("H_e");
     end
     set(gca, 'FontName','Times', 'FontSize', 14);
     legend(legendUnq(gca, 'alpha'), 'location', 'NorthWest', 'FontSize', 10);
