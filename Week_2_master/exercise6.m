@@ -153,7 +153,7 @@ for i = 1:4
     if rem (i, 2) == 0
         ylabel("He");
     end
-    legend(legendUnq(gca, 'alpha'), 'location', 'WestOutside')
+    legend(legendUnq(gca, 'alpha'), 'location', 'SouthOutside')
     set(gca, 'FontName','Times', 'FontSize', 16);
     print (gcf, ['LaTeX/Week_2/graphs\e6g' num2str(i)], '-depsc' )
 end
