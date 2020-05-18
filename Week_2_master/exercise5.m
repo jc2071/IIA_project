@@ -35,9 +35,11 @@ for duedx = [-0.25, -0.5, -0.95]
         % Plot graph of seperation
         figure('Name', ['du/dx = ', num2str(duedx),...
             ' and Re_L = 1e', num2str(log10(ReL))])
+        hold on
         plot(x, He, 'b') % He
-        yline(1.46, 'r') % 1.46 crossing
-        xline(xsep, 'g') % x point of seperation
+        plot(x, 1.46 + zeros(size(x)), 'r') % 1.46 crossing
+        plot(xsep, 1.46, 'ko') % x point of seperation
+        hold off
         xlabel('x/L')
         ylabel('He')
         title(['du/dx = ', num2str(duedx),' and Re_L = 1e',...
