@@ -16,9 +16,13 @@ blthet = 0.664 * sqrt(x/Re);
 if int~=0
   disp(['Natural transition at x = ' num2str(x(int))])
 end
-
+figure(1)
 plot(x,blthet,'-',x,theta,'x')
 xlabel('x')
 ylabel('\theta')
 legend('Blasius','blsolv')
+
+
+figure(2)
+plot(x,delstar)
 

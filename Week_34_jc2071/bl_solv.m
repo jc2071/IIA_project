@@ -10,18 +10,18 @@ itr = 0; % Location of turbulent reattachment
 its = 0; % Location of turbulent seperation
 
 % Arrays
-sz = length(x);
-integral = zeros(1,sz);
-theta = zeros(1,sz);
-He = zeros(1,sz);
-delstar = zeros(1,sz);
+integral = zeros(1,n);
+theta = zeros(1,n);
+He = zeros(1,n);
+delstar = zeros(1,n);
 He(1) = 1.57258;
 
 laminar = true;
 i = 1;
+integral(1) = 0;
 
 % Laminar section of BL
-while laminar && i < n
+while laminar && i < n 
     i = i + 1; % start at n == 2
 
     % Calculate momentum and energy thickness
@@ -71,7 +71,10 @@ end
 % Check for turbulent separation
 if He(i) < 1.46
    its = i; 
+else
+   delstar(i)=(11*He(i)+15)/(48*He(i)-59) *theta(i);
 end
+
 end
 
 % Set remaining panels for seperated flow
@@ -79,8 +82,7 @@ if i < n
  H = 2.803;
  theta(i+1:end) = theta(i) * (ue(i) ./ ue(i+1:end)).^(H+2);
  He(i+1:end) = He(i) * ones(size(He(i+1:end))); %He const
+ delstar(i)=H *theta(i);
 end
-
-
 
 

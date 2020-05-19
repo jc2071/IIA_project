@@ -23,6 +23,5 @@ psip = [infa, zeros(np,1)] + [zeros(np,1), infb];
 % Construct [A]. 1st + Last row same as identity matrix.
 % Central elements are [A]i = psip(i+1) - psip(i).
 lhsmat = [2, -2, 1, zeros(1,np-5), -1, 2, 0; psip(2:end,:) - psip(1:np-1,:); 1, zeros(1,np-1), 1];
-%lhsmat = [1, zeros(1,np); psip(2:end,:) - psip(1:np-1,:); zeros(1,np), 1];
 
 end
