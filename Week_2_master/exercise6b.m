@@ -7,13 +7,13 @@ duedx = -0.5;
 
 transition_occurs = true;
 while transition_occurs && abs(duedx) > 0
-    
+
     duedx = duedx + 0.01;
-    
+
     int = 0; % Location of natural transition
-    ils = 0; % Location of laminar seperation 
+    ils = 0; % Location of laminar separation
     itr = 0; % Location of turbulent reattachment
-    its = 0; % Location of turbulent seperation
+    its = 0; % Location of turbulent separation
 
     integral = zeros(sz);
     theta = zeros(sz);
@@ -33,14 +33,14 @@ while transition_occurs && abs(duedx) > 0
         m = -ReL * theta(i)^2 * (ue(i)-ue(i-1)) / (x(i)-x(i-1));
         He(i) = laminar_He( thwaites_lookup(m) );
 
-        % Check for transition or seperation
+        % Check for transition or separation
         if log(Rethet) >= 18.4*He - 21.74 % Transition
            laminar = false;
            int = i;
-        elseif m >= 0.09 % Seperation
+        elseif m >= 0.09 % separation
            laminar = false;
            ils = i;
-           He(i) = 1.51509; % Laminar seperation value of He
+           He(i) = 1.51509; % Laminar separation value of He
         end
     end
 
@@ -69,12 +69,12 @@ while transition_occurs && abs(duedx) > 0
 
         % Check for turbulent separation
         if He(i) < 1.46
-           its = i; 
+           its = i;
         end
     end
     disp('-----------------------------')
     disp(['Velocity gradient: ', num2str(duedx)])
-    disp(['Turbulent seperation occured at x: ', num2str(x(its))])
+    disp(['Turbulent separation occured at x: ', num2str(x(its))])
     if its == 0
         transition_occurs = false;
     end

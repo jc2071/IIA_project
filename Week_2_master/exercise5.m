@@ -6,7 +6,7 @@ for duedx = [-0.25, -0.5, -0.95]
     if duedx == -0.5
        ReLArr = [1e6, 1e7, 1e8];
     end
-    
+
     for ReL = ReLArr
         % Set up initial conditions of ODE
         ue0 = 1;
@@ -21,29 +21,29 @@ for duedx = [-0.25, -0.5, -0.95]
             [0, 0.99], thick0);
         x = x0 + delx;
         He = thickhist(:,2)./thickhist(:,1);
-        
-        % Determine seperation value
-        xsep = 1; % x value when seperation has occured
+
+        % Determine separation value
+        xsep = 1; % x value when separation has occured
         for i = 1:length(x)
             if He(i) < 1.46
                 % Linearly interpolate to find correct x value
-                xsep = x(i-1) + (1.46-He(i-1))*(x(i)-x(i-1))/(He(i)-He(i-1)); 
+                xsep = x(i-1) + (1.46-He(i-1))*(x(i)-x(i-1))/(He(i)-He(i-1));
                 break;
             end
         end
-        
-        % Plot graph of seperation
+
+        % Plot graph of separation
         figure('Name', ['du/dx = ', num2str(duedx),...
             ' and Re_L = 1e', num2str(log10(ReL))])
         hold on
         plot(x, He, 'b') % He
         plot(x, 1.46 + zeros(size(x)), 'r') % 1.46 crossing
-        plot(xsep, 1.46, 'ko') % x point of seperation
+        plot(xsep, 1.46, 'ko') % x point of separation
         hold off
         xlabel('x/L')
         ylabel('He')
         title(['du/dx = ', num2str(duedx),' and Re_L = 1e',...
-            num2str(log10(ReL)), '. Seperation at x/L = ', num2str(xsep)])
+            num2str(log10(ReL)), '. separation at x/L = ', num2str(xsep)])
     end
 end
 

@@ -1,29 +1,29 @@
 clear; close all; clc;
 
-% Colour scheme for graphs
+% color scheme for graphs
 colors = [[0.6350 0.0780 0.1840];[0 0.447 0.741];[0.929 0.6940 0.125]];
 
 n = 101; % Number of points
 
 for duedx = [0, -0.25]
-    c = 1; % colour of line on graph
-    
+    c = 1; % Color of line on graph
+
     % Decide ReL values to loop over
     ReLarray = [1e6, 1e7];
     if duedx == -0.25
         ReLarray = [1e4, 1e5, 1e6];
     end
-    
+
     for ReL = ReLarray
         int = 0; % Location of natural transition
-        ils = 0; % Location of laminar seperation 
+        ils = 0; % Location of laminar separation
         itr = 0; % Location of turbulent reattachment
-        its = 0; % Location of turbulent seperation
+        its = 0; % Location of turbulent separation
 
         % Arrays
         x = linspace(0, 1, n);
         sz = size(x);
-        
+
         integral = zeros(sz);
         theta = zeros(sz);
         He = zeros(sz);
@@ -45,14 +45,14 @@ for duedx = [0, -0.25]
             m = -ReL * theta(i)^2 * (ue(i)-ue(i-1)) / (x(i)-x(i-1));
             He(i) = laminar_He( thwaites_lookup(m) );
 
-            % Check for transition or seperation
+            % Check for transition or separation
             if log(Rethet) >= 18.4*He - 21.74 % Transition
                laminar = false;
                int = i;
-            elseif m >= 0.09 % Seperation
+            elseif m >= 0.09 % separation
                laminar = false;
                ils = i;
-               He(i) = 1.51509; % Laminar seperation value of He
+               He(i) = 1.51509; % Laminar separation value of He
             end
         end
 
@@ -81,7 +81,7 @@ for duedx = [0, -0.25]
 
             % Check for turbulent separation
             if He(i) < 1.46
-               its = i; 
+               its = i;
             end
         end
 
@@ -89,7 +89,7 @@ for duedx = [0, -0.25]
         if i < n
              H = 2.803;
              theta(i+1:end) = theta(i) * (ue(i) ./ ue(i+1:end)).^(H+2);
-             He(i+1:end) = He(i) * ones(size(He(i+1:end))); %He const
+             He(i+1:end) = He(i) * ones(size(He(i+1:end))); % He const.
         end
 
         % Display how boundary layer evolved
@@ -107,9 +107,9 @@ for duedx = [0, -0.25]
            disp(['Turbulent reattachment at x = ' num2str(x(itr))])
         end
         if its > 0
-           disp(['Turbulent separation at x = ' num2str(x(its))]) 
+           disp(['Turbulent separation at x = ' num2str(x(its))])
         end
-        
+
         % Plot figures (a & b) or (c & d)
         fig =  -duedx*8; % 0 or 2 depending on gradient
         for f = 1:2
@@ -118,7 +118,7 @@ for duedx = [0, -0.25]
             if rem(f, 2) == 0
                 y = He;
             end
-            
+
             % Select graph and plot data
             figure(fig + f)
             hold on
@@ -126,7 +126,7 @@ for duedx = [0, -0.25]
                 ['Re_L = 1e' num2str(log10(ReL))], ...
                 'Color', colors(c,:),...
                 'LineWidth', 1.2);
-            
+
             % Plot transition markers
             if int > 0
                 plot(x(int), y(int), 'ko', 'DisplayName', 'natural transition')
@@ -141,7 +141,7 @@ for duedx = [0, -0.25]
                 plot(x(its), y(its), 'kd', 'DisplayName', 'turbulent separation')
             end
         end
-        c = c+1; % increment colour of plotted line
+        c = c+1; % increment color of plotted line
     end
 end
 
