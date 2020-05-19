@@ -27,7 +27,7 @@ for ReL = [1e5, 1e4, 1e3]
         theta(i) = sqrt(integral(i)  * 0.45/ ReL /ue(i)^6);
         Rethet = ReL * ue(i) * theta(i);
         
-        % Calculate Energy shape factor
+        % Calculate energy shape factor
         m = - ReL * theta(i)^2 * duedx;
         He = laminar_He( thwaites_lookup(m) );
 

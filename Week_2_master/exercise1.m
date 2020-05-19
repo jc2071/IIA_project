@@ -12,7 +12,7 @@ theta = zeros(size(x));
 Blasius = (0.664/sqrt(ReL)) * sqrt(x); 
 
 for i = 2:length(x)
-     % Calculate momentum thickness theta
+     % Calculate momentum thickness (theta)
     integral(i) = integral(i-1) + ueintbit(x(i-1), ue(i-1), x(i), ue(i));
     theta(i) = sqrt(integral(i)  * 0.45/ ReL /ue(i)^6);
 end 

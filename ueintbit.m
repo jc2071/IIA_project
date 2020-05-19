@@ -2,7 +2,7 @@ function f = ueintbit(xa, ua, xb, ub)
 %
 % function f = ueintbit(xa, ua, xb, ub)
 % 
-% Calculate contribution to thwaites integral between a and b
+% Calculate contribution to Thwaites integral between a and b
 u_bar = (ua + ub)/2;
 del_u = ub - ua;
 del_x = xb -xa;
