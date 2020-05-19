@@ -111,7 +111,7 @@ for duedx = [0, -0.25]
         end
         
         % Plot figures (a & b) or (c & d)
-        fig =  -duedx*8; % 1 or 3 depending on gradient
+        fig =  -duedx*8; % 0 or 2 depending on gradient
         for f = 1:2
             % Decide which dependent variable to plot
             y = theta;
