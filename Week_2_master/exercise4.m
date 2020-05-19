@@ -1,7 +1,7 @@
 clear; close all; clc;
 
 ReL = 1e7;
-ue0 = 1;
+ue0 = 1; % Constant velocity, duedx = 0
 duedx = 0;
 
 % Set up initial conditions of ODE
@@ -16,7 +16,7 @@ thick0(2) = 1.83 * thick0(1);
     [0, 0.99], thick0);
 x = x0 + delx;
 
-% Generate 7th and 9th power law solutions
+% Generate 1/7th and 1/9th power law solutions
 th7 = 0.037 * x .* (ReL*x).^(-1/5);
 th9 = 0.023 * x .* (ReL*x).^(-1/6);
 
