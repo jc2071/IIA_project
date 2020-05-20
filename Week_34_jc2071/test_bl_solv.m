@@ -10,7 +10,7 @@ cp = zeros(1,n);
 
 
 
-[int, ils, itr, its ,delstar, theta] = bl_solv ( x, cp, Re );
+[int, ils, itr, its ,delstar, theta, He] = bl_solv ( x, cp, Re );
 blthet = 0.664 * sqrt(x/Re);
 
 if int~=0

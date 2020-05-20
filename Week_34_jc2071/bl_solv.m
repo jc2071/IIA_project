@@ -1,7 +1,7 @@
-function [int, ils, itr, its, delstar, theta] = bl_solv(x,cp, ReL)
+function [int, ils, itr, its, delstar, theta, integral] = bl_solv(x,cp, ReL)
 %This is a boundary layer solver, need extra argument ReL
 
-ue = sqrt(1-cp); % ue/U at end of the panels
+ue = sqrt(1-cp); % ue/U at end of the panels so np + 1 of these
 n = length(x); % Defined number of panels (np +1)
 
 int = 0; % Location of natural transition
@@ -10,7 +10,7 @@ itr = 0; % Location of turbulent reattachment
 its = 0; % Location of turbulent seperation
 
 % Arrays
-integral = zeros(1,n);
+integral = zeros(1,n); % Done for each point
 theta = zeros(1,n);
 He = zeros(1,n);
 delstar = zeros(1,n); % Displacement thickness
@@ -20,9 +20,9 @@ integral(1) = ueintbit(0, 0, x(1), ue(1));
 theta(1) = sqrt( 0.45/ReL * integral(1)/ue(1)^6);
 m = -ReL * theta(1)^2 * ue(1) / x(1);
 H = thwaites_lookup(m);
-%He(1) = laminar_He(H);
 He(1) = 1.57258;
 delstar(1) = H * theta(1);
+
 
 laminar = true;
 i = 1;
