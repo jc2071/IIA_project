@@ -6,8 +6,6 @@
 
 clear all
 
-global Re
-
 %  Read in the parameter file
 caseref = input('Enter case reference: ','s');
 parfile = ['Parfiles/' caseref '.txt'];
@@ -84,7 +82,7 @@ for nalpha = 1:length(alpha)
   end
 
 %    check for stagnation point at end of stagnation panel
-  if fracstag > 0.999999
+  if fracstag > 1 - 1e-6
     sl(1) = 0.01*sl(2);    % go just downstream of stagnation
     uejds = 0.01 * sqrt(1-cpl(2));
     cpl(1) = 1 - uejds^2;
@@ -171,3 +169,6 @@ end
 
 fname = ['Data' caseref '.mat'];
 save ( fname, 'xs', 'ys', 'alpha', 'clswp', 'cdswp', 'lovdswp' )
+
+plot(xs,ys)
+axis('equal')
