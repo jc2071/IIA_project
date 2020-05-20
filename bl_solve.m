@@ -47,7 +47,7 @@ elseif m >= 0.09 % separation
 end
 
 while laminar && i < n
-    i = i + 1; % start at n == 2
+    i = i + 1; % start at i == 2
 
     % Calculate displacement, momentum and energy thickness
     integral(i) = integral(i-1) + ueintbit(x(i-1), ue(i-1), x(i), ue(i));
@@ -61,7 +61,7 @@ while laminar && i < n
     delstar(i) = H * theta(i);
 
     % Check for transition or separation
-    if log(Rethet) >= 18.4*He - 21.74 % Transition
+    if log(Rethet) >= 18.4*He(i) - 21.74 % Transition
        laminar = false;
        int = i;
     elseif m >= 0.09 % separation
@@ -109,6 +109,5 @@ end
 if i < n
      H = 2.803;
      theta(i+1:end) = theta(i) * (ue(i) ./ ue(i+1:end)).^(H+2);
-     % He(i+1:end) = He(i) * ones(size(He(i+1:end))); % He const.
      delstar(i+1:end) = H * theta(i+1:end);
 end
