@@ -2,7 +2,7 @@ function [int, ils, itr, its, delstar, theta] = bl_solve (x, cp, ReL)
 %
 % function [int, ils, itr, ils, delstar, theta] = bl_solve (x, cp)
 %
-% bl_solve takes 2 vectors x and cp. x is distance from leading stagnation
+% bl_solve takes 2 vectors x and cp and ReL! x is distance from leading stagnation
 % point. The x(1) is not the stagnation point but the next one along.
 % cp is the pressure coeficcint at each of these point and allows to find
 % ue
@@ -27,23 +27,23 @@ i = 1;
 
 % Manually calculate first panel as BL starts at x(0)
 % Calculate displacement, momentum and energy thickness
-integral(i) = ueintbit(0, 0, x(i), ue(i));
-theta(i) = sqrt( 0.45/ReL * integral(i)/ue(i)^6 );
+integral(1) = ueintbit(0, 0, x(1), ue(1));
+theta(1) = sqrt( 0.45/ReL * integral(1)/ue(1)^6 );
 
-Rethet = ReL * ue(i) * theta(i);
-m = -ReL * theta(i)^2 * ue(i)/x(i);
+Rethet = ReL * ue(1) * theta(1);
+m = -ReL * theta(1)^2 * ue(1)/x(1);
 H = thwaites_lookup(m);
-He(i) = laminar_He(H);
-delstar(i) = H * theta(i);
+He(1) = laminar_He(H);
+delstar(1) = H * theta(1);
 
 % Check for immediate transition or separation
-if log(Rethet) >= 18.4 * He - 21.74 % Transition
+if log(Rethet) >= 18.4 * He(1) - 21.74 % Transition
    laminar = false;
-   int = i;
+   int = 1;
 elseif m >= 0.09 % separation
    laminar = false;
-   ils = i;
-   He(i) = 1.51509; % Laminar separation value of He
+   ils = 1;
+   He(1) = 1.51509; % Laminar separation value of He
 end
 
 while laminar && i < n
