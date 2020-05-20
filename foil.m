@@ -156,9 +156,32 @@ for nalpha = 1:length(alpha)
   end
   lowerbl = sprintf ( '%s\n', lowerbl );
   disp(lowerbl)
+  
+% check if folder exisrts and if not make it
+if ~exist(['Data/', section], 'dir')
+   mkdir(['Data/', section])
+end
+
+% Make a nice string of the Reynolds number
+ReLongStr = num2str(Re);
+disp(ReLongStr)
+last_index = length(ReLongStr);
+for r = length(ReLongStr):-1:1
+    if ReLongStr(r) ~= '0'
+        last_index = r;
+        disp(last_index)
+        break
+    end
+end
+expon = num2str(floor(log10(Re)));
+if last_index == 1
+    ReStr = [ReLongStr(1), 'e', expon];
+else
+    ReStr = [ReLongStr(1), '.', ReLongStr(2:last_index), 'e', expon];
+end
 
 %    save data for this alpha
-  fname = ['Data/' section, '/', num2str(Re), '_',  num2str(alpha(nalpha)), '.mat'];
+  fname = ['Data/', section, '/', ReStr, '_',  num2str(alpha(nalpha)), '.mat'];
   save ( fname, 'Cl', 'Cd', 'xs', 'cp', ...
          'sl', 'delstarl', 'thetal', 'lowerbl', ...
          'su', 'delstaru', 'thetau', 'upperbl' )
@@ -166,7 +189,7 @@ end
 
 %  save alpha sweep data in summary file
 
-fname = ['Data/', section, '/', num2str(Re), '_', num2str(alpha(1)), ':',...
+fname = ['Data/', section, '/', ReStr, '_', num2str(alpha(1)), ':',...
     num2str((alpha(end)-alpha(1))/(length(alpha)-1)), ':',...
     num2str(alpha(end)), '_summary.mat'];
 save ( fname, 'xs', 'ys', 'alpha', 'clswp', 'cdswp', 'lovdswp' )
