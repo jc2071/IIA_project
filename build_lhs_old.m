@@ -3,7 +3,6 @@ function lhsmat = build_lhs(xs, ys)
 % function lhsmat = build_lhs(xs, ys)
 % 
 % Using surface coordinates calculate [A] matrix
-% Now need minimum 5 panels or code will not work
 
 np = length(xs) - 1;
 
@@ -21,10 +20,8 @@ infb = reshape(infb, np, np);
 % Combine infa and infb into psip
 psip = [infa, zeros(np,1)] + [zeros(np,1), infb];
 
-% Construct [A]. 1st + Last row satisfy Code completion 1 Kutta cond.
+% Construct [A]. 1st + Last row same as identity matrix.
 % Central elements are [A]i = psip(i+1) - psip(i).
-lhsmat = [2, -2, 1, zeros(1,np-5), 1, -2, 0; ...
-          psip(2:end, :) - psip(1:np-1, :); ...
-          1, zeros(1,np-1), 1];
+lhsmat = [1, zeros(1,np); psip(2:end,:) - psip(1:np-1,:); zeros(1,np), 1];
 
 end
