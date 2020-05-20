@@ -35,7 +35,7 @@ while laminar && i < n
     He(i) = laminar_He( thwaites_lookup(m) );
     
     % Check for transition or seperation
-    if log(Rethet) >= 18.4*He - 21.74 % Transition
+    if log(Rethet) >= 18.4*He(i) - 21.74 % Transition
        laminar = false;
        int = i;
     elseif m >= 0.09 % Seperation
