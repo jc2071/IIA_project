@@ -158,16 +158,17 @@ for nalpha = 1:length(alpha)
   disp(lowerbl)
 
 %    save data for this alpha
-  fname = ['Data/' caseref '_' num2str(alpha(nalpha)) '.mat'];
+  fname = ['Data/' section, '/', num2str(Re), '_',  num2str(alpha(nalpha)), '.mat'];
   save ( fname, 'Cl', 'Cd', 'xs', 'cp', ...
          'sl', 'delstarl', 'thetal', 'lowerbl', ...
          'su', 'delstaru', 'thetau', 'upperbl' )
-
 end
 
 %  save alpha sweep data in summary file
 
-fname = ['Data/' caseref '.mat'];
+fname = ['Data/', section, '/', num2str(Re), '_', num2str(alpha(1)), ':',...
+    num2str((alpha(end)-alpha(1))/(length(alpha)-1)), ':',...
+    num2str(alpha(end)), '_summary.mat'];
 save ( fname, 'xs', 'ys', 'alpha', 'clswp', 'cdswp', 'lovdswp' )
 
 plot(xs,ys)
