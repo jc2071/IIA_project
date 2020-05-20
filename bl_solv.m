@@ -1,4 +1,4 @@
-function [int, ils, itr, its, delstar, theta] = bl_solve (x, cp, ReL)
+function [int, ils, itr, its, delstar, theta] = bl_solv (x, cp, ReL)
 %
 % function [int, ils, itr, ils, delstar, theta] = bl_solve (x, cp)
 %

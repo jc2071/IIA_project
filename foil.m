@@ -29,7 +29,7 @@ nphr = 5*np;
 [xs ys] = make_upanels ( xsin, ysin, np );
 
 %  Assemble the lhs of the equations for the potential flow calculation
-A = build_lhs2 ( xs, ys );
+A = build_lhs ( xs, ys );
 Am1 = inv(A);
 
 %  Loop over alpha values
