@@ -1,8 +1,8 @@
 function [int, ils, itr, its, delstar, theta] = bl_solv(x,cp, ReL)
-%This is a boundary layer solver
+%This is a boundary layer solver, need extra argument ReL
 
-ue = sqrt(1-cp); % ue/U at each panel end
-n = length(x);
+ue = sqrt(1-cp); % ue/U at end of the panels
+n = length(x); % Defined number of panels (np +1)
 
 int = 0; % Location of natural transition
 ils = 0; % Location of laminar seperation 
@@ -13,12 +13,19 @@ its = 0; % Location of turbulent seperation
 integral = zeros(1,n);
 theta = zeros(1,n);
 He = zeros(1,n);
-delstar = zeros(1,n);
+delstar = zeros(1,n); % Displacement thickness
+
+% Initial conditions, starting at 0.01, should we use He(1) as 1.57258?
+integral(1) = ueintbit(0, 0, x(1), ue(1));
+theta(1) = sqrt( 0.45/ReL * integral(1)/ue(1)^6);
+m = -ReL * theta(1)^2 * ue(1) / x(1);
+H = thwaites_lookup(m);
+%He(1) = laminar_He(H);
 He(1) = 1.57258;
+delstar(1) = H * theta(1);
 
 laminar = true;
 i = 1;
-integral(1) = 0;
 
 % Laminar section of BL
 while laminar && i < n 
