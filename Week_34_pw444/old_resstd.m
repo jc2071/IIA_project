@@ -6,7 +6,7 @@
 alpha = pi/12;
 
 %  Van de Vooren geometry and pressure distribution
-npin = 2000;
+npin = 800;
 [xsin, ysin, cpex] = vdvfoil( npin, alpha );
 
 figure(1)
@@ -20,7 +20,7 @@ disp('Starting 100 panel calculation ...')
 np = 100;
 [xs, ys] = make_upanels( xsin, ysin, np );
 
-A = build_lhs ( xs, ys );
+A = build_lhs_old ( xs, ys );
 b = build_rhs ( xs, ys, alpha );
 
 gams = A\b;
@@ -31,7 +31,7 @@ disp('Starting 200 panel calculation ...')
 np = 200;
 [xs, ys] = make_upanels( xsin, ysin, np );
 
-A = build_lhs ( xs, ys );
+A = build_lhs_old ( xs, ys );
 b = build_rhs ( xs, ys, alpha );
 
 gams = A\b;
@@ -42,7 +42,7 @@ disp('Starting 400 panel calculation ...')
 np = 400;
 [xs, ys] = make_upanels( xsin, ysin, np );
 
-A = build_lhs ( xs, ys );
+A = build_lhs_old ( xs, ys );
 b = build_rhs ( xs, ys, alpha );
 
 gams = A\b;
@@ -53,7 +53,7 @@ disp('Starting 800 panel calculation ...')
 np = 800;
 [xs, ys] = make_upanels( xsin, ysin, np );
 
-A = build_lhs ( xs, ys );
+A = build_lhs_old ( xs, ys );
 b = build_rhs ( xs, ys, alpha );
 
 gams = A\b;

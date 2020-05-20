@@ -1,4 +1,4 @@
-function lhsmat = build_lhs(xs, ys)
+function lhsmat = build_lhs_old(xs, ys)
 %
 % function lhsmat = build_lhs(xs, ys)
 % 
