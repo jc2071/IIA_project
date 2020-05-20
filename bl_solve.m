@@ -1,4 +1,4 @@
-function [int, ils, itr, its, delstar, theta] = bl_solve (x, cp)
+function [int, ils, itr, its, delstar, theta] = bl_solve (x, cp, ReL)
 %
 % function [int, ils, itr, ils, delstar, theta] = bl_solve (x, cp)
 %
@@ -6,7 +6,6 @@ function [int, ils, itr, its, delstar, theta] = bl_solve (x, cp)
 % point. The x(1) is not the stagnation point but the next one along.
 % cp is the pressure coeficcint at each of these point and allows to find
 % ue
-ReL = 1e7;
 
 int = 0; % Location of natural transition
 ils = 0; % Location of laminar separation
@@ -32,7 +31,7 @@ integral(i) = ueintbit(0, 0, x(i), ue(i));
 theta(i) = sqrt( 0.45/ReL * integral(i)/ue(i)^6 );
 
 Rethet = ReL * ue(i) * theta(i);
-m = -ReL * theta(i)^2 * ue(i))/x(i);
+m = -ReL * theta(i)^2 * ue(i)/x(i);
 H = thwaites_lookup(m);
 He(i) = laminar_He(H);
 delstar(i) = H * theta(i);
