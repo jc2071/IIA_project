@@ -4,7 +4,7 @@
 
 clear; close all; clc
 %  free-stream incidence
-alpha = 0;
+alpha = pi/12;
 
 %  Van de Vooren geometry and pressure distribution
 npin = 2000;
