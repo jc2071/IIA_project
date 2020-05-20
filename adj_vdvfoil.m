@@ -7,6 +7,8 @@ function [xvdv, yvdv, cpvdv] = adj_vdvfoil ( npan, alpha, k, eps )
 %                       eps controls thickness
 %  NB Panel spacing non-uniform!
 %
+%  This adj_ version allows setting the parameters k and eps 
+%  in the function call
 
 % parameters for thin (approx 8%) section
 %k = 1.95;

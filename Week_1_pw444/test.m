@@ -54,12 +54,12 @@ psi = ( ym*cos(alpha) - xm*sin(alpha) ) ...
 
 
 % Plot the streamfunction contours
-c = -100:0.06:100;
-contour(xm, ym, psi, c)
+%c = -100:0.06:100
+%contour(xm, ym, psi, c)
 hold on
-d = zeros(size(xs));
+%d = zeros(size(xs));
 %surface([xs;xs],[ys;ys],[d;d], -[gam';gam'].^2+3,'facecol','no','edgecol','interp','linew',2);
-fill(xs,ys, [200 200 200]/255)
-%plot(xs,ys, 'color','magenta')
-hold off
+plot(xs,ys, 'color','magenta')
+%hold off
+surf(xm, ym, psi-0.1853)
 daspect([1 1 1])

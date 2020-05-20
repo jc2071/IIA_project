@@ -5,8 +5,6 @@ function [xvdv, yvdv, cpvdv] = vdvfoil ( npan, alpha )
 %  Produces coordinates (xvdv,yvdv) and cps for Van de Vooren foil.
 %  Geometry parameters: k defines t.e. angle as pi*(2-k)
 %                       eps controls thickness
-%  This adj_ version allows setting the parameters k and eps 
-%  in the function call
 %
 %  NB Panel spacing non-uniform!
 %
