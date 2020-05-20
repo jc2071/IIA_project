@@ -20,9 +20,8 @@ integral(1) = ueintbit(0, 0, x(1), ue(1));
 theta(1) = sqrt( 0.45/ReL * integral(1)/ue(1)^6);
 m = -ReL * theta(1)^2 * ue(1) / x(1);
 H = thwaites_lookup(m);
-He(1) = 1.57258;
+He(1) = laminar_He(H);
 delstar(1) = H * theta(1);
-
 
 laminar = true;
 i = 1;

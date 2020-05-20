@@ -2,7 +2,7 @@
 
 clear all
 
-Re = 10000000;
+Re = 1e7;
 
 n = 100;
 x = linspace(1/n,1,n);

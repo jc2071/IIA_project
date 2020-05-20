@@ -1,6 +1,5 @@
 function [cl, cd] = forces(circ, cp, delstarl, thetal, delstaru, thetau)
 
-
 Htel = delstarl(end)/thetal(end);
 Hteu = delstaru(end)/thetal(end); % Depends how we define it???
 Hte = Htel + Hteu;
