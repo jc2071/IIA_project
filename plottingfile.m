@@ -1,4 +1,5 @@
-% We want to plot AOA agaisnt, Cl, Cd and L?D
+% We want to plot AOA agaisnt, Cl, Cd and L/D. Also want to see presusre
+% distrubution
 
 clear; close all; clc
 
