@@ -112,9 +112,3 @@ if i < n
      delstar(i+1:end) = H * theta(i+1:end);
 end
 
-% while i < n
-%     H = 2.803;
-%     i = i +1;
-%     theta(i) = theta(i-1)*(ue(i-1)/ue(i))^(H+2);
-%     He(i) = He(i-1);
-% end
