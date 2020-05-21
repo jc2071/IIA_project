@@ -2,6 +2,6 @@
 
 clear; close all; clc
 
-load('Data/naca0015/3e6_0:1:89_summary.mat', 'lovdswp', 'alpha');
+load('Data/naca4412/3e6_0:0.5:30_summary.mat', 'cdswp', 'alpha');
 
-plot(alpha,lovdswp)
+plot(alpha,cdswp)
