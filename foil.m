@@ -4,7 +4,7 @@
 %  and boundary layer solver.
 %
 
-clear all
+close; clear all; clc
 
 %  Read in the parameter file
 caseref = input('Enter case reference: ','s');
