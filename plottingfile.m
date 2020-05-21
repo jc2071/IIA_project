@@ -3,6 +3,6 @@
 
 clear; close all; clc
 
-load('Data/naca4412/3e6_0:0.5:30_summary.mat', 'clswp', 'alpha');
+load('Data/trial/1e8_5.mat', 'cp', 'xs');
 
-plot(alpha,clswp)
+plot(xs,cp)

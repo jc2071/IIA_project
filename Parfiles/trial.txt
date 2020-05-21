@@ -1,0 +1,4 @@
+Section identifier              : trial
+Number of panels                : 100
+Reynolds number                 : 100000000
+Range of incidences (degrees)   : 0:1:20
