@@ -1,6 +1,6 @@
-function [xk yk] = naca4(id)
+function [xk yk] = naca4(id, np, Re, start, step, stop)
 %
-%  function [xk yk] = naca4(id)
+%  function [xk yk] = naca4(id, np, Re, start, step,stop)
 %
 %  Generates 4 digit naca foil according to specification in id.  nc is the
 %  number of camber-line points used in generating the surface coordinates
@@ -55,4 +55,13 @@ fname = ['Geometry/naca' id '.surf'];
 
 fid = fopen(fname,'w');
 fprintf ( fid, '%10.6f %10.6f \n', [xk;yk] );
+fclose(fid);
+
+fname = ['Parfiles/naca' id '.txt'];
+fid = fopen(fname,'wt');
+fprintf (fid,['Section identifier              : naca%s' ...
+            '\nNumber of panels                : ' num2str(np) ...
+            '\nReynolds number                 : ' num2str(Re)...
+            '\nRange of incidences (degrees)   : ' num2str(start) ...
+              ':' num2str(step) ':' num2str(stop) ], id);
 fclose(fid);
