@@ -189,9 +189,12 @@ end
 %  save alpha sweep data in summary file
 
 fname = ['Data/', section, '/', ReStr, '_', num2str(alpha(1)), ':',...
-    num2str(range(alpha)/(length(alpha)-1)), ':',...
+    num2str((alpha(end)-alpha(1))/(length(alpha)-1)), ':',...
     num2str(alpha(end)), '_summary.mat'];
 save ( fname, 'xs', 'ys', 'alpha', 'clswp', 'cdswp', 'lovdswp' )
 
+
+% Improve this plot to show the pressure gradients and boundary layer
+% state.
 plot(xs,ys)
 axis('equal')
