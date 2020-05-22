@@ -31,7 +31,6 @@ for ic = 2:nc-1
 end
 yc(nc) = 0;
 t(nc) = 0;
-
 % surface coordinates
 
 xk(1) = 1;
