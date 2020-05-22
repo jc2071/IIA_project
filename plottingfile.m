@@ -3,6 +3,7 @@
 
 clear; close all; clc
 
-load('Data/trial/1e8_5.mat', 'cp', 'xs');
+load('Data/naca0012/3e6_-15:1:15_summary.mat', 'clswp', 'cdswp');
 
-plot(xs,cp)
+plot(clswp,cdswp, 'LineWidth', 1.5, 'color','r') 
+
