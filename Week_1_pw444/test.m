@@ -4,10 +4,10 @@
 clear; close all; clc
 
 %Set parameters
-xmin = -2.5;
-xmax = 2.5;
+xmin = -2;
+xmax = 2;
 nx = 101;
-ymin = -2;
+ymin = -1;
 ymax = 2;
 ny = 81;
 
@@ -23,18 +23,14 @@ theta = (0:np)*2*pi/np;
 % xs = r*cos(theta);
 % ys = r*sin(theta)./(xs*4+8) + 0.2*(1-xs.^2); % mess around with y to get a nice shape
 
-aoa = 23;
+aoa = 30;
 alpha = -aoa*pi/180;
-
-R = [cos(alpha) -sin(alpha); sin(alpha) cos(alpha)];
-
-
 
 %-- makes JOUKOWSKI AEROFOILS --
 % + imaginary gives camber
 % - real gives thicknes 
 
-a = 1;
+a = 0.5;
 c = 0.1;
 r = a*(1 +c);
 z = -a*c + 1.3i*a*c + r*exp(1i*theta);
@@ -43,7 +39,15 @@ xs_temp = real(zeta);
 ys_temp = imag(zeta);
 m = [xs_temp;ys_temp];
 
-points = R*m;
+x_center = 1;
+y_center = 0;
+
+center = repmat([x_center; y_center],[1 length(xs_temp)]);
+     
+R = [cos(alpha) -sin(alpha); sin(alpha) cos(alpha)];
+
+points = R*(m - center) + center;
+
 xs = points(1,:);
 ys = points(2,:);
 %Calculate gamma vector. This assumes that we are in a free stream already
@@ -75,15 +79,15 @@ end
 
 cp_foil = zeros(1,nx -1);
 
-for i = 1:length(ys_temp) -1;
-    for j = 1:length(xs_temp) -1;
+for i = 1:length(ys_temp) -1
+    for j = 1:length(xs_temp) -1
         dpsix = (psi(i,j+1) - psi(i,j+1))/ (y(i+1) - y(i));
         cp_foil(1,j) = 1 - dpsix^2;
     end
 end
 
 % Plot the streamfunction contours
-c = -10:0.1:10;
+c = -100:0.1:100;
 %[C,h] = contourf(xm, ym, psi, c);
 [C,h] = contourf(xm(1:end-1,1:end-1),ym(1:end-1,1:end-1),cp,c);
 set(h,'LineColor','none')
@@ -95,6 +99,3 @@ plot(xs,ys, 'color','black', 'linewidth', 1.5)
 hold off
 %surf(xm, ym, psi-0.1853)
 daspect([1 1 1])
-
-figure(2)
-plot(xs_temp(1:end-1), cp_foil)
