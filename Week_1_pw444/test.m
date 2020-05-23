@@ -63,8 +63,6 @@ psi = ( ym*cos(0) - xm*sin(0) ) ...
 
 % Now work out cp to get some nice visuals, use meshgrid xm, ym
 
-%cp = 1 - ue^2
-
 cp = zeros(ny-1,nx-1);
 
 for i = 1:ny -1
@@ -72,6 +70,15 @@ for i = 1:ny -1
         dpsiy = (psi(i+1,j) - psi(i,j))/ (x(i+1) - x(i));
         dpsix = (psi(i,j+1) - psi(i,j+1))/ (y(i+1) - y(i));
         cp(i,j) = 1 - dpsix^2 - dpsiy^2;
+    end
+end
+
+cp_foil = zeros(1,nx -1);
+
+for i = 1:length(ys_temp) -1;
+    for j = 1:length(xs_temp) -1;
+        dpsix = (psi(i,j+1) - psi(i,j+1))/ (y(i+1) - y(i));
+        cp_foil(1,j) = 1 - dpsix^2;
     end
 end
 
@@ -88,3 +95,6 @@ plot(xs,ys, 'color','black', 'linewidth', 1.5)
 hold off
 %surf(xm, ym, psi-0.1853)
 daspect([1 1 1])
+
+figure(2)
+plot(xs_temp(1:end-1), cp_foil)
