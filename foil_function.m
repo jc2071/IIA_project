@@ -4,6 +4,11 @@ function [xs, ys, Clswp, Cdswp, ipstag, iunt, iuls, iutr, iuts, ilnt, ills, iltr
 % Takes in information and returns the Cl and Cd for each alpha
 % xk, yk vectors, alpha vector
 
+% Use geometry file for this?
+% foil_function (section, np, Re, alpha)
+%geometry = ['Geometry/' section '.surf'];
+%[xk yk] = textread ( geometry, '%f%f' );
+
 sz = size(alpha);
 Clswp = zeros(sz);
 Cdswp = zeros(sz);
