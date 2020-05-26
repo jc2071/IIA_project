@@ -1,15 +1,18 @@
-clear; close all; clc
+close; clear all
 
 number = input('Enter number of overlay: ','s');
+Re = input('Enter Reynolds number: ','s');
+alpha = input('Enter AOA (degree): ','s');
 n = str2num(number);
 np = 100;
 nphr = 5*np;
 xmax = 1.0;
 xmin = 0.0;
-ymax =  6;
-ymin = -2;
+ymax =  0.2;
+ymin = -0.2;
 colors = [[0.6350 0.0780 0.1840];[0 0.447 0.741];[0.929 0.6940 0.125]];
 h = figure('Visible', 'off');
+disp('------------------------')
 for i = 1:n
     set(0, 'CurrentFigure', h)
     geometry = input(['Enter Geometry file ' num2str(i) ,'/', num2str(n)  ': ' ],'s');
@@ -20,16 +23,30 @@ for i = 1:n
     [xsin ysin] = resyze ( xshr, yshr );
     %  Interpolate to required number of panels (uniform size)
     [xs ys] = make_upanels ( xsin, ysin, np );
-    hold on
     axis([xmin xmax ymin ymax])
+    subplot(3,1,1)
+    title('Airfoil geometry') 
+    hold on
     plot(xs,ys, 'color',colors(i,:),'DisplayName',geometry,'LineWidth', 1.2)
+    legend
+    hold off
+    subplot(3,1,2)
+    title('Pressure distrubution') 
+    hold on
+    load(['Data/' geometry '/' Re '_' alpha '.mat'],'cp' , 'xs');
+    xlim([xmin xmax]); axis 'auto y'
+    plot(xs,-cp,'color',colors(i,:),'DisplayName',geometry,'LineWidth', 1.2)
+    legend
+    hold off
+    subplot(3,1,3)
+    title('Pressure gradients') 
+    hold on
+    load(['Data/' geometry '/' Re '_' alpha '.mat'],'cp' , 'xs');
+    xlim([xmin xmax]); axis 'auto y';
+    [xgrads, cpgrads] = cp_gradjc(xs,cp,np);
+    plot(xgrads, cpgrads,'color',colors(i,:),'DisplayName',geometry,'LineWidth', 1.2);
+    legend;
+    hold off
 end
 
-hold on
-load('Data/naca0012/3e6_10.mat', 'cp', 'xs');
-plot(xs,-cp, 'm')
-hold off
-
-disp('Plotting...')
-legend
 set(h, 'Visible', get(0,'DefaultFigureVisible'))
