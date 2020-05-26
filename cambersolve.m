@@ -7,7 +7,7 @@ function [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys)
      ys_lower = ys(le_index +1:end);
      xs_lower = xs(le_index +1:end);
 
-     nc = 70;
+     nc = 50;
      x_hold = linspace(0,1,nc);
 
      x_cam = zeros(1,nc);
