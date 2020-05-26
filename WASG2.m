@@ -1,4 +1,4 @@
-function WASG2
+function WASG
 % CUED Wing Analysis Surface Generator
 % RGM - developed for SA1 2020
 % based on 'ManipulateData.m' written by Lindo Ouseph.
@@ -73,7 +73,6 @@ h=figure('units','normalized',...
     'DeleteFcn',@figDelete);
 a=axes('position',[.10,.10,.87,.87]);
 [xs ,ys] = splinefit([1;x;1],[0;y;0],0); % big list of x and y plotting points
-figure(1)
 plot(xs,ys,'k', ...
     [1;x],[0;y],'.k', ...
     'markersize',13,'markerfacecolor','k');
