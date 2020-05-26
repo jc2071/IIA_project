@@ -25,5 +25,5 @@ function [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys)
      
 
      [max_thicc,thicc_index] = max(y_thicc);
-     max_thicc = max_thicc*100
+     max_thicc = max_thicc*100;
      max_thicc_position = x_cam(thicc_index);
