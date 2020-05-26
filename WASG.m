@@ -72,123 +72,141 @@ h=figure('units','normalized',...
     'WindowButtonUpFcn',@Up,...
     'DeleteFcn',@figDelete);
 a=axes('position',[.10,.10,.87,.87]);
-[xs ,ys] = splinefit([1;x;1],[0;y;0],0);
+[xs ,ys] = splinefit([1;x;1],[0;y;0],0); % big list of x and y plotting points
 plot(xs,ys,'k', ...
-     [1;x],[0;y],'.k', ...
-     'markersize',13,'markerfacecolor','k');
- hold on
- plot(xs,ys/2, '--')
- hold off
+    [1;x],[0;y],'.k', ...
+    'markersize',13,'markerfacecolor','k');
+
+[x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
+hold on
+plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+hold off
 axis equal
+text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
 axis([xmin xmax ymin ymax])
 uicontrol('style','text','Fontsize',10, ...
     'position',[1 190 80 150],...
     'string',{'u-undo';'r-redo';'z-zoom';'l-load';'s-save'; ...
-              'b-back up';'t-restore';'d-delta'},...
+    'b-back up';'t-restore';'d-delta'},...
     'foregroundcolor','k');
 
-    %%% @Down - what happens when a mouse button is pressed
+%%% @Down - what happens when a mouse button is pressed
     function Down(varargin);
-      xundo=[[x;0*(length(x)+1:Lmax)'],xundo(:,1:min([size(xundo,2),max_undo-1]))];
-      yundo=[[y;0*(length(y)+1:Lmax)'],yundo(:,1:min([size(yundo,2),max_undo-1]))];
-      Lundo=[L,Lundo(1:min([length(Lundo),max_undo-1]))];
-      Iundo=[I,Iundo(1:min([length(Iundo),max_undo-1]))];
-      p=get(a,'currentpoint');
-      [V2 I]=min((x-p(1)).^2+(y-p(3)).^2);
-      xx=x;
-      yy=y;
-      xx(I)=[];
-      yy(I)=[];
-      mindist2=min((xx-x(I)).^2+(yy-y(I)).^2);
-      switch varargin{1}.SelectionType
-        %%% Mouse left-click:
-        case 'normal'
-            %%% Add a knot if left-click is close to aerofoil contour:
-            if V2>min(1e-4,mindist2)
-                [xs ys] = splinefit([1;x;1],[0;y;0],1);
-                ppk = 100; % needs to be the same in 'splinefit.m'
-                [V2 Is]=min((xs-p(1)).^2+(ys-p(3)).^2);
-                if V2<1e-4
-                    xI=xs(Is);yI=ys(Is);                
-                    I = ceil(Is/ppk);
-                    L=L+1;
-                    Lmax=max([L,Lmax]);
-                    x(I+1:L)=x(I:end);
-                    y(I+1:L)=y(I:end);
-                    x(I)=xI;
-                    y(I)=yI;
-                    xundo=[xundo;0*(size(xundo,1)+1:Lmax)'*(1:size(xundo,2))];
-                    yundo=[yundo;0*(size(yundo,1)+1:Lmax)'*(1:size(yundo,2))];
+        xundo=[[x;0*(length(x)+1:Lmax)'],xundo(:,1:min([size(xundo,2),max_undo-1]))];
+        yundo=[[y;0*(length(y)+1:Lmax)'],yundo(:,1:min([size(yundo,2),max_undo-1]))];
+        Lundo=[L,Lundo(1:min([length(Lundo),max_undo-1]))];
+        Iundo=[I,Iundo(1:min([length(Iundo),max_undo-1]))];
+        p=get(a,'currentpoint');
+        [V2 I]=min((x-p(1)).^2+(y-p(3)).^2);
+        xx=x;
+        yy=y;
+        xx(I)=[];
+        yy(I)=[];
+        mindist2=min((xx-x(I)).^2+(yy-y(I)).^2);
+        switch varargin{1}.SelectionType
+            %%% Mouse left-click:
+            case 'normal'
+                %%% Add a knot if left-click is close to aerofoil contour:
+                if V2>min(1e-4,mindist2)
+                    [xs ys] = splinefit([1;x;1],[0;y;0],1);
+                    ppk = 100; % needs to be the same in 'splinefit.m'
+                    [V2 Is]=min((xs-p(1)).^2+(ys-p(3)).^2);
+                    if V2<1e-4
+                        xI=xs(Is);yI=ys(Is);
+                        I = ceil(Is/ppk);
+                        L=L+1;
+                        Lmax=max([L,Lmax]);
+                        x(I+1:L)=x(I:end);
+                        y(I+1:L)=y(I:end);
+                        x(I)=xI;
+                        y(I)=yI;
+                        xundo=[xundo;0*(size(xundo,1)+1:Lmax)'*(1:size(xundo,2))];
+                        yundo=[yundo;0*(size(yundo,1)+1:Lmax)'*(1:size(yundo,2))];
+                        xredo=[];
+                        yredo=[];
+                        Lredo=[];
+                        Iredo=[];
+                        b=1;
+                        [xs ys] = splinefit([1;x;1],[0;y;0],0);
+                        
+                        
+                        try delete(t);end;
+                        plot(xs,ys,'k', ...
+                            [1;x],[0;y],'.k', ...
+                            x(I),y(I),'xk','markersize',13)
+                        [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
+                        hold on
+                        plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+                        hold off
+                        axis equal
+                        text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+                        text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+                        axis equal
+                        axis([0 1 -.2 .2])
+                        t=text(x(I)+deltxt,y(I)-deltxt, ...
+                            ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
+                            'color','k','fontweight','bold');
+                        drawnow
+                    end
+                    %%% Select a knot if left-click is close to it:
+                else
+                    b=1;
+                    %[xs ys] = splinefit([1;x;1],[0;y;0],0);%redundant?
+                    try delete(t);end;
+                    plot(xs,ys,'k', ...
+                        [1;x],[0;y],'.k', ...
+                        x(I),y(I),'xk','markersize',13)
+                    [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
+                    hold on
+                    plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+                    hold off
+                    axis equal
+                    text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+                    text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+                    axis equal
+                    axis([0 1 -.2 .2])
+                    t=text(x(I)+deltxt,y(I)-deltxt, ...
+                        ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
+                        'color','k','fontweight','bold');
+                    drawnow
+                end
+                %%% Mouse right click:
+            case 'alt'
+                %%% Delete a knot if right-click is close to it:
+                if V2<min([1e-4,mindist2])
+                    L=L-1;
+                    x=xx;
+                    y=yy;
                     xredo=[];
                     yredo=[];
                     Lredo=[];
                     Iredo=[];
-                    b=1;
                     [xs ys] = splinefit([1;x;1],[0;y;0],0);
                     try delete(t);end;
                     plot(xs,ys,'k', ...
-                         [1;x],[0;y],'.k', ...
-                         x(I),y(I),'xk','markersize',13)
-                      hold on
-                     plot(xs,ys/2, '--')
-                     hold off
+                        [1;x],[0;y],'.k','markersize',13)
+                    [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
+                    hold on
+                    plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+                    hold off
+                    axis equal
+                    text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+                    text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
                     axis equal
                     axis([0 1 -.2 .2])
-                    t=text(x(I)+deltxt,y(I)-deltxt, ...
-                           ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
-                           'color','k','fontweight','bold');
                     drawnow
                 end
-            %%% Select a knot if left-click is close to it:
-            else
-                b=1;
-                %[xs ys] = splinefit([1;x;1],[0;y;0],0);%redundant?
-                try delete(t);end;
-                plot(xs,ys,'k', ...
-                     [1;x],[0;y],'.k', ...
-                     x(I),y(I),'xk','markersize',13)
-                  hold on
- plot(xs,ys/2, '--')
- hold off
-                axis equal
-                axis([0 1 -.2 .2])
-                t=text(x(I)+deltxt,y(I)-deltxt, ...
-                       ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
-                       'color','k','fontweight','bold');
-                drawnow
-            end
-        %%% Mouse right click:
-        case 'alt'
-            %%% Delete a knot if right-click is close to it:
-            if V2<min([1e-4,mindist2])
-                L=L-1;
-                x=xx;
-                y=yy;
-                xredo=[];
-                yredo=[];
-                Lredo=[];
-                Iredo=[];
-                [xs ys] = splinefit([1;x;1],[0;y;0],0);
-                try delete(t);end;
-                plot(xs,ys,'k', ...
-                     [1;x],[0;y],'.k','markersize',13)
-                  hold on
- plot(xs,ys/2, '--')
- hold off
-                axis equal
-                axis([0 1 -.2 .2])
-                drawnow
-            end
-      end
+        end
     end
 
-    %%% @Up - what happens when a mouse button is released
+%%% @Up - what happens when a mouse button is released
     function Up(varargin);
         b=0;
     end
 
-    %%% @Move - what happens when the mouse moves
-    %%% (while holding the left button clicked for b=true)
+%%% @Move - what happens when the mouse moves
+%%% (while holding the left button clicked for b=true)
     function Move(varargin)
         if b
             p=get(a,'currentpoint');
@@ -199,11 +217,15 @@ uicontrol('style','text','Fontsize',10, ...
             [xs ys] = splinefit([1;x;1],[0;y;0],0);
             try delete(t);end;
             plot(xs,ys,'k', ...
-                 [1;x],[0;y],'.k', ...
-                 x(I),y(I),'xk','markersize',13)
-              hold on
- plot(xs,ys/2, '--')
- hold off
+                [1;x],[0;y],'.k', ...
+                x(I),y(I),'xk','markersize',13)
+            [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
+            hold on
+            plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+            hold off
+            axis equal
+            text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+            text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
             axis equal
             axis([0 1 -.2 .2])
             t=text(x(I)+deltxt,y(I)-deltxt, ...
@@ -213,10 +235,10 @@ uicontrol('style','text','Fontsize',10, ...
         end
     end
 
-    %%% @Key - the various keyboard options
+%%% @Key - the various keyboard options
     function Key(varargin);
         if ~delta;delta=mean(abs(diff(y)));end
-        % to be done: if varargin{2}.Modifier=='control' 
+        % to be done: if varargin{2}.Modifier=='control'
         switch varargin{2}.Key
             %%% 'l' load a new .surf file
             case 'l'
@@ -228,24 +250,24 @@ uicontrol('style','text','Fontsize',10, ...
                 I=(x-1).^2+y.^2; I=find(I==max(I)); I=I(1);
                 Xbk=x;
                 Ybk=y;
-            %%% 's' save into a .surf file:
+                %%% 's' save into a .surf file:
             case 's'
                 dataout=[[1;x;1],[0;y;0]];
                 [fileout,pathout]=uiputfile([pathin '*.surf']);
                 save([pathout fileout],'dataout','-ascii')
-            %%% 'b' backup configuration
+                %%% 'b' backup configuration
             case 'b'
                 Xbk=x;
                 Ybk=y;
                 disp('knot position backed up')
-            %%% 't' restore last backup
+                %%% 't' restore last backup
             case 't'
                 x=Xbk;
                 y=Ybk;
                 L=length(x);
                 I=1;
                 disp('knot position restored')
-            %%% 'u' undo last action
+                %%% 'u' undo last action
             case 'u'
                 if isempty(xundo)
                     disp('undo max reached')
@@ -263,7 +285,7 @@ uicontrol('style','text','Fontsize',10, ...
                     xundo=xundo(:,2:end);
                     yundo=yundo(:,2:end);
                 end
-            %%% 'r' redo - cancel last undo    
+                %%% 'r' redo - cancel last undo
             case 'r'
                 if isempty(xredo)
                     disp('last action reached')
@@ -281,7 +303,7 @@ uicontrol('style','text','Fontsize',10, ...
                     xredo=xredo(:,2:end);
                     yredo=yredo(:,2:end);
                 end
-            %%% 'z' zoomed view   
+                %%% 'z' zoomed view
             case 'z'
                 p=get(a,'currentpoint');
                 axisZ=[p(1)-.05 p(1)+.05 p(3)-.03 p(3)+.03];
@@ -303,17 +325,21 @@ uicontrol('style','text','Fontsize',10, ...
                     'DeleteFcn',@figDeleteZ);
                 aZ=axes('position',[.10,.10,.87,.87]);
                 plot(xs,ys,'k', ...
-                     [1;x],[0;y],'.k', ...
-                     x(I),y(I),'xk','markersize',13)
-                  hold on
- plot(xs,ys/2, '--')
- hold off
+                    [1;x],[0;y],'.k', ...
+                    x(I),y(I),'xk','markersize',13)
+                [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
+                hold on
+                plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+                hold off
+                axis equal
+                text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+                text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
                 axis equal
                 axis(axisZ)
                 drawnow
-            %%% press 'd' to change the rate of displacement of a knot
-            %%% when using the arrow keys instead of holding left mouse
-            %%% button
+                %%% press 'd' to change the rate of displacement of a knot
+                %%% when using the arrow keys instead of holding left mouse
+                %%% button
             case 'd'
                 delta=str2double(inputdlg('enter delta'));
                 deltaZ=.2*delta;
@@ -330,156 +356,184 @@ uicontrol('style','text','Fontsize',10, ...
         set(0, 'CurrentFigure', h)
         try delete(t);end;
         plot(xs,ys,'k', ...
-             [1;x],[0;y],'.k', ...
-             x(I),y(I),'xk','markersize',13)
-          hold on
- plot(xs,ys/2, '--')
- hold off
+            [1;x],[0;y],'.k', ...
+            x(I),y(I),'xk','markersize',13)
+        [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
+        hold on
+        plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+        hold off
+        axis equal
+        text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+        text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
         axis equal
         axis([0 1 -.2 .2])
         t=text(x(I)+deltxt,y(I)-deltxt, ...
-               ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
-               'color','k','fontweight','bold');
+            ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
+            'color','k','fontweight','bold');
         drawnow
     end
 
 
-    %%%%%%%%%%%%%% FUNCTIONS FOR ZOOMED FIGURE %%%%%%%%%%%%%%
-    %%% @Down - what happens when a mouse button is pressed
+%%%%%%%%%%%%%% FUNCTIONS FOR ZOOMED FIGURE %%%%%%%%%%%%%%
+%%% @Down - what happens when a mouse button is pressed
     function DownZ(varargin);
-      xundo=[[x;0*(length(x)+1:Lmax)'],xundo(:,1:min([size(xundo,2),max_undo-1]))];
-      yundo=[[y;0*(length(y)+1:Lmax)'],yundo(:,1:min([size(yundo,2),max_undo-1]))];
-      Lundo=[L,Lundo(1:min([length(Lundo),max_undo-1]))];
-      Iundo=[I,Iundo(1:min([length(Iundo),max_undo-1]))];
-      p=get(aZ,'currentpoint');
-      [V2 I]=min((x-p(1)).^2+(y-p(3)).^2);
-      xx=x;
-      yy=y;
-      xx(I)=[];
-      yy(I)=[];
-      mindist2=min((xx-x(I)).^2+(yy-y(I)).^2);
-      switch varargin{1}.SelectionType
-        %%% Mouse left-click:
-        case 'normal'
-            %%% Add a knot if left-click is close to aerofoil contour:
-            if V2>min(1e-6,mindist2)
-                [xs ys] = splinefit([1;x;1],[0;y;0],1);
-                ppk = 100; % needs to be the same in 'splinefit.m'
-                [V2 Is]=min((xs-p(1)).^2+(ys-p(3)).^2);
-                if V2<1e-6
-                    xI=xs(Is);yI=ys(Is);                
-                    I = ceil(Is/ppk);
-                    L=L+1;
-                    Lmax=max([L,Lmax]);
-                    x(I+1:L)=x(I:end);
-                    y(I+1:L)=y(I:end);
-                    x(I)=xI;
-                    y(I)=yI;
-                    xundo=[xundo;0*(size(xundo,1)+1:Lmax)'*(1:size(xundo,2))];
-                    yundo=[yundo;0*(size(yundo,1)+1:Lmax)'*(1:size(yundo,2))];
-                    xredo=[];
-                    yredo=[];
+        xundo=[[x;0*(length(x)+1:Lmax)'],xundo(:,1:min([size(xundo,2),max_undo-1]))];
+        yundo=[[y;0*(length(y)+1:Lmax)'],yundo(:,1:min([size(yundo,2),max_undo-1]))];
+        Lundo=[L,Lundo(1:min([length(Lundo),max_undo-1]))];
+        Iundo=[I,Iundo(1:min([length(Iundo),max_undo-1]))];
+        p=get(aZ,'currentpoint');
+        [V2 I]=min((x-p(1)).^2+(y-p(3)).^2);
+        xx=x;
+        yy=y;
+        xx(I)=[];
+        yy(I)=[];
+        mindist2=min((xx-x(I)).^2+(yy-y(I)).^2);
+        switch varargin{1}.SelectionType
+            %%% Mouse left-click:
+            case 'normal'
+                %%% Add a knot if left-click is close to aerofoil contour:
+                if V2>min(1e-6,mindist2)
+                    [xs ys] = splinefit([1;x;1],[0;y;0],1);
+                    ppk = 100; % needs to be the same in 'splinefit.m'
+                    [V2 Is]=min((xs-p(1)).^2+(ys-p(3)).^2);
+                    if V2<1e-6
+                        xI=xs(Is);yI=ys(Is);
+                        I = ceil(Is/ppk);
+                        L=L+1;
+                        Lmax=max([L,Lmax]);
+                        x(I+1:L)=x(I:end);
+                        y(I+1:L)=y(I:end);
+                        x(I)=xI;
+                        y(I)=yI;
+                        xundo=[xundo;0*(size(xundo,1)+1:Lmax)'*(1:size(xundo,2))];
+                        yundo=[yundo;0*(size(yundo,1)+1:Lmax)'*(1:size(yundo,2))];
+                        xredo=[];
+                        yredo=[];
+                        b=1;
+                        [xs ys] = splinefit([1;x;1],[0;y;0],0);%redundant?
+                        set(0, 'CurrentFigure', h)
+                        plot(xs,ys,'k', ...
+                            [1;x],[0;y],'.k', ...
+                            x(I),y(I),'xk','markersize',13);
+                        [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
+                        hold on
+                        plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+                        hold off
+                        axis equal
+                        text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+                        text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+                        axis equal
+                        axis([0 1 -.2 .2])
+                        %drawnow
+                        figure(hZ)
+                        try delete(t);end;
+                        plot(xs,ys,'k', ...
+                            [1;x],[0;y],'.k', ...
+                            x(I),y(I),'xk', ...
+                            'markersize',13);
+                        [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
+                        hold on
+                        plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+                        hold off
+                        axis equal
+                        text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+                        text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+                        axis equal
+                        axis(axisZ)
+                        t=text(x(I)+deltxtZ,y(I)-deltxtZ, ...
+                            ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
+                            'color','k','fontweight','bold');
+                        drawnow
+                    end
+                    %%% Select a knot if left-click is close to it:
+                else
                     b=1;
                     [xs ys] = splinefit([1;x;1],[0;y;0],0);%redundant?
                     set(0, 'CurrentFigure', h)
                     plot(xs,ys,'k', ...
-                         [1;x],[0;y],'.k', ...
-                         x(I),y(I),'xk','markersize',13);
-                      hold on
- plot(xs,ys/2, '--')
- hold off
+                        [1;x],[0;y],'.k', ...
+                        x(I),y(I),'xk', ...
+                        'markersize',13);
+                    [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
+                    hold on
+                    plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+                    hold off
+                    axis equal
+                    text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+                    text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
                     axis equal
                     axis([0 1 -.2 .2])
                     %drawnow
                     figure(hZ)
                     try delete(t);end;
                     plot(xs,ys,'k', ...
-                         [1;x],[0;y],'.k', ...
-                         x(I),y(I),'xk', ...
-                         'markersize',13);
-                      hold on
- plot(xs,ys/2, '--')
- hold off
+                        [1;x],[0;y],'.k', ...
+                        x(I),y(I),'xk', ...
+                        'markersize',13);
+                    [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
+                    hold on
+                    plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+                    hold off
+                    axis equal
+                    text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+                    text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
                     axis equal
                     axis(axisZ)
                     t=text(x(I)+deltxtZ,y(I)-deltxtZ, ...
-                           ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
-                           'color','k','fontweight','bold');
+                        ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
+                        'color','k','fontweight','bold');
                     drawnow
-                end                
-            %%% Select a knot if left-click is close to it:
-            else
-                b=1;
-                [xs ys] = splinefit([1;x;1],[0;y;0],0);%redundant?
-                set(0, 'CurrentFigure', h)
-                plot(xs,ys,'k', ...
-                     [1;x],[0;y],'.k', ...
-                     x(I),y(I),'xk', ...
-                     'markersize',13);
-                  hold on
- plot(xs,ys/2, '--')
- hold off
-                axis equal
-                axis([0 1 -.2 .2])
-                %drawnow
-                figure(hZ)
-                try delete(t);end;
-                plot(xs,ys,'k', ...
-                     [1;x],[0;y],'.k', ...
-                     x(I),y(I),'xk', ...
-                     'markersize',13);
-                  hold on
- plot(xs,ys/2, '--')
- hold off
-                axis equal
-                axis(axisZ)
-                t=text(x(I)+deltxtZ,y(I)-deltxtZ, ...
-                       ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
-                       'color','k','fontweight','bold');
-                drawnow
-            end
-        %%% Mouse right click:
-        case 'alt'
-            %%% Delete a knot if right-click is close to it:
-            if V2<min([1e-6,mindist2])
-                L=L-1;
-                x=xx;
-                y=yy;
-                xredo=[];
-                yredo=[];
-                [xs ys] = splinefit([1;x;1],[0;y;0],0);
-                set(0, 'CurrentFigure', h)
-                plot(xs,ys,'k', ...
-                     [1;x],[0;y],'.k', ...
-                     'markersize',13);
-                  hold on
- plot(xs,ys/2, '--')
- hold off
-                axis equal
-                axis([0 1 -.2 .2])
-                %drawnow
-                figure(hZ)
-                try delete(t);end;
-                plot(xs,ys,'k', ...
-                     [1;x],[0;y],'.k', ...
-                     'markersize',13);
-                  hold on
- plot(xs,ys/2, '--')
- hold off
-                axis equal
-                axis(axisZ)
-                drawnow
-            end
-      end
+                end
+                %%% Mouse right click:
+            case 'alt'
+                %%% Delete a knot if right-click is close to it:
+                if V2<min([1e-6,mindist2])
+                    L=L-1;
+                    x=xx;
+                    y=yy;
+                    xredo=[];
+                    yredo=[];
+                    [xs ys] = splinefit([1;x;1],[0;y;0],0);
+                    set(0, 'CurrentFigure', h)
+                    plot(xs,ys,'k', ...
+                        [1;x],[0;y],'.k', ...
+                        'markersize',13);
+                    [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
+                    hold on
+                    plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+                    hold off
+                    axis equal
+                    text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+                    text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+                    axis equal
+                    axis([0 1 -.2 .2])
+                    %drawnow
+                    figure(hZ)
+                    try delete(t);end;
+                    plot(xs,ys,'k', ...
+                        [1;x],[0;y],'.k', ...
+                        'markersize',13);
+                    [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
+                    hold on
+                    plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+                    hold off
+                    axis equal
+                    text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+                    text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+                    axis equal
+                    axis(axisZ)
+                    drawnow
+                end
+        end
     end
 
-    %%% @Up - what happens when a mouse button is released
+%%% @Up - what happens when a mouse button is released
     function UpZ(varargin);
         b=0;
     end
 
-    %%% @Move - what happens when the mouse moves
-    %%% (while holding the left button clicked for b=true)
+%%% @Move - what happens when the mouse moves
+%%% (while holding the left button clicked for b=true)
     function MoveZ(varargin)
         p=get(aZ,'currentpoint');
         if b
@@ -490,36 +544,44 @@ uicontrol('style','text','Fontsize',10, ...
             [xs ys] = splinefit([1;x;1],[0;y;0],1);
             set(0, 'CurrentFigure', h)
             plot(xs,ys,'k', ...
-                 [1;x],[0;y],'.k', ...
-                 x(I),y(I),'xk','markersize',13);
-              hold on
- plot(xs,ys/2, '--')
- hold off
+                [1;x],[0;y],'.k', ...
+                x(I),y(I),'xk','markersize',13);
+            [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
+            hold on
+            plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+            hold off
+            axis equal
+            text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+            text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
             axis equal
             axis([0 1 -.2 .2])
             %drawnow
             set(0, 'CurrentFigure', hZ)
             try delete(t);end;
             plot(xs,ys,'k', ...
-                 [1;x],[0;y],'.k', ...
-                 x(I),y(I),'xk', ...
-                 'markersize',13);
-              hold on
- plot(xs,ys/2, '--')
- hold off
+                [1;x],[0;y],'.k', ...
+                x(I),y(I),'xk', ...
+                'markersize',13);
+            [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
+            hold on
+            plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+            hold off
+            axis equal
+            text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+            text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
             axis equal
             axis(axisZ)
             t=text(x(I)+deltxtZ,y(I)-deltxtZ, ...
-                       ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
-                       'color','k','fontweight','bold');
+                ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
+                'color','k','fontweight','bold');
             drawnow
         end
     end
 
-    %%% @Key - the various keyboard options
+%%% @Key - the various keyboard options
     function KeyZ(varargin);
         if ~delta;delta=mean(abs(diff(y)));end
-        % to be done: if varargin{2}.Modifier=='control' 
+        % to be done: if varargin{2}.Modifier=='control'
         switch varargin{2}.Key
             %%% 'u' undo last action
             case 'u'
@@ -539,7 +601,7 @@ uicontrol('style','text','Fontsize',10, ...
                     xundo=xundo(:,2:end);
                     yundo=yundo(:,2:end);
                 end
-            %%% 'r' redo - cancel last undo    
+                %%% 'r' redo - cancel last undo
             case 'r'
                 if isempty(xredo)
                     disp('last action reached')
@@ -560,13 +622,13 @@ uicontrol('style','text','Fontsize',10, ...
             case 'z'
                 close(hZ)
                 set(h,'WindowKeyPressFcn',@Key,...
-                      'windowbuttondownfcn',@Down,...
-                      'WindowButtonMotionFcn',@Move,...
-                      'WindowButtonUpFcn',@Up)
+                    'windowbuttondownfcn',@Down,...
+                    'WindowButtonMotionFcn',@Move,...
+                    'WindowButtonUpFcn',@Up)
                 return
-            %%% press 'd' to change the rate of displacement of a knot
-            %%% when using the arrow keys instead of holding left mouse
-            %%% button
+                %%% press 'd' to change the rate of displacement of a knot
+                %%% when using the arrow keys instead of holding left mouse
+                %%% button
             case 'd'
                 delta=str2double(inputdlg('enter delta'));
                 deltaZ=.2*delta;
@@ -587,29 +649,37 @@ uicontrol('style','text','Fontsize',10, ...
         [xs ys] = splinefit([1;x;1],[0;y;0],1);
         set(0, 'CurrentFigure', h)
         plot(xs,ys,'k', ...
-             [1;x],[0;y],'.k', ...
-             x(I),y(I),'xk', ...
-             'markersize',13);
-          hold on
- plot(xs,ys/2, '--')
- hold off
+            [1;x],[0;y],'.k', ...
+            x(I),y(I),'xk', ...
+            'markersize',13);
+        [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
+        hold on
+        plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+        hold off
+        axis equal
+        text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+        text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
         axis equal
         axis([0 1 -.2 .2])
         %drawnow
         set(0, 'CurrentFigure', hZ)
         try delete(t);end;
         plot(xs,ys,'k', ...
-             [1;x],[0;y],'.k', ...
-             x(I),y(I),'xk', ...
-             'markersize',13);
-          hold on
-          plot(xs,ys/2, '--')
-          hold off
+            [1;x],[0;y],'.k', ...
+            x(I),y(I),'xk', ...
+            'markersize',13);
+        [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
+        hold on
+        plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+        hold off
+        axis equal
+        text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+        text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
         axis equal
         axis(axisZ)
         t=text(x(I)+deltxtZ,y(I)-deltxtZ, ...
-                   ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
-                   'color','k','fontweight','bold');
+            ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
+            'color','k','fontweight','bold');
         drawnow
     end
 
@@ -619,13 +689,13 @@ uicontrol('style','text','Fontsize',10, ...
 
     function figDeleteZ(varargin)
         set(h,'WindowKeyPressFcn',@Key,...
-              'Windowbuttondownfcn',@Down,...
-              'WindowButtonMotionFcn',@Move,...
-              'WindowButtonUpFcn',@Up)
+            'Windowbuttondownfcn',@Down,...
+            'WindowButtonMotionFcn',@Move,...
+            'WindowButtonUpFcn',@Up)
         return
     end
 
-    %%%% empty function to make figure 'h' inactive while 'hZ' is active
+%%%% empty function to make figure 'h' inactive while 'hZ' is active
     function emptyFunctionHandle(varargin)
     end
 
