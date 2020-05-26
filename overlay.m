@@ -4,8 +4,7 @@ number = input('Enter number of overlay: ','s');
 Re = input('Enter Reynolds number: ','s');
 alpha = input('Enter AOA (degree): ','s');
 n = str2num(number);
-np = 100;
-nphr = 5*np;
+
 xmax = 1.0;
 xmin = 0.0;
 ymax =  0.2;
@@ -17,7 +16,10 @@ for i = 1:n
     set(0, 'CurrentFigure', h)
     geometry = input(['Enter Geometry file ' num2str(i) ,'/', num2str(n)  ': ' ],'s');
     secfile = ['Geometry/' geometry '.surf'];
-    [xk, yk] = textread ( secfile, '%f%f' );
+    [xk, yk] = textread( secfile, '%f%f' );
+    parfile = ['Parfiles/' geometry '.txt'];
+    [~ ,np, ~, ~] = par_read(parfile);
+    nphr = 5*np;
     [xshr yshr] = splinefit ( xk, yk, nphr );
     %  Resize section so that it lies between (0,0) and (1,0)
     [xsin ysin] = resyze ( xshr, yshr );
@@ -44,7 +46,7 @@ for i = 1:n
     load(['Data/' geometry '/' Re '_' alpha '.mat'],'cp' , 'xs');
     xlim([xmin xmax]); axis 'auto y';
     [xgrads, cpgrads] = cp_gradjc(xs,cp,np);
-    plot(xgrads, cpgrads,'color',colors(i,:),'DisplayName',geometry,'LineWidth', 1.2);
+    plot(xgrads, -cpgrads,'color',colors(i,:),'DisplayName',geometry,'LineWidth', 1.2);
     legend;
     hold off
 end
