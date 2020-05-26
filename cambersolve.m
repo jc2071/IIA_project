@@ -23,10 +23,7 @@ function [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys)
          y_thicc(i) = ys_upper(upper_index) - ys_lower(lower_index);
      end
      
-for i = 2:nc -1
-    if y_thicc(i-1) < y_thicc(i) && y_thicc(i+1) < y_thicc(i)
-        max_thicc = y_thicc(i)*100/1;
-        max_thicc_position = x_cam(i);
-    end
-end
-end
+
+     [max_thicc,thicc_index] = max(y_thicc);
+     max_thicc = max_thicc*100
+     max_thicc_position = x_cam(thicc_index);
