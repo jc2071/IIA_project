@@ -603,8 +603,8 @@ uicontrol('style','text','Fontsize',10, ...
              x(I),y(I),'xk', ...
              'markersize',13);
           hold on
- plot(xs,ys/2, '--')
- hold off
+          plot(xs,ys/2, '--')
+          hold off
         axis equal
         axis(axisZ)
         t=text(x(I)+deltxtZ,y(I)-deltxtZ, ...
