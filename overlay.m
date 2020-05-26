@@ -11,7 +11,7 @@ xmin = 0.0;
 ymax =  0.2;
 ymin = -0.2;
 colors = [[0.6350 0.0780 0.1840];[0 0.447 0.741];[0.929 0.6940 0.125]];
-h = figure('Visible', 'off');
+h = figure('Visible', 'off', 'Name', ['Re- ' Re ' Angle of attack- ' alpha]);
 disp('------------------------')
 for i = 1:n
     set(0, 'CurrentFigure', h)
