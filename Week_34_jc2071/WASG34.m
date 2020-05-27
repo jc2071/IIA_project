@@ -62,8 +62,8 @@ Lredo=[];Iredo=[];
 Res=get(0); Res=Res.ScreenSize;
 
 h=figure('units','normalized',...
-    'outerposition',[.05 .2 1.35*Res(4)/Res(3) .6],...
     'DockControls','off',...
+    'outerposition',[.05 .2 1*Res(4)/Res(3) .4],...
     'MenuBar','No',...
     'name','Wing Analysis Section Generator (Matlab version)',...
     'NumberTitle','off',...
@@ -73,6 +73,7 @@ h=figure('units','normalized',...
     'WindowButtonUpFcn',@Up,...
     'DeleteFcn',@figDelete);
 a=axes('position',[.10,.10,.87,.87]);
+movegui(figure(1),'northwest');
 
 %Extra UI to set Re, alpha and np
 Re = 5e5; % default to slow aerofoil
@@ -103,7 +104,7 @@ uicontrol('style','text','Fontsize',10, ...
 
 Replot()
 
-%autoArrangeFigures(1, 2, 2)
+%autoArrangeFigures(1, 2, 1)
 
 %%% @Down - what happens when a mouse button is pressed
     function Down(varargin);
@@ -598,7 +599,7 @@ Replot()
         axis equal
         axis([0 1 -.2 .2])
         Replot(); % Our additions
-        %drawnow
+        drawnow
         set(0, 'CurrentFigure', hZ)
         try delete(t);end;
         plot(xs,ys,'k', ...
@@ -651,10 +652,10 @@ Replot()
     hold off
     text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
     text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
-    figure(2)
-    plot(x_foil(1:51),-cp_foil(1:51))
-    axis([xmin xmax -1 7])
-    axis equal
+    %plot(x_foil(1:51),-cp_foil(1:51))
+    %axis([xmin xmax -1 7])
+    %axis equal
+    wasgplot(x_foil,-cp_foil,filein,alpha,Re)
     figure(1)
     
     end
