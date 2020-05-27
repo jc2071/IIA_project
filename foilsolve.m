@@ -84,9 +84,9 @@ for nalpha = 1:length(alphaswp)
     [~, ~, ~, ~, delstarl, thetal] = bl_solv ( sl, cpl, Re);
     
     %    lift and drag coefficients
-    [Cli, Cdi] = forces ( circ, cp, delstarl, thetal, delstaru, thetau );
-    Cl(nalpha) = Cli;
-    Cd(nalpha) = Cdi;
+    [Clt, Cdt] = forces ( circ, cp, delstarl, thetal, delstaru, thetau );
+    Cl(nalpha) = Clt;
+    Cd(nalpha) = Cdt;
 end
 
 % Now do the single value of alpha
@@ -149,8 +149,35 @@ end
 [ilnt, ills, iltr, ilts, ~, thetal] = bl_solv ( sl, cpl , Re);
 
 %    lift and drag coefficients (might want to display these on Wasg but 
-% not really needed)
+% not really needed yet)
 %[Cl Cd] = forces ( circ, cp, delstarl, thetal, delstaru, thetau );
 
-theta = [thetau(end:-1:1), thetal]:
-iss = [ipstag, iunt, iuls, iutr, iuts, ilnt, ills, iltr, ilts];
+% Stitch together theta
+theta = [thetau(end:-1:1), thetal];
+
+% Create the iss to use x_foil indexes instead of BL ones
+iss = [ipstag, zeros(1,8)];
+if iunt~=0
+        iss(1) = ipstag + 1 - iunt;
+end
+if iuls~=0
+    iss(2) = ipstag + 1 - iuls;
+    if iutr~=0
+        iss(3) = ipstag + 1 - iutr;
+    end
+end
+if iuts~=0
+    iss(4) = ipstag + 1 - iuts;
+end
+if ilnt~=0
+    iss(5) = ipstag + ilnt;
+end
+if ills~=0
+    iss(6) = ipstag + ills;
+    if iltr~=0
+        iss(7) = ipstag + iltr;
+    end
+end
+if ilts~=0
+    iss(8) = ipstag + ilts;
+end
