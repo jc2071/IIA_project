@@ -37,12 +37,15 @@ zeta = z + (a^2)./z;
 xs = real(zeta);
 ys = imag(zeta);
 
+% Not sure about how to make the gamma 0 exdactly and still satisfy othder
+% stream conditions. this will need a bit more thought I think
 
 %Calculate gamma vector. This assumes that we are in a free stream already
 A = build_lhs(xs,ys);
 b = build_rhs(xs,ys,alpha);
+%b = [zeros(20,1);b(21:end)];
 gam = A\b;
-gam = [gam(end);zeros(19,1);gam(21:end)];
+gam = [gam(end);2*gam(2:20);gam(21:end)];
 
 % Reshape gamma to be in k direction & calculate infa and infb arrays
 gamk = reshape(gam, 1, 1, np+1);
@@ -54,7 +57,7 @@ psi = ( ym*cos(alpha) - xm*sin(alpha) ) ...
 
 
 % Plot the streamfunction contours
-c = -100:0.06:100;
+c = -100:0.1:50;
 contour(xm, ym, psi, c)
 hold on
 d = zeros(size(xs));

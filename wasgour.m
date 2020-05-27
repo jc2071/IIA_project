@@ -1,4 +1,4 @@
-function WASG
+function wasgour
 % CUED Wing Analysis Surface Generator
 % RGM - developed for SA1 2020
 % based on 'ManipulateData.m' written by Lindo Ouseph.
@@ -618,16 +618,26 @@ uicontrol('style','text','Fontsize',10, ...
         drawnow
     end
 
-% funciton to do plotting so we don't need to keep editing 1 million file
+% function to do plotting so we don't need to keep editing 1 million file
 % things
     function Replot()
-    [x_foil, y_foil, cp_foil] = foilsolve([1;x;1],[0;y;0], np, Re, alpha);
-    [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(x_foil, y_foil);
-    dd = zeros(size(x_foil)); % dummy required by surface
+    [x_foil, y_foil, cp_foil, theta_foil, cl_foil, cd_foil] = foilsolve([1;x;1],[0;y;0], np, Re, alpha);
+    %[x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(x_foil, y_foil);
+    
+    %Rescale xfoil to match onto wasg line for ploting only, not analysis!!
+    nphr = 5*np; % exactly the same as foil does but not upanels yet
+    [xshr, yshr] = splinefit ([1;x;1],[0;y;0], nphr );
+    [x_plot, y_plot] = unsyze(x_foil, y_foil, xshr, yshr); %transform upanels into correct orientation
+    %x_plot = x_plot'; y_plot = y_plot';
+    
+    % Plot things ontop of WASG
+    disp(size(x_foil))
+    disp(size(xshr))
+    dd = zeros(size(x_plot)); % dummy required by surface
     col = cp_foil; % colour according to cp
     hold on
     plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-    surface([x_foil;x_foil],[y_foil;y_foil],[dd;dd],[col;col],...
+    surface([x_plot;x_plot],[y_plot;y_plot],[dd;dd],[col;col],...
         'facecol','no','edgecol','interp','linew',2);
     hold off
     text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])

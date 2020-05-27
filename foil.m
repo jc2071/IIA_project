@@ -1,4 +1,4 @@
-%    foil.m
+%   foil.m
 %
 %  Script to analyse an aerofoil section using potential flow calculation
 %  and boundary layer solver.
