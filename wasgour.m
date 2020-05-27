@@ -77,11 +77,13 @@ a=axes('position',[.10,.10,.87,.87]);
 %Extra UI to set Re, alpha and np
 Re = 5e5; % default to slow aerofoil
 alpha = 0;
+alphaswp = 0:5:20;
 np = 100;
 %Rebg = uibuttongroup('SelectionChangedFcn', @ReSelection);
 %rb1 = uicontrol(Rebg, 'Style', 'radiobutton', 'String', 'Slow (0.5e6)', 'UserData', 5e5);
 %rb2 = uicontrol(Rebg, 'Style', 'radiobutton', 'String', 'Fast (20e6)', 'UserData', 2e7);
 % finito w extra ui
+
 [xs ,ys] = splinefit([1;x;1],[0;y;0],0); % big list of x and y plotting points
 plot(xs,ys,'k', ...
     [1;x],[0;y],'.k', ...
@@ -621,7 +623,7 @@ uicontrol('style','text','Fontsize',10, ...
 % function to do plotting so we don't need to keep editing 1 million file
 % things
     function Replot()
-    [x_foil, y_foil, cp_foil, theta_foil, cl_foil, cd_foil] = foilsolve([1;x;1],[0;y;0], np, Re, alpha);
+    [x_foil, y_foil, cp_foil, theta_foil, cl_foil, cd_foil] = foilsolve([1;x;1],[0;y;0], np, Re, alpha, alphaswp);
     %[x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(x_foil, y_foil);
     
     %Rescale xfoil to match onto wasg line for ploting only, not analysis!!
