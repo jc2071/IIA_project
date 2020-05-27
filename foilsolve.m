@@ -152,5 +152,5 @@ end
 % not really needed)
 %[Cl Cd] = forces ( circ, cp, delstarl, thetal, delstaru, thetau );
 
-theta = [thetau(end:-1:1), thetal];
+theta = [thetau(end:-1:1), thetal]:
 iss = [ipstag, iunt, iuls, iutr, iuts, ilnt, ills, iltr, ilts];
