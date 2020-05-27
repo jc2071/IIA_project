@@ -37,15 +37,13 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd)
 
     function plotButtonPushed1(src,event)
         set(c1,'visible','off')
-        print (gcf, [extractBefore(filein,".surf") '-cp_' Rep...
-            '_' num2str(alpha)], '-depsc' )
+        print (gcf, [extractBefore(filein,".surf") '-cp'], '-depsc')
         set(c1,'visible','on')
     end
 
     function plotButtonPushed2(src,event)
         set(c2,'visible','off')
-        print (gcf, [extractBefore(filein,".surf") '-LD_' Rep...
-            '_' num2str(alpha)], '-depsc' )
+        print (gcf, [extractBefore(filein,".surf") '-LD'], '-depsc' )
         set(c2,'visible','on')
     end
   
