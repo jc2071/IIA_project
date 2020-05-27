@@ -2,7 +2,7 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd)
     Rep = sprintf('%.1e', Re);
     figure(2)
     movegui(figure(2),'southwest');
-    plot(x_foil,-cp_foil,'color', [0.6350 0.0780 0.1840],'linewidth',1.4)
+    plot(x_foil,-cp_foil,'color', [0.6350 0.0780 0.1840],'linewidth',1.2)
     xlabel('x/c')
     ylabel('-cp')
     set(gca, 'FontName','Times', 'FontSize', 14);
@@ -12,7 +12,7 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd)
     
     figure(3)
     movegui(figure(3),'northeast');
-    plot(alphaswp,cl./cd,'color', [0.6350 0.0780 0.1840],'linewidth',1.4)
+    plot(alphaswp,cl./cd,'color', [0.6350 0.0780 0.1840],'linewidth',1.2)
     xlabel('\alpha')
     ylabel('L/D')
     set(gca, 'FontName','Times', 'FontSize', 14);
