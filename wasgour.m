@@ -627,23 +627,21 @@ uicontrol('style','text','Fontsize',10, ...
     %[x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(x_foil, y_foil);
     
     %Rescale xfoil to match onto wasg line for ploting only, not analysis!!
-    nphr = 5*np; % exactly the same as foil does but not upanels yet
-    [xshr, yshr] = splinefit ([1;x;1],[0;y;0], nphr );
-    [x_plot, y_plot] = unsyze(x_foil, y_foil, xshr, yshr); %transform upanels into correct orientation
+    %nphr = 5*np; % exactly the same as foil does but not upanels yet
+    %[xshr, yshr] = splinefit ([1;x;1],[0;y;0], nphr );
+    %[x_plot, y_plot] = unsyze(x_foil, y_foil, xshr, yshr); %transform upanels into correct orientation
     %x_plot = x_plot'; y_plot = y_plot';
     
     % Plot things ontop of WASG
-    disp(size(x_foil))
-    disp(size(xshr))
-    dd = zeros(size(x_plot)); % dummy required by surface
-    col = cp_foil; % colour according to cp
+    %dd = zeros(size(x_plot)); % dummy required by surface
+    %col = cp_foil; % colour according to cp
     hold on
-    plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-    surface([x_plot;x_plot],[y_plot;y_plot],[dd;dd],[col;col],...
-        'facecol','no','edgecol','interp','linew',2);
+    %plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+    %surface([x_plot;x_plot],[y_plot;y_plot],[dd;dd],[col;col],...
+     %   'facecol','no','edgecol','interp','linew',2);
     hold off
-    text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-    text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+    %text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+    %text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
     end
 
 end
