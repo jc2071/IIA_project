@@ -79,7 +79,21 @@ Re = 5e5; % default to slow aerofoil
 alpha = 0;
 alphaswp = 0:5:20;
 np = 100;
-%Rebg = uibuttongroup('SelectionChangedFcn', @ReSelection);
+Rebg = uibuttongroup('Visible', 'off',...
+     'Position',[0 0 0.2 0.1],...
+     'SelectionChangedFcn', @ReSelection);
+r1 = uicontrol(Rebg,'Style',...
+                  'radiobutton',...
+                  'String','Slow',...
+                  'Position',[1 31 100 30],...
+                  'HandleVisibility','on');
+              
+r2 = uicontrol(Rebg,'Style','radiobutton',...
+                  'String','Fast',...
+                  'Position',[1 1 100 30],...
+                  'HandleVisibility','on');
+Rebg.Visible = 'on';
+
 %rb1 = uicontrol(Rebg, 'Style', 'radiobutton', 'String', 'Slow (0.5e6)', 'UserData', 5e5);
 %rb2 = uicontrol(Rebg, 'Style', 'radiobutton', 'String', 'Fast (20e6)', 'UserData', 2e7);
 % finito w extra ui
@@ -617,7 +631,7 @@ uicontrol('style','text','Fontsize',10, ...
     function ReSelection(~, event)
         Re = event.NewValue.UserData;
         disp(['now the avlue of the Re is ', num2str(Re)])
-        drawnow
+        Replot()
     end
 
 % function to do plotting so we don't need to keep editing 1 million file
@@ -642,8 +656,8 @@ uicontrol('style','text','Fontsize',10, ...
     hold off
     %text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
     %text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
-    wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl_foil,cd_foil)
-    figure(h)
+    %wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl_foil,cd_foil)
+    %figure(h)
     end
 
 end

@@ -84,9 +84,9 @@ for nalpha = 1:length(alphaswp)
     [~, ~, ~, ~, delstarl, thetal] = bl_solv ( sl, cpl, Re);
     
     %    lift and drag coefficients
-    [Cli, Cdi] = forces ( circ, cp, delstarl, thetal, delstaru, thetau );
-    Cl(nalpha) = Cli;
-    Cd(nalpha) = Cdi;
+    [Clt, Cdt] = forces ( circ, cp, delstarl, thetal, delstaru, thetau );
+    Cl(nalpha) = Clt;
+    Cd(nalpha) = Cdt;
 end
 
 % Now do the single value of alpha
