@@ -634,7 +634,10 @@ uicontrol('style','text','Fontsize',10, ...
     hold off
     text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
     text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
-    figure(2)
+    figure(2);
+    plot(xs,ys)
+    autoArrangeFigures(2, 1, 1)
+    figure(1);
     
     end
 end
