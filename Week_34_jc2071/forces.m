@@ -1,6 +1,6 @@
 function [cl, cd] = forces(circ, cp, delstarl, thetal, delstaru, thetau)
 
-thetate = thetal(end) + thetau(end):
+thetate = thetal(end) + thetau(end);
 deltate = delstarl(end) + delstaru(end); % Depends how we define it???
 Hte = deltate/thetate;
 
