@@ -60,6 +60,7 @@ Lundo=[];Iundo=[];
 xredo=[];yredo=[];
 Lredo=[];Iredo=[];
 Res=get(0); Res=Res.ScreenSize;
+
 h=figure('units','normalized',...
     'outerposition',[.05 .2 1.35*Res(4)/Res(3) .6],...
     'DockControls','off',...
@@ -72,24 +73,32 @@ h=figure('units','normalized',...
     'WindowButtonUpFcn',@Up,...
     'DeleteFcn',@figDelete);
 a=axes('position',[.10,.10,.87,.87]);
+
+%Extra UI to set Re, alpha and np
+Re = 5e5; % default to slow aerofoil
+alpha = 0;
+np = 100;
+%Rebg = uibuttongroup('SelectionChangedFcn', @ReSelection);
+%rb1 = uicontrol(Rebg, 'Style', 'radiobutton', 'String', 'Slow (0.5e6)', 'UserData', 5e5);
+%rb2 = uicontrol(Rebg, 'Style', 'radiobutton', 'String', 'Fast (20e6)', 'UserData', 2e7);
+% finito w extra ui
 [xs ,ys] = splinefit([1;x;1],[0;y;0],0); % big list of x and y plotting points
 plot(xs,ys,'k', ...
     [1;x],[0;y],'.k', ...
     'markersize',13,'markerfacecolor','k');
 
-[x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
-hold on
-plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-hold off
+%---------------------- START INSERT
+Replot() % a function so we don't need to re work all the code
+% ------------ END INSERT
+
 axis equal
-text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
 axis([xmin xmax ymin ymax])
 uicontrol('style','text','Fontsize',10, ...
     'position',[1 190 80 150],...
     'string',{'u-undo';'r-redo';'z-zoom';'l-load';'s-save'; ...
     'b-back up';'t-restore';'d-delta'},...
     'foregroundcolor','k');
+
 %%% @Down - what happens when a mouse button is pressed
     function Down(varargin);
         xundo=[[x;0*(length(x)+1:Lmax)'],xundo(:,1:min([size(xundo,2),max_undo-1]))];
@@ -134,13 +143,7 @@ uicontrol('style','text','Fontsize',10, ...
                         plot(xs,ys,'k', ...
                             [1;x],[0;y],'.k', ...
                             x(I),y(I),'xk','markersize',13)
-                        [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
-                        hold on
-                        plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-                        hold off
-                        axis equal
-                        text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-                        text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+                        Replot(); % Our additions
                         axis equal
                         axis([0 1 -.2 .2])
                         t=text(x(I)+deltxt,y(I)-deltxt, ...
@@ -156,13 +159,7 @@ uicontrol('style','text','Fontsize',10, ...
                     plot(xs,ys,'k', ...
                         [1;x],[0;y],'.k', ...
                         x(I),y(I),'xk','markersize',13)
-                    [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
-                    hold on
-                    plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-                    hold off
-                    axis equal
-                    text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-                    text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+                    Replot(); % Our additions
                     axis equal
                     axis([0 1 -.2 .2])
                     t=text(x(I)+deltxt,y(I)-deltxt, ...
@@ -185,13 +182,7 @@ uicontrol('style','text','Fontsize',10, ...
                     try delete(t);end;
                     plot(xs,ys,'k', ...
                         [1;x],[0;y],'.k','markersize',13)
-                    [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
-                    hold on
-                    plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-                    hold off
-                    axis equal
-                    text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-                    text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+                    Replot(); % Our additions
                     axis equal
                     axis([0 1 -.2 .2])
                     drawnow
@@ -218,13 +209,7 @@ uicontrol('style','text','Fontsize',10, ...
             plot(xs,ys,'k', ...
                 [1;x],[0;y],'.k', ...
                 x(I),y(I),'xk','markersize',13)
-            [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
-            hold on
-            plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-            hold off
-            axis equal
-            text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-            text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+            Replot(); % Our additions
             axis equal
             axis([0 1 -.2 .2])
             t=text(x(I)+deltxt,y(I)-deltxt, ...
@@ -326,13 +311,7 @@ uicontrol('style','text','Fontsize',10, ...
                 plot(xs,ys,'k', ...
                     [1;x],[0;y],'.k', ...
                     x(I),y(I),'xk','markersize',13)
-                [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
-                hold on
-                plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-                hold off
-                axis equal
-                text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-                text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+                Replot(); % Our additions
                 axis equal
                 axis(axisZ)
                 drawnow
@@ -357,13 +336,7 @@ uicontrol('style','text','Fontsize',10, ...
         plot(xs,ys,'k', ...
             [1;x],[0;y],'.k', ...
             x(I),y(I),'xk','markersize',13)
-        [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
-        hold on
-        plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-        hold off
-        axis equal
-        text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-        text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+        Replot(); % Our additions
         axis equal
         axis([0 1 -.2 .2])
         t=text(x(I)+deltxt,y(I)-deltxt, ...
@@ -414,13 +387,7 @@ uicontrol('style','text','Fontsize',10, ...
                         plot(xs,ys,'k', ...
                             [1;x],[0;y],'.k', ...
                             x(I),y(I),'xk','markersize',13);last_index
-                        [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
-                        hold on
-                        plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-                        hold off
-                        axis equal
-                        text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-                        text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+                        Replot(); % Our additions
                         axis equal
                         axis([0 1 -.2 .2])
                         %drawnow
@@ -430,13 +397,7 @@ uicontrol('style','text','Fontsize',10, ...
                             [1;x],[0;y],'.k', ...
                             x(I),y(I),'xk', ...
                             'markersize',13);
-                        [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
-                        hold on
-                        plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-                        hold off
-                        axis equal
-                        text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-                        text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+                        Replot(); % Our additions
                         axis equal
                         axis(axisZ)
                         t=text(x(I)+deltxtZ,y(I)-deltxtZ, ...
@@ -453,13 +414,7 @@ uicontrol('style','text','Fontsize',10, ...
                         [1;x],[0;y],'.k', ...
                         x(I),y(I),'xk', ...
                         'markersize',13);
-                    [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
-                    hold on
-                    plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-                    hold off
-                    axis equal
-                    text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-                    text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+                    Replot(); % Our additions
                     axis equal
                     axis([0 1 -.2 .2])
                     %drawnow
@@ -469,13 +424,7 @@ uicontrol('style','text','Fontsize',10, ...
                         [1;x],[0;y],'.k', ...
                         x(I),y(I),'xk', ...
                         'markersize',13);
-                    [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
-                    hold on
-                    plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-                    hold off
-                    axis equal
-                    text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-                    text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+                    Replot(); % Our additions
                     axis equal
                     axis(axisZ)
                     t=text(x(I)+deltxtZ,y(I)-deltxtZ, ...
@@ -497,13 +446,7 @@ uicontrol('style','text','Fontsize',10, ...
                     plot(xs,ys,'k', ...
                         [1;x],[0;y],'.k', ...
                         'markersize',13);
-                    [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
-                    hold on
-                    plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-                    hold off
-                    axis equal
-                    text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-                    text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+                    Replot(); % Our additions
                     axis equal
                     axis([0 1 -.2 .2])
                     %drawnow
@@ -512,13 +455,7 @@ uicontrol('style','text','Fontsize',10, ...
                     plot(xs,ys,'k', ...
                         [1;x],[0;y],'.k', ...
                         'markersize',13);
-                    [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
-                    hold on
-                    plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-                    hold off
-                    axis equal
-                    text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-                    text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+                    Replot(); % Our additions
                     axis equal
                     axis(axisZ)
                     drawnow
@@ -540,18 +477,12 @@ uicontrol('style','text','Fontsize',10, ...
             y(I)=max([min([p(3),ymax]),ymin]);
             xredo=[];
             yredo=[];
-            [xs ys] = splinefit([1;x;1],[0;y;0],1);
+            [xs, ys] = splinefit([1;x;1],[0;y;0],1);
             set(0, 'CurrentFigure', h)
             plot(xs,ys,'k', ...
                 [1;x],[0;y],'.k', ...
                 x(I),y(I),'xk','markersize',13);
-            [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
-            hold on
-            plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-            hold off
-            axis equal
-            text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-            text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+            Replot(); % Our additions
             axis equal
             axis([0 1 -.2 .2])
             %drawnow
@@ -561,13 +492,7 @@ uicontrol('style','text','Fontsize',10, ...
                 [1;x],[0;y],'.k', ...
                 x(I),y(I),'xk', ...
                 'markersize',13);
-            [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
-            hold on
-            plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-            hold off
-            axis equal
-            text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-            text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+           Replot(); % Our additions
             axis equal
             axis(axisZ)
             t=text(x(I)+deltxtZ,y(I)-deltxtZ, ...
@@ -651,13 +576,7 @@ uicontrol('style','text','Fontsize',10, ...
             [1;x],[0;y],'.k', ...
             x(I),y(I),'xk', ...
             'markersize',13);
-        [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
-        hold on
-        plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-        hold off
-        axis equal
-        text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-        text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+        Replot(); % Our additions
         axis equal
         axis([0 1 -.2 .2])
         %drawnow
@@ -667,13 +586,7 @@ uicontrol('style','text','Fontsize',10, ...
             [1;x],[0;y],'.k', ...
             x(I),y(I),'xk', ...
             'markersize',13);
-        [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(xs, ys);
-        hold on
-        plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-        hold off
-        axis equal
-        text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-        text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+        Replot(); % Our additions
         axis equal
         axis(axisZ)
         t=text(x(I)+deltxtZ,y(I)-deltxtZ, ...
@@ -696,6 +609,29 @@ uicontrol('style','text','Fontsize',10, ...
 
 %%%% empty function to make figure 'h' inactive while 'hZ' is active
     function emptyFunctionHandle(varargin)
+    end
+
+    %%% function to change Re callable by radio buttons
+    function ReSelection(~, event)
+        Re = event.NewValue.UserData;
+        disp(['now the avlue of the Re is ', num2str(Re)])
+        drawnow
+    end
+
+% funciton to do plotting so we don't need to keep editing 1 million file
+% things
+    function Replot()
+    [x_foil, y_foil, cp_foil] = foilsolve([1;x;1],[0;y;0], np, Re, alpha);
+    [x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(x_foil, y_foil);
+    dd = zeros(size(x_foil)); % dummy required by surface
+    col = cp_foil; % colour according to cp
+    hold on
+    plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
+    surface([x_foil;x_foil],[y_foil;y_foil],[dd;dd],[col;col],...
+        'facecol','no','edgecol','interp','linew',2);
+    hold off
+    text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
+    text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
     end
 
 end
