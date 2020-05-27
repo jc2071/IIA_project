@@ -14,6 +14,10 @@ nphr = 5*np;
 [xsin, ysin] = resyze ( xshr, yshr );
 [xs, ys] = make_upanels ( xsin, ysin, np );
 
+% OUtput arrays
+Cl = zeros(size(alpha));
+Cd = zeros(size(alpha));
+
 %  Assemble the lhs of the equations for the potential flow calculation
 A = build_lhs ( xs, ys );
 Am1 = inv(A);
@@ -80,7 +84,9 @@ for nalpha = 1:length(alphaswp)
     [~, ~, ~, ~, delstarl, thetal] = bl_solv ( sl, cpl, Re);
     
     %    lift and drag coefficients
-    [Cl, Cd] = forces ( circ, cp, delstarl, thetal, delstaru, thetau );
+    [Cli, Cdi] = forces ( circ, cp, delstarl, thetal, delstaru, thetau );
+    Cl(nalpha) = Cli;
+    Cd(nalpha) = Cdi;
 end
 
 % Now do the single value of alpha
