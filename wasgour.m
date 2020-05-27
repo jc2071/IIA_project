@@ -72,6 +72,7 @@ h=figure('units','normalized',...
     'WindowButtonMotionFcn',@Move,...
     'WindowButtonUpFcn',@Up,...
     'DeleteFcn',@figDelete);
+movegui(figure(h),'northwest');
 a=axes('position',[.10,.10,.87,.87]);
 
 %Extra UI to set Re, alpha and np
@@ -79,6 +80,8 @@ Re = 5e5; % default to slow aerofoil
 alpha = 0;
 alphaswp = 0:5:20;
 np = 100;
+replotting = 0;
+
 Rebg = uibuttongroup('Visible', 'off',...
      'Position', [0 0 0.1 0.1],...
      'SelectionChangedFcn', @ReSelection);
@@ -113,7 +116,7 @@ axis equal
 axis([xmin xmax ymin ymax])
 uicontrol('style','text','Fontsize',10, ...
     'position',[1 190 80 150],...
-    'string',{'u-undo';'r-redo';'z-zoom';'l-load';'s-save'; ...
+    'string',{'u-undo';'r-redo';'z-zoom';'l-load';'s-save';'p-plot'; ...
     'b-back up';'t-restore';'d-delta'},...
     'foregroundcolor','k');
 
@@ -258,6 +261,9 @@ uicontrol('style','text','Fontsize',10, ...
                 [fileout,pathout]=uiputfile([pathin '*.surf']);
                 save([pathout fileout],'dataout','-ascii')
                 %%% 'b' backup configuration
+            case 'p'
+                replotting = 1;
+                Replot()
             case 'b'
                 Xbk=x;
                 Ybk=y;
@@ -633,14 +639,14 @@ uicontrol('style','text','Fontsize',10, ...
     function ReSelection(~, event)
         Re = event.NewValue.UserData;
         disp(['Now the value of the Re is ', num2str(Re)])
-        
         Replot()
     end
 
 % function to do plotting so we don't need to keep editing 1 million file
 % things
     function Replot()
-    [x_foil, y_foil, cp_foil, theta_foil, cl_foil, cd_foil] = foilsolve([1;x;1],[0;y;0], np, Re, alpha, alphaswp);
+    if replotting == 1
+    [x_foil, y_foil, cp_foil, theta_foil, cl_foil, cd_foil,iss] = foilsolve([1;x;1],[0;y;0], np, Re, alpha, alphaswp);
     %[x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(x_foil, y_foil);
     
     %Rescale xfoil to match onto wasg line for ploting only, not analysis!!
@@ -659,8 +665,10 @@ uicontrol('style','text','Fontsize',10, ...
     hold off
     %text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
     %text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
-    %wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl_foil,cd_foil)
-    %figure(h)
+   
+    wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl_foil,cd_foil)
+    replotting = 0;
+    end
     end
 
 end
