@@ -90,7 +90,7 @@ plot(xs,ys,'k', ...
     'markersize',13,'markerfacecolor','k');
 
 %---------------------- START INSERT
-Replot() % a function so we don't need to re work all the code
+%Replot() % a function so we don't need to re work all the code
 % ------------ END INSERT
 
 axis equal
@@ -100,6 +100,10 @@ uicontrol('style','text','Fontsize',10, ...
     'string',{'u-undo';'r-redo';'z-zoom';'l-load';'s-save'; ...
     'b-back up';'t-restore';'d-delta'},...
     'foregroundcolor','k');
+
+Replot()
+
+%autoArrangeFigures(1, 2, 2)
 
 %%% @Down - what happens when a mouse button is pressed
     function Down(varargin);
@@ -145,12 +149,13 @@ uicontrol('style','text','Fontsize',10, ...
                         plot(xs,ys,'k', ...
                             [1;x],[0;y],'.k', ...
                             x(I),y(I),'xk','markersize',13)
-                        Replot(); % Our additions
+                      
                         axis equal
                         axis([0 1 -.2 .2])
                         t=text(x(I)+deltxt,y(I)-deltxt, ...
                             ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
                             'color','k','fontweight','bold');
+                        Replot(); % Our additions
                         drawnow
                     end
                     %%% Select a knot if left-click is close to it:
@@ -161,12 +166,13 @@ uicontrol('style','text','Fontsize',10, ...
                     plot(xs,ys,'k', ...
                         [1;x],[0;y],'.k', ...
                         x(I),y(I),'xk','markersize',13)
-                    Replot(); % Our additions
+   
                     axis equal
                     axis([0 1 -.2 .2])
                     t=text(x(I)+deltxt,y(I)-deltxt, ...
                         ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
                         'color','k','fontweight','bold');
+                    Replot(); % Our additions
                     drawnow
                 end
                 %%% Mouse right click:
@@ -184,9 +190,10 @@ uicontrol('style','text','Fontsize',10, ...
                     try delete(t);end;
                     plot(xs,ys,'k', ...
                         [1;x],[0;y],'.k','markersize',13)
-                    Replot(); % Our additions
+       
                     axis equal
                     axis([0 1 -.2 .2])
+                    Replot(); % Our additions
                     drawnow
                 end
         end
@@ -211,12 +218,13 @@ uicontrol('style','text','Fontsize',10, ...
             plot(xs,ys,'k', ...
                 [1;x],[0;y],'.k', ...
                 x(I),y(I),'xk','markersize',13)
-            Replot(); % Our additions
+      
             axis equal
             axis([0 1 -.2 .2])
             t=text(x(I)+deltxt,y(I)-deltxt, ...
                 ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
                 'color','k','fontweight','bold');
+            Replot(); % Our additions
             drawnow
         end
     end
@@ -313,9 +321,10 @@ uicontrol('style','text','Fontsize',10, ...
                 plot(xs,ys,'k', ...
                     [1;x],[0;y],'.k', ...
                     x(I),y(I),'xk','markersize',13)
-                Replot(); % Our additions
+         
                 axis equal
                 axis(axisZ)
+                Replot(); % Our additions
                 drawnow
                 %%% press 'd' to change the rate of displacement of a knot
                 %%% when using the arrow keys instead of holding left mouse
@@ -338,12 +347,14 @@ uicontrol('style','text','Fontsize',10, ...
         plot(xs,ys,'k', ...
             [1;x],[0;y],'.k', ...
             x(I),y(I),'xk','markersize',13)
-        Replot(); % Our additions
+
         axis equal
         axis([0 1 -.2 .2])
+         
         t=text(x(I)+deltxt,y(I)-deltxt, ...
             ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
             'color','k','fontweight','bold');
+        Replot(); % Our additions
         drawnow
     end
 
@@ -389,9 +400,10 @@ uicontrol('style','text','Fontsize',10, ...
                         plot(xs,ys,'k', ...
                             [1;x],[0;y],'.k', ...
                             x(I),y(I),'xk','markersize',13);last_index
-                        Replot(); % Our additions
+
                         axis equal
                         axis([0 1 -.2 .2])
+                        Replot(); % Our additions
                         %drawnow
                         figure(hZ)
                         try delete(t);end;
@@ -399,12 +411,13 @@ uicontrol('style','text','Fontsize',10, ...
                             [1;x],[0;y],'.k', ...
                             x(I),y(I),'xk', ...
                             'markersize',13);
-                        Replot(); % Our additions
+                        
                         axis equal
                         axis(axisZ)
                         t=text(x(I)+deltxtZ,y(I)-deltxtZ, ...
                             ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
                             'color','k','fontweight','bold');
+                        Replot(); % Our additions
                         drawnow
                     end
                     %%% Select a knot if left-click is close to it:
@@ -416,9 +429,10 @@ uicontrol('style','text','Fontsize',10, ...
                         [1;x],[0;y],'.k', ...
                         x(I),y(I),'xk', ...
                         'markersize',13);
-                    Replot(); % Our additions
+
                     axis equal
                     axis([0 1 -.2 .2])
+                    Replot(); % Our additions
                     %drawnow
                     figure(hZ)
                     try delete(t);end;
@@ -426,12 +440,13 @@ uicontrol('style','text','Fontsize',10, ...
                         [1;x],[0;y],'.k', ...
                         x(I),y(I),'xk', ...
                         'markersize',13);
-                    Replot(); % Our additions
+         
                     axis equal
                     axis(axisZ)
                     t=text(x(I)+deltxtZ,y(I)-deltxtZ, ...
                         ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
                         'color','k','fontweight','bold');
+                    Replot(); % Our additions
                     drawnow
                 end
                 %%% Mouse right click:
@@ -448,18 +463,19 @@ uicontrol('style','text','Fontsize',10, ...
                     plot(xs,ys,'k', ...
                         [1;x],[0;y],'.k', ...
                         'markersize',13);
-                    Replot(); % Our additions
                     axis equal
                     axis([0 1 -.2 .2])
+                     Replot(); 
                     %drawnow
                     figure(hZ)
                     try delete(t);end;
                     plot(xs,ys,'k', ...
                         [1;x],[0;y],'.k', ...
                         'markersize',13);
-                    Replot(); % Our additions
+             % Our additions
                     axis equal
                     axis(axisZ)
+                        Replot();
                     drawnow
                 end
         end
@@ -484,9 +500,9 @@ uicontrol('style','text','Fontsize',10, ...
             plot(xs,ys,'k', ...
                 [1;x],[0;y],'.k', ...
                 x(I),y(I),'xk','markersize',13);
-            Replot(); % Our additions
             axis equal
             axis([0 1 -.2 .2])
+            Replot(); % Our additions
             %drawnow
             set(0, 'CurrentFigure', hZ)
             try delete(t);end;
@@ -494,12 +510,12 @@ uicontrol('style','text','Fontsize',10, ...
                 [1;x],[0;y],'.k', ...
                 x(I),y(I),'xk', ...
                 'markersize',13);
-           Replot(); % Our additions
             axis equal
             axis(axisZ)
             t=text(x(I)+deltxtZ,y(I)-deltxtZ, ...
                 ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
                 'color','k','fontweight','bold');
+            Replot(); % Our additions
             drawnow
         end
     end
@@ -578,9 +594,10 @@ uicontrol('style','text','Fontsize',10, ...
             [1;x],[0;y],'.k', ...
             x(I),y(I),'xk', ...
             'markersize',13);
-        Replot(); % Our additions
+
         axis equal
         axis([0 1 -.2 .2])
+        Replot(); % Our additions
         %drawnow
         set(0, 'CurrentFigure', hZ)
         try delete(t);end;
@@ -588,12 +605,12 @@ uicontrol('style','text','Fontsize',10, ...
             [1;x],[0;y],'.k', ...
             x(I),y(I),'xk', ...
             'markersize',13);
-        Replot(); % Our additions
         axis equal
         axis(axisZ)
         t=text(x(I)+deltxtZ,y(I)-deltxtZ, ...
             ['(',num2str(x(I),'%8.4f'),',',num2str(y(I),'%8.4f'),')'], ...
             'color','k','fontweight','bold');
+        Replot()
         drawnow
     end
 
@@ -634,10 +651,11 @@ uicontrol('style','text','Fontsize',10, ...
     hold off
     text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
     text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
-    figure(2);
-    plot(xs,ys)
-    autoArrangeFigures(2, 1, 1)
-    figure(1);
+    figure(2)
+    plot(x_foil(1:51),-cp_foil(1:51))
+    axis([xmin xmax -1 7])
+    axis equal
+    figure(1)
     
     end
 end
