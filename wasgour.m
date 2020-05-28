@@ -75,32 +75,39 @@ h=figure('units','normalized',...
 movegui(figure(h),'northwest');
 a=axes('position',[.10,.10,.87,.87]);
 
-%Extra UI to set Re, alpha and np
+% %Extra UI to set Re, alpha and np
 Re = 5e5; % default to slow aerofoil
 alpha = 0;
 alphaswp = 0:5:20;
 np = 100;
-replotting = 0;
-
+% replotting = 0;
 Rebg = uibuttongroup('Visible', 'off',...
-     'Position', [0 0 0.1 0.1],...
+     'units', 'pixels', ...
+     'Position', [0 0 100 50],...
      'SelectionChangedFcn', @ReSelection);
-r1 = uicontrol(Rebg,'Style',...
+uicontrol(Rebg,'Style',...
                   'radiobutton',...
-                  'String','Slow',...
-                  'Position',[5 25 100 30],...
+                  'String','Slow 0.5e6',...
+                  'Position',[5 25 100 20],...
                   'UserData', 5e5,...
                   'HandleVisibility','on');
               
-r2 = uicontrol(Rebg,'Style','radiobutton',...
-                  'String','Fast',...
+uicontrol(Rebg,'Style','radiobutton',...
+                  'String','Fast 20e6',...
                   'Position',[5 5 100 20],...
                   'UserData', 2e7,...
                   'HandleVisibility','on');
 Rebg.Visible = 'on';
+%np
+uicontrol('Style', 'edit', 'String', '100', 'Position', [20, 55, 80, 20], 'Callback', @Setnp);
+uicontrol('Style', 'text', 'String', 'np', 'Position', [0, 55, 20, 20]);
+% alpha
+uicontrol('Style', 'edit', 'String', '0', 'Position', [40, 80, 60, 20], 'Callback', @Setalpha);
+uicontrol('Style', 'text', 'String', 'alpha', 'Position', [0, 80, 40, 20]);
+% alphaswp
+uicontrol('Style', 'edit', 'String', '0:5:20', 'Position', [5, 105, 100, 20], 'Callback', @Setalphaswp);
+uicontrol('Style', 'text', 'String', 'alpha sweep', 'Position', [5, 130, 100, 20]);
 
-%rb1 = uicontrol(Rebg, 'Style', 'radiobutton', 'String', 'Slow (0.5e6)', 'UserData', 5e5);
-%rb2 = uicontrol(Rebg, 'Style', 'radiobutton', 'String', 'Fast (20e6)', 'UserData', 2e7);
 % finito w extra ui
 
 [xs ,ys] = splinefit([1;x;1],[0;y;0],0); % big list of x and y plotting points
@@ -112,7 +119,7 @@ plot(xs,ys,'k', ...
 Replot() % a function so we don't need to re work all the code
 % ------------ END INSERT
 
-axis equal
+axis equal;
 axis([xmin xmax ymin ymax])
 uicontrol('style','text','Fontsize',10, ...
     'position',[1 190 80 150],...
@@ -262,8 +269,7 @@ uicontrol('style','text','Fontsize',10, ...
                 save([pathout fileout],'dataout','-ascii')
                 %%% 'b' backup configuration
             case 'p'
-                replotting = 1;
-                Replot()
+                Regraph()
             case 'b'
                 Xbk=x;
                 Ybk=y;
@@ -635,18 +641,39 @@ uicontrol('style','text','Fontsize',10, ...
     function emptyFunctionHandle(varargin)
     end
 
-    %%% function to change Re callable by radio buttons
+    % function to change Re callable by radio buttons
     function ReSelection(~, event)
         Re = event.NewValue.UserData;
-        disp(['Now the value of the Re is ', num2str(Re)])
+        disp(['Re changed to ', num2str(Re)])
+        Replot()
+    end
+    
+    function Setnp(src, ~)
+        np = str2num(src.String);
+        disp(['np changed to ' num2str(np)])
         Replot()
     end
 
-% function to do plotting so we don't need to keep editing 1 million file
-% things
-    function Replot()
-    if replotting == 1
-    [x_foil, y_foil, cp_foil, theta_foil, cl_foil, cd_foil,iss] = foilsolve([1;x;1],[0;y;0], np, Re, alpha, alphaswp);
+    function Setalpha(src, ~)
+        alpha = str2num(src.String);
+        disp(['alpha changed to ' num2str(alpha)])
+        Replot()
+    end
+
+    function Setalphaswp(src, ~)
+        newStr = split(src.String, ':');
+        start = str2num(newStr{1});
+        step = str2num(newStr{2});
+        stop = str2num(newStr{3});
+        alphaswp = start:step:stop;
+        disp('alphaswp changed to ')
+        disp(alphaswp)
+        Replot()
+    end
+
+    function Replot() % this is for the live updating while we move
+        
+    %[x_foil, y_foil, cp_foil, theta_foil, cl_foil, cd_foil, iss] = foilsolve([1;x;1],[0;y;0], np, Re, alpha, alphaswp);
     %[x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(x_foil, y_foil);
     
     %Rescale xfoil to match onto wasg line for ploting only, not analysis!!
@@ -658,17 +685,19 @@ uicontrol('style','text','Fontsize',10, ...
     % Plot things ontop of WASG
     %dd = zeros(size(x_plot)); % dummy required by surface
     %col = cp_foil; % colour according to cp
-    hold on
+    %hold on
     %plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
     %surface([x_plot;x_plot],[y_plot;y_plot],[dd;dd],[col;col],...
      %   'facecol','no','edgecol','interp','linew',2);
-    hold off
+    %hold off
     %text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
     %text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
-   
-    wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl_foil,cd_foil,theta_foil)
-    replotting = 0;
     end
+
+    function Regraph() % this happens when we ask for it
+        [x_foil, y_foil, cp_foil, theta_foil, cl_foil, cd_foil, iss] = foilsolve([1;x;1],[0;y;0], np, Re, alpha, alphaswp);
+        wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl_foil,cd_foil,theta_foil,iss)
+        figure(h)
     end
 
 end

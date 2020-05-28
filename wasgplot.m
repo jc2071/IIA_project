@@ -20,7 +20,6 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     f2 = figure(2);
     a2 = axes('Parent', f2);
     cla(a2)
-    cla % clear output
     movegui(figure(2),'southwest');
     hold on
     plot(x_foil(1:ipstag),-cp_foil(1:ipstag),'color',...
@@ -32,7 +31,7 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     markers = ['ko','kx','ks','kd','ko','kx','ks','kd'];
     for i = 2:9
         if iss(i) >0
-            plot(x_foil(iss(i)),-cp_foil(iss(i)), markers(i-1),'DisplayName',label(i-1))
+            plot(x_foil(iss(i)),-cp_foil(iss(i)), markers(i-1))
         end
     end
     legend()
@@ -49,8 +48,7 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     %%
     f3 = figure(3);
     a3 = axes('Parent', f3);
-    cla(a3)
-    cla % clear output
+    cla
     movegui(figure(3),'northeast');
     hold on
     plot(alphaswp,cl./cd, 'color' , [0.6350 0.0780 0.1840], 'linewidth' ,1.2)
