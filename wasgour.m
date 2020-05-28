@@ -673,23 +673,32 @@ uicontrol('style','text','Fontsize',10, ...
 
     function Replot() % this is for the live updating while we move
         
-    %[x_foil, y_foil, cp_foil, theta_foil, cl_foil, cd_foil, iss] = foilsolve([1;x;1],[0;y;0], np, Re, alpha, alphaswp);
+    [x_foil, y_foil, cp_foil, ~, ~, ~, iss] = foilsolve([1;x;1],[0;y;0], np, Re, alpha, alphaswp);
     %[x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(x_foil, y_foil);
-    
-    %Rescale xfoil to match onto wasg line for ploting only, not analysis!!
-    %nphr = 5*np; % exactly the same as foil does but not upanels yet
-    %[xshr, yshr] = splinefit ([1;x;1],[0;y;0], nphr );
-    %[x_plot, y_plot] = unsyze(x_foil, y_foil, xshr, yshr); %transform upanels into correct orientation
-    %x_plot = x_plot'; y_plot = y_plot';
-    
+    [xspln, yspln] = splinefit ( x, y, np*5 );
+    rte = sqrt((xspln-1).^2 + yspln.^2);
+    indle = find(rte==max(rte));
+    indle = indle(1);  % in case of double match
+    cawd = rte(indle);
+    %scale and move te to (0,0)
+    x1 = (x_foil - 1) * cawd;
+    y1 = y_foil * cawd;
+    % rotate to correct position
+    coz = 1-xspln(indle);
+    zin = yspln(indle);
+    rotmat = [coz, zin; -zin, coz]/cawd;
+    x2y2 = rotmat * [x1;y1];
+    x_plot = x2y2(1,:) + 1;
+    y_plot = x2y2(2,:);
+        
     % Plot things ontop of WASG
-    %dd = zeros(size(x_plot)); % dummy required by surface
-    %col = cp_foil; % colour according to cp
-    %hold on
+    dd = zeros(size(x_plot)); % dummy required by surface
+    col = cp_foil; % colour according to cp
+    hold on
     %plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-    %surface([x_plot;x_plot],[y_plot;y_plot],[dd;dd],[col;col],...
-     %   'facecol','no','edgecol','interp','linew',2);
-    %hold off
+    surface([x_plot;x_plot],[y_plot;y_plot],[dd;dd],[col;col],...
+        'facecol','no','edgecol','interp','linew',2);
+    hold off
     %text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
     %text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
     end
