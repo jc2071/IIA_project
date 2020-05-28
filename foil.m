@@ -41,7 +41,7 @@ for nalpha = 1:length(alpha)
     gam = Am1 * b;
     
     %    calculate cp distribution and overall circulation
-    [cp circ] = potential_op ( xs, ys, gam );
+    [cp, ~] = potential_op ( xs, ys, gam );
     %    locate stagnation point and calculate stagnation panel length
     [ipstag fracstag] = find_stag(gam);
     dsstag = sqrt((xs(ipstag+1)-xs(ipstag))^2 + (ys(ipstag+1)-ys(ipstag))^2);
@@ -93,6 +93,24 @@ for nalpha = 1:length(alpha)
     
     %    boundary layer solver
     [ilnt ills iltr ilts delstarl thetal] = bl_solv ( sl, cpl , Re);
+    
+        % Calculate new circulation
+    if iuts ~= 0
+        icirc_start = ipstag + 1 - iuts;
+    else 
+        icirc_start = 1;
+    end
+    if ilts ~= 0
+        icirc_stop = ipstag + ilts;
+    else 
+        icirc_stop = np+1;
+    end
+    circ = 0;
+    for ip = icirc_start:icirc_stop-1
+        cp(ip) = 1 - gam(ip)^2;
+        dels = sqrt((xs(ip+1)-xs(ip))^2 + (ys(ip+1)-ys(ip))^2);
+        circ = circ  +  dels * (gam(ip)+gam(ip+1))/2;
+    end
     
     %    lift and drag coefficients
     [Cl Cd] = forces ( circ, cp, delstarl, thetal, delstaru, thetau );
