@@ -61,9 +61,9 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     xlabel('\alpha')
     ylabel('L/D')
     set(gca, 'FontName','Times', 'FontSize', 14);
-    c2 = uicontrol;
-    c2.String = 'Print to eps';
-    c2.Callback = @plotButtonPushed2;
+    c4 = uicontrol;
+    c4.String = 'Print to eps';
+    c4.Callback = @plotButtonPushed2;
     %%
     %%
     f4 = figure(4);
@@ -97,6 +97,53 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     c3.Callback = @plotButtonPushed3;
     %%
     %%
+    f5 = figure(5);
+    a5 = axes('Parent', f5);
+    delete(a5)
+    cla
+    hold on
+    plot(alphaswp,cl, 'color' , [0.6350 0.0780 0.1840], 'linewidth' ,1.2)
+    yline(0,'k')
+    hold off
+    xlabel('\alpha')
+    ylabel('C_l')
+    set(gca, 'FontName','Times', 'FontSize', 14);
+    c4 = uicontrol;
+    c4.String = 'Print to eps';
+    c4.Callback = @plotButtonPushed4;
+    %%
+    f6 = figure(6);
+    a6 = axes('Parent', f6);
+    delete(a6)
+    cla
+    hold on
+    plot(alphaswp,cd, 'color' , [0.6350 0.0780 0.1840], 'linewidth' ,1.2)
+    yline(0,'k')
+    hold off
+    xlabel('\alpha')
+    ylabel('C_d')
+    set(gca, 'FontName','Times', 'FontSize', 14);
+    c5 = uicontrol;
+    c5.String = 'Print to eps';
+    c5.Callback = @plotButtonPushed5;
+    %%
+    %%
+    f7 = figure(7);
+    a7 = axes('Parent', f7);
+    delete(a7)
+    cla
+    hold on
+    plot(cl,cd, 'color' , [0.6350 0.0780 0.1840], 'linewidth' ,1.2)
+    yline(0,'k')
+    hold off
+    xlabel('C_l')
+    ylabel('C_d')
+    set(gca, 'FontName','Times', 'FontSize', 14);
+    c6 = uicontrol;
+    c6.String = 'Print to eps';
+    c6.Callback = @plotButtonPushed6;
+    %%
+    %%
     function plotButtonPushed1(src,event)
         set(c1,'visible','off') % Avoid plotting "print to eps"
         print (gcf, ['Data/' extractBefore(filein,".surf") ...
@@ -107,7 +154,7 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     function plotButtonPushed2(src,event)
         set(c2,'visible','off') % Avoid plotting "print to eps"
         print (gcf, ['Data/' extractBefore(filein,".surf") ...
-             '/' 'LD_' ReStr '_' num2str(alpha)], '-depsc')
+             '/' 'LD_' ReStr ], '-depsc')
         set(c2,'visible','on')
     end
 
@@ -116,6 +163,27 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
         print (gcf, ['Data/' extractBefore(filein,".surf") ...
              '/' 'theta_' ReStr '_' num2str(alpha)], '-depsc')
         set(c3,'visible','on')
+    end
+
+    function plotButtonPushed4(src,event)
+            set(c4,'visible','off') % Avoid plotting "print to eps"
+            print (gcf, ['Data/' extractBefore(filein,".surf") ...
+                 '/' 'cl_' ReStr '_' num2str(alpha)], '-depsc')
+            set(c4,'visible','on')
+    end
+
+    function plotButtonPushed5(src,event)
+            set(c5,'visible','off') % Avoid plotting "print to eps"
+            print (gcf, ['Data/' extractBefore(filein,".surf") ...
+                 '/' 'cd_' ReStr '_' num2str(alpha)], '-depsc')
+            set(c5,'visible','on')
+    end
+
+    function plotButtonPushed6(src,event)
+            set(c6,'visible','off') % Avoid plotting "print to eps"
+            print (gcf, ['Data/' extractBefore(filein,".surf") ...
+                 '/' 'clcd_' ReStr '_' num2str(alpha)], '-depsc')
+            set(c6,'visible','on')
     end
     %%
 end

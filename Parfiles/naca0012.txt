@@ -1,4 +1,4 @@
 Section identifier              : naca0012
 Number of panels                : 100
-Reynolds number                 : 20e+06
+Reynolds number                 : 0.5e+06
 Range of incidences (degrees)   : -15:1:15
