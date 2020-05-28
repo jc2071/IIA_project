@@ -666,7 +666,7 @@ uicontrol('style','text','Fontsize',10, ...
     %text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
     %text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
    
-    wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl_foil,cd_foil)
+    wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl_foil,cd_foil,theta_foil)
     replotting = 0;
     end
     end
