@@ -30,10 +30,14 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     plt = yline(0,'k');
     markers = repmat(["ko","kx","ks","kd"],1,2);
     names = repmat(["natural transition","laminar separation",...
-        "turbulent reattachment","turbulent seperation"],1,2);
+        "turbulent reattachment","turbulent separation"],1,2);
     for i = 2:9
-        if iss(i) >0
-            plot(x_foil(iss(i)),-cp_foil(iss(i)), markers(i-1),...
+        if iss(i) ~= 0 && i < 5
+            plot(x_foil(ipstag + 1 - iss(i)),-cp_foil(ipstag + 1 - iss(i)), markers(i-1),...
+                'DisplayName' , names(i-1),'linewidth',1.2)
+        end
+        if iss(i) ~= 0 && i > 4
+            plot(x_foil(ipstag + iss(i)),-cp_foil(ipstag + iss(i)), markers(i-1),...
                 'DisplayName' , names(i-1),'linewidth',1.2)
         end
     end
