@@ -76,6 +76,7 @@ movegui(figure(h),'northwest');
 a=axes('position',[.10,.10,.87,.87]);
 
 % %Extra UI to set Re, alpha and np
+imarkers = ["kp","ko","k^","ks","kd","ko","k^","ks","kd"];
 Re = 5e5; % default to slow aerofoil
 alpha = 0;
 alphaswp = 0:5:20;
@@ -695,10 +696,17 @@ uicontrol('style','text','Fontsize',10, ...
     dd = zeros(size(x_plot)); % dummy required by surface
     col = cp_foil; % colour according to cp
     hold on
-    %plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
     surface([x_plot;x_plot],[y_plot;y_plot],[dd;dd],[col;col],...
         'facecol','no','edgecol','interp','linew',2);
+    for im = 1:9
+        if iss(im) ~= 0
+           plot(x_plot(iss(im)), y_plot(iss(im)), imarkers(im),...
+               'Markersize', 10, 'markerfacecolor', 'm');
+        end
+    end
     hold off
+    %[x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(x_foil, y_foil);
+    %plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
     %text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
     %text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
     end
