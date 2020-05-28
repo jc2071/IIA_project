@@ -1,14 +1,11 @@
-function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta)
-    [~,le_index] = min(abs(x_foil)); % Gets le index
-    
+function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
+    ipstag = iss(1);
     % Make a nice string of the Reynolds number pw444 code
     ReLongStr = num2str(Re);
-    disp(ReLongStr)
     last_index = length(ReLongStr);
     for r = length(ReLongStr):-1:1
         if ReLongStr(r) ~= '0'
             last_index = r;
-            disp(last_index)
             break
         end
     end
@@ -18,18 +15,27 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta)
     else
         ReStr = [ReLongStr(1), '.', ReLongStr(2:last_index), 'e', expon];
     end
+    %% iunt, iuls, iutr, iuts, ilnt, ills, iltr, ilts --> (2,.....,9)
     %%
-    %%
-    figure(2)
+    f2 = figure(2);
+    a2 = axes('Parent', f2);
+    cla(a2)
     cla % clear output
     movegui(figure(2),'southwest');
     hold on
-    plot(x_foil(1:le_index),-cp_foil(1:le_index),'color',...
+    plot(x_foil(1:ipstag),-cp_foil(1:ipstag),'color',...
         [0.6350 0.0780 0.1840],'linewidth',1.2)
-    plot(x_foil(le_index:end),-cp_foil(le_index:end),'--','color',...
+    plot(x_foil(ipstag:end),-cp_foil(ipstag:end),'--','color',...
         [0.6350 0.0780 0.1840],'linewidth',1.2)
     legend('Upper surface','Lower surface')
     plt = yline(0,'k');
+    markers = ['ko','kx','ks','kd','ko','kx','ks','kd'];
+    for i = 2:9
+        if iss(i) >0
+            plot(x_foil(iss(i)),-cp_foil(iss(i)), markers(i-1),'DisplayName',label(i-1))
+        end
+    end
+    legend()
     plt.Annotation.LegendInformation.IconDisplayStyle = 'off';
     hold off
     xlabel('x/c');
@@ -41,7 +47,9 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta)
     max_ld = max(cl./cd);
     %%
     %%
-    figure(3)
+    f3 = figure(3);
+    a3 = axes('Parent', f3);
+    cla(a3)
     cla % clear output
     movegui(figure(3),'northeast');
     hold on
@@ -57,18 +65,34 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta)
     c2.Callback = @plotButtonPushed2;
     %%
     %%
-    figure(4)
+    f4 = figure(4);
+    a4 = axes('Parent', f4);
+    cla(a4)
     subplot(2,1,1);
     cla % clear output
-    xu = x_foil(1:le_index);
-    thetau = theta(1:le_index);
-    plot(xu,thetau)
+    xu = x_foil(1:ipstag+1);
+    thetau = theta(1:ipstag+1);
+    plot(xu,thetau,'color',...
+        [0.6350 0.0780 0.1840],'linewidth',1.2)
+    xlabel('x/c')
+    ylabel('\theta/c')
+    title('Upper momentum thickness')
+    set(gca, 'FontName','Times', 'FontSize', 14,'FontWeight','normal');
 
     subplot(2,1,2);
     cla % clear output
-    xl = x_foil(le_index:end);
-    thetal = theta(le_index:end);
-    plot(xl,thetal)
+    xl = x_foil(ipstag:end);
+    thetal = theta(ipstag:end);
+    plot(xl,thetal,'color',...
+        [0.6350 0.0780 0.1840],'linewidth',1.2)
+    xlabel('x/c')
+    ylabel('\theta/c')
+    title('Lower momentum thickness')
+    set(gca, 'FontName','Times', 'FontSize', 14,'FontWeight','normal');
+    
+    c3 = uicontrol;
+    c3.String = 'Print to eps';
+    c3.Callback = @plotButtonPushed3;
     %%
     %%
     function plotButtonPushed1(src,event)
@@ -83,6 +107,13 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta)
         print (gcf, ['Data/' extractBefore(filein,".surf") ...
              '/' 'LD_' ReStr '_' num2str(alpha)], '-depsc')
         set(c2,'visible','on')
+    end
+
+    function plotButtonPushed3(src,event)
+        set(c3,'visible','off') % Avoid plotting "print to eps"
+        print (gcf, ['Data/' extractBefore(filein,".surf") ...
+             '/' 'theta_' ReStr '_' num2str(alpha)], '-depsc')
+        set(c3,'visible','on')
     end
     %%
 end
