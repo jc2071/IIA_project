@@ -19,12 +19,13 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     %%
     f2 = figure(2);
     a2 = axes('Parent', f2);
-    cla(a2)
+    delete(a2)
+    cla
     movegui(figure(2),'southwest');
     hold on
-    plot(x_foil(1:ipstag),-cp_foil(1:ipstag),'color',...
+    plot(x_foil(1:ipstag+1 ),-cp_foil(1:ipstag+1),'color',...
         [0.6350 0.0780 0.1840],'linewidth',1.2)
-    plot(x_foil(ipstag:end),-cp_foil(ipstag:end),'--','color',...
+    plot(x_foil(ipstag+1:end),-cp_foil(ipstag+1:end),'--','color',...
         [0.6350 0.0780 0.1840],'linewidth',1.2)
     legend('Upper surface','Lower surface')
     plt = yline(0,'k');
@@ -32,12 +33,8 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     names = repmat(["natural transition","laminar separation",...
         "turbulent reattachment","turbulent separation"],1,2);
     for i = 2:9
-        if iss(i) ~= 0 && i < 5
-            plot(x_foil(ipstag + 1 - iss(i)),-cp_foil(ipstag + 1 - iss(i)), markers(i-1),...
-                'DisplayName' , names(i-1),'linewidth',1.2)
-        end
-        if iss(i) ~= 0 && i > 4
-            plot(x_foil(ipstag + iss(i)),-cp_foil(ipstag + iss(i)), markers(i-1),...
+        if iss(i) ~= 0 
+            plot(x_foil(iss(i)),-cp_foil(iss(i)), markers(i-1),...
                 'DisplayName' , names(i-1),'linewidth',1.2)
         end
     end
@@ -50,16 +47,15 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     c1 = uicontrol;
     c1.String = 'Print to eps';
     c1.Callback = @plotButtonPushed1;
-    max_ld = max(cl./cd);
     %%
     %%
     f3 = figure(3);
     a3 = axes('Parent', f3);
     delete(a3)
+    cla
     movegui(figure(3),'northeast');
     hold on
     plot(alphaswp,cl./cd, 'color' , [0.6350 0.0780 0.1840], 'linewidth' ,1.2)
-    text(16,10,['Max L/D: ' num2str(round(max_ld))])
     yline(0,'k')
     hold off
     xlabel('\alpha')
@@ -72,7 +68,8 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     %%
     f4 = figure(4);
     a4 = axes('Parent', f4);
-    cla(a4)
+    delete(a4)
+    cla
     subplot(2,1,1);
     cla % clear output
     xu = x_foil(1:ipstag+1);

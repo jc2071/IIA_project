@@ -46,7 +46,7 @@ for nalpha = 1:length(alpha)
     [ipstag fracstag] = find_stag(gam);
     dsstag = sqrt((xs(ipstag+1)-xs(ipstag))^2 + (ys(ipstag+1)-ys(ipstag))^2);
     
-    if mod(nalpha,5) ==  0
+    if mod(nalpha,2) ==  0
         figure(nalpha)
         plot(xs,-cp, 'color', 'red', 'LineWidth', 1.2)
     end
