@@ -697,7 +697,7 @@ uicontrol('style','text','Fontsize',10, ...
     function Regraph() % this happens when we ask for it
         [x_foil, y_foil, cp_foil, theta_foil, cl_foil, cd_foil, iss] = foilsolve([1;x;1],[0;y;0], np, Re, alpha, alphaswp);
         wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl_foil,cd_foil,theta_foil,iss)
-        figure(h)
+        %figure(h)
     end
 
 end

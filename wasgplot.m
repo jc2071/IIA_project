@@ -28,13 +28,16 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
         [0.6350 0.0780 0.1840],'linewidth',1.2)
     legend('Upper surface','Lower surface')
     plt = yline(0,'k');
-    markers = ['ko','kx','ks','kd','ko','kx','ks','kd'];
+    markers = repmat(["ko","kx","ks","kd"],1,2);
+    names = repmat(["natural transition","laminar separation",...
+        "turbulent reattachment","turbulent seperation"],1,2);
     for i = 2:9
         if iss(i) >0
-            plot(x_foil(iss(i)),-cp_foil(iss(i)), markers(i-1))
+            plot(x_foil(iss(i)),-cp_foil(iss(i)), markers(i-1),...
+                'DisplayName' , names(i-1),'linewidth',1.2)
         end
     end
-    legend()
+    legend(legendUnq)
     plt.Annotation.LegendInformation.IconDisplayStyle = 'off';
     hold off
     xlabel('x/c');
@@ -48,7 +51,7 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     %%
     f3 = figure(3);
     a3 = axes('Parent', f3);
-    cla
+    delete(a3)
     movegui(figure(3),'northeast');
     hold on
     plot(alphaswp,cl./cd, 'color' , [0.6350 0.0780 0.1840], 'linewidth' ,1.2)
