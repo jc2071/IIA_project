@@ -89,12 +89,11 @@ for nalpha = 1:length(alphaswp)
     else 
         icirc_start = 1;
     end
-    %if ilts ~= 0
-    %    icirc_stop = ipstag + ilts;
-    %else 
-    %    icirc_stop = np+1;
-    %end
-    icirc_stop = np+1;
+    if ilts ~= 0
+       icirc_stop = ipstag + ilts;
+    else 
+       icirc_stop = np+1;
+    end
     circ = 0;
     for ip = icirc_start:icirc_stop-1
         dels = sqrt((xs(ip+1)-xs(ip))^2 + (ys(ip+1)-ys(ip))^2);
