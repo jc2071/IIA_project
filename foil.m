@@ -41,7 +41,7 @@ for nalpha = 1:length(alpha)
     gam = Am1 * b;
     
     %    calculate cp distribution and overall circulation
-    [cp, ~] = potential_op ( xs, ys, gam );
+    [cp, circ_old] = potential_op ( xs, ys, gam );
     %    locate stagnation point and calculate stagnation panel length
     [ipstag fracstag] = find_stag(gam);
     dsstag = sqrt((xs(ipstag+1)-xs(ipstag))^2 + (ys(ipstag+1)-ys(ipstag))^2);
@@ -109,12 +109,15 @@ for nalpha = 1:length(alpha)
     end
     
     %    lift and drag coefficients
-    [Cl Cd] = forces ( circ, cp, delstarl, thetal, delstaru, thetau );
+    [Cl_old, Cd_old] = forces ( circ_old, cp, delstarl, thetal, delstaru, thetau );
+    [Cl, Cd] = forces ( circ, cp, delstarl, thetal, delstaru, thetau );
     
     %    copy Cl and Cd into arrays for alpha sweep plots
     
     clswp(nalpha) = Cl;
     cdswp(nalpha) = Cd;
+    clswp_old(nalpha) = Cl_old;
+    cdswp_old(nalpha) = Cd_old;
     lovdswp(nalpha) = Cl/Cd;
     
     %    screen output
@@ -211,8 +214,23 @@ fname = ['Data/', section, '/', ReStr, '_', num2str(alpha(1)), ':',...
     num2str(alpha(end)), '_summary.mat'];
 save ( fname, 'xs', 'ys', 'alpha', 'clswp', 'cdswp', 'lovdswp' )
 
-% Improve this plot to show the pressure gradients and boundary layer
-% state.
-plot(xs,ys)
-axis('equal')
-disp(['Max L/D: ' num2str(max(clswp./cdswp))])
+%plot to compare old and new models
+figure(1)
+hold on
+plot(alpha, clswp_old, 'b.-', 'Linewidth', 4)
+plot(alpha, clswp, 'r.-', 'Linewidth', 4)
+hold off
+axis([-20 20 -1.6 1.6])
+xlabel('\alpha')
+ylabel('C_L')
+legend('Initial model', 'Revised model', 'Location', 'Southeast')
+
+figure(2)
+hold on
+plot(clswp_old, cdswp, 'b.-', 'LineWidth', 4);
+plot(clswp, cdswp, 'r.-', 'LineWidth', 4);
+hold off
+axis([-1.6 1.6 0 0.016])
+xlabel('C_L');
+ylabel('C_D')
+legend('Initial model', 'Revised model', 'Location', 'Southeast')
