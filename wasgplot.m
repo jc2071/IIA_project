@@ -1,8 +1,10 @@
 function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     ipstag = iss(1);
     speeddir = 'High_speed';
+    sd = 'HS';
     if Re == 5e5
-        speeddir = 'Low_speed';
+        speeddir = 'Low_speed'
+        sd = 'LS';
     end
     % Make a nice string of the Reynolds number pw444 code
     ReLongStr = num2str(Re);
@@ -150,43 +152,43 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     %%
     function plotButtonPushed1(src,event)
         set(c1,'visible','off') % Avoid plotting "print to eps"
-        print (gcf, ['LaTeX/' speeddir '/' extractBefore(filein,".surf") ...
-            '/' 'cp_' ReStr '_' num2str(alpha)], '-depsc')
+        print (gcf, ['LaTeX/Graphs/' speeddir '/' extractBefore(filein,".surf") ...
+            '_' sd '_cp_' ReStr '_' num2str(alpha)], '-depsc')
         set(c1,'visible','on')
     end
 
     function plotButtonPushed2(src,event)
         set(c2,'visible','off') % Avoid plotting "print to eps"
-        print (gcf, ['LaTeX/' speeddir '/' extractBefore(filein,".surf") ...
-             '/' 'LD_' ReStr ], '-depsc')
+        print (gcf, ['LaTeX/Graphs/' speeddir '/' extractBefore(filein,".surf") ...
+             '_' sd '_LD_' ReStr ], '-depsc')
         set(c2,'visible','on')
     end
 
     function plotButtonPushed3(src,event)
         set(c3,'visible','off') % Avoid plotting "print to eps"
-        print (gcf, ['LaTeX/' speeddir '/' extractBefore(filein,".surf") ...
-             '/' 'theta_' ReStr '_' num2str(alpha)], '-depsc')
+        print (gcf, ['LaTeX/Graphs/' speeddir '/' extractBefore(filein,".surf") ...
+             '_' sd '_theta_' ReStr '_' num2str(alpha)], '-depsc')
         set(c3,'visible','on')
     end
 
     function plotButtonPushed4(src,event)
             set(c4,'visible','off') % Avoid plotting "print to eps"
-            print (gcf, ['LaTeX/' speeddir '/' extractBefore(filein,".surf") ...
-                 '/' 'cl_' ReStr '_' num2str(alpha)], '-depsc')
+            print (gcf, ['LaTeX/Graphs/' speeddir '/' extractBefore(filein,".surf") ...
+                 '_' sd '_' 'cl_' ReStr '_' num2str(alpha)], '-depsc')
             set(c4,'visible','on')
     end
 
     function plotButtonPushed5(src,event)
             set(c5,'visible','off') % Avoid plotting "print to eps"
-            print (gcf, ['LaTeX/' speeddir '/' extractBefore(filein,".surf") ...
-                 '/' 'cd_' ReStr '_' num2str(alpha)], '-depsc')
+            print (gcf, ['LaTeX/Graphs/' speeddir '/' extractBefore(filein,".surf") ...
+                 '_' sd '_cd_' ReStr '_' num2str(alpha)], '-depsc')
             set(c5,'visible','on')
     end
 
     function plotButtonPushed6(src,event)
             set(c6,'visible','off') % Avoid plotting "print to eps"
-            print (gcf, ['LaTeX/' speeddir '/' extractBefore(filein,".surf") ...
-                 '/' 'clcd_' ReStr '_' num2str(alpha)], '-depsc')
+            print (gcf, ['LaTeX/Graphs/' speeddir '/' extractBefore(filein,".surf") ...
+                 '_' sd '_clcd_' ReStr '_' num2str(alpha)], '-depsc')
             set(c6,'visible','on')
     end
     %%

@@ -80,7 +80,7 @@ imarkers = ["kp","ko","k^","ks","kd","ko","k^","ks","kd"];
 Re = 5e5; % default to slow aerofoil
 alpha = 0;
 alphaswp = 0:5:20;
-np = 100;
+np = 400;
 % replotting = 0;
 Rebg = uibuttongroup('Visible', 'off',...
      'units', 'pixels', ...
@@ -100,7 +100,7 @@ uicontrol(Rebg,'Style','radiobutton',...
                   'HandleVisibility','on');
 Rebg.Visible = 'on';
 %np
-uicontrol('Style', 'edit', 'String', '100', 'Position', [20, 55, 80, 20], 'Callback', @Setnp);
+uicontrol('Style', 'edit', 'String', '400', 'Position', [20, 55, 80, 20], 'Callback', @Setnp);
 uicontrol('Style', 'text', 'String', 'np', 'Position', [0, 55, 20, 20]);
 % alpha
 uicontrol('Style', 'edit', 'String', '0', 'Position', [40, 80, 60, 20], 'Callback', @Setalpha);
