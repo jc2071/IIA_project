@@ -89,11 +89,12 @@ for nalpha = 1:length(alphaswp)
     else 
         icirc_start = 1;
     end
-    if ilts ~= 0
-        icirc_stop = ipstag + ilts;
-    else 
-        icirc_stop = np+1;
-    end
+    %if ilts ~= 0
+    %    icirc_stop = ipstag + ilts;
+    %else 
+    %    icirc_stop = np+1;
+    %end
+    icirc_stop = np+1;
     circ = 0;
     for ip = icirc_start:icirc_stop-1
         cp(ip) = 1 - gam(ip)^2;
