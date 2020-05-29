@@ -97,7 +97,6 @@ for nalpha = 1:length(alphaswp)
     icirc_stop = np+1;
     circ = 0;
     for ip = icirc_start:icirc_stop-1
-        cp(ip) = 1 - gam(ip)^2;
         dels = sqrt((xs(ip+1)-xs(ip))^2 + (ys(ip+1)-ys(ip))^2);
         circ = circ  +  dels * (gam(ip)+gam(ip+1))/2;
     end
