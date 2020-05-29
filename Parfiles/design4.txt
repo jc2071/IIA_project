@@ -1,0 +1,4 @@
+Section identifier              : design4
+Number of panels                : 100
+Reynolds number                 : 3.00e+06
+Range of incidences (degrees)   : 0:2:20

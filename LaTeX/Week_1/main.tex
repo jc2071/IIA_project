@@ -1,0 +1,73 @@
+\documentclass[a4paper,11pt]{article}
+
+%% PREAMBLE %%
+
+% Packages
+\usepackage[utf8]{inputenc} % UTF-8 is a good thing I guess
+\setcounter{secnumdepth}{0}
+\usepackage[a4paper, total={150mm, 225mm}]{geometry} % use reasonable amount of the page
+\usepackage{amsmath}  % allows unnumbered equations
+\usepackage{textcomp} % explicitly imported to calm gensymb
+\usepackage{gensymb}  % gives degree sign
+\usepackage{tikz}     % allows drawing pretty diagrams
+\usepackage{pgfplots} % allows graphs and plots
+\usepackage{graphicx} % allows images
+\usepackage{pdfpages} % allows to import other PDF pages
+\usepackage{float}
+
+%Prettifying packages
+\usepackage[document]{ragged2e}
+\usepackage[margin=1cm]{caption} % spacing for captions, 1cm in from border
+\usepackage{subcaption} 
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\usepackage[normalem]{ulem}
+\usepackage{colortbl}
+\usepackage{xcolor}
+\usepackage{listings}
+
+%make numbers not selectable
+\usepackage{accsupp}
+\renewcommand{\thelstnumber}{% Line number printing mechanism
+  \protect\BeginAccSupp{ActualText={}}\arabic{lstnumber}\protect\EndAccSupp{}
+}
+\usepackage[T1]{fontenc}
+\usepackage[framed,numbered]{matlab-prettifier} %print pretty code
+\usepackage{epstopdf}
+
+
+% Titlepage variables
+%\title{SA1: Interim Report 1}
+%\author{Paul Wernicke (pw444)\\Jonathan Collins (jc2071)}
+%\date{May 2020}
+
+\lhead{Week 1 Report}
+\rhead{Jonathan Collins \& Paul Wernicke}
+\lfoot{jc2071 \& pw444}
+
+%% DOCUMENT %%
+\pagenumbering{gobble}
+\begin{document}
+%\maketitle
+\input{Title.tex}
+\pagenumbering{arabic}
+
+\section{Exercise 1}
+\input{Exercise1}
+
+\section{Exercise 2}
+\input{Exercise2}
+
+\section{Exercise 3}
+\input{Exercise3}
+
+\section{Exercise 4}
+\input{Exercise4}
+
+\section{Exercise 5}
+\input{Exercise5}
+
+\section{Auxiliary Code}
+\input{auxiliarycode}
+
+\end{document}
