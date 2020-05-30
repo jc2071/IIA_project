@@ -3,7 +3,7 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     speeddir = 'High_speed';
     sd = 'HS';
     if Re == 5e5
-        speeddir = 'Low_speed'
+        speeddir = 'Low_speed';
         sd = 'LS';
     end
     % Make a nice string of the Reynolds number pw444 code
@@ -21,6 +21,8 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     else
         ReStr = [ReLongStr(1), '.', ReLongStr(2:last_index), 'e', expon];
     end
+    
+    [~,indexcl] = max(cl)
     %% iunt, iuls, iutr, iuts, ilnt, ills, iltr, ilts --> (2,.....,9)
     %%
     f2 = figure(2);
@@ -62,6 +64,7 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     movegui(figure(3),'northeast');
     hold on
     plot(alphaswp,cl./cd, 'color' , [0.6350 0.0780 0.1840], 'linewidth' ,1.2)
+    scatter(alphaswp(indexcl), cl(indexcl)/cd(indexcl),'x','k')
     yline(0,'k')
     hold off
     xlabel('\alpha')
@@ -109,6 +112,7 @@ function wasgplot(x_foil,cp_foil,filein,alpha,Re,alphaswp,cl,cd,theta,iss)
     cla
     hold on
     plot(alphaswp,cl, 'color' , [0.6350 0.0780 0.1840], 'linewidth' ,1.2)
+    scatter(alphaswp(indexcl),cl(indexcl),'x','k')
     yline(0,'k')
     hold off
     xlabel('\alpha')

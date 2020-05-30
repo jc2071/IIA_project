@@ -257,6 +257,7 @@ uicontrol('style','text','Fontsize',10, ...
             %%% 'l' load a new .surf file
             case 'l'
                 [filein,pathin]=uigetfile([pathin '*.surf']);
+                set(h, 'Name', ['Wing Analysis Section Generator: ' filein]);
                 y=load([pathin,filein]);
                 x=y(2:end-1,1);
                 y=y(2:end-1,2);
