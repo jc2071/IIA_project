@@ -695,14 +695,14 @@ uicontrol('style','text','Fontsize',10, ...
     y_plot = x2y2(2,:);
     
     %downstram - upstream
-%     cp_foil_grad = [cp_foil(1:iss(1)) - cp_foil(2:iss(1)+1), cp_foil(iss(1)+1:np+1) - cp_foil(iss(1):np)];
-%     
-%     % Plot things ontop of WASG
-%     dd = zeros(size(x_plot)); % dummy required by surface
-%     col = cp_foil_grad; % colour according to cp
-%     hold on
-%     surface([x_plot;x_plot],[y_plot;y_plot],[dd;dd],[col;col],...
-%         'facecol','no','edgecol','interp','linew',2);
+    cp_foil_grad = [cp_foil(1:iss(1)) - cp_foil(2:iss(1)+1), cp_foil(iss(1)+1:np+1) - cp_foil(iss(1):np)];
+    
+    % Plot things ontop of WASG
+    dd = zeros(size(x_plot)); % dummy required by surface
+    col = cp_foil_grad; % colour according to cp
+    hold on
+    surface([x_plot;x_plot],[y_plot;y_plot],[dd;dd],[col;col],...
+        'facecol','no','edgecol','interp','linew',2);
     %colormap(h, [0 1 0; 1 1 0; 1 0 0]);
     hold on
     for im = 1:9
