@@ -5,7 +5,6 @@
 %
 
 close; clear all;
-
 %  Read in the parameter file
 caseref = input('Enter case reference: ','s');
 parfile = ['Parfiles/' caseref '.txt'];
@@ -112,7 +111,6 @@ for nalpha = 1:length(alpha)
     [Cl, Cd] = forces ( circ, cp, delstarl, thetal, delstaru, thetau );
     
     %    copy Cl and Cd into arrays for alpha sweep plots
-    
     clswp(nalpha) = Cl;
     cdswp(nalpha) = Cd;
     clswp_old(nalpha) = Cl_old;
@@ -204,15 +202,15 @@ for nalpha = 1:length(alpha)
     save ( fname, 'Cl', 'Cd', 'xs', 'cp', ...
         'sl', 'delstarl', 'thetal', 'lowerbl', ...
         'su', 'delstaru', 'thetau', 'upperbl' )
-end
+
 
 %  save alpha sweep data in summary file
 
 fname = ['Data/', section, '/', ReStr, '_', num2str(alpha(1)), ':',...
     num2str((alpha(end)-alpha(1))/(length(alpha)-1)), ':',...
     num2str(alpha(end)), '_summary.mat'];
-save ( fname, 'xs', 'ys', 'alpha', 'clswp', 'cdswp', 'lovdswp' )
-
+save ( fname, 'xs', 'ys', 'alpha', 'clswp', 'cdswp', 'lovdswp','clswp_old' )
+end
 %plot to compare old and new models
 figure(1)
 hold on
