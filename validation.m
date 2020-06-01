@@ -146,4 +146,4 @@ ylabel('Coefficient of lift  C_L')
 xlabel('Number of panels')
 set(gca, 'FontName','Times', 'FontSize', 14);
 
-
+print (gcf, ['LaTeX/Graphs/validation3'], '-depsc')
