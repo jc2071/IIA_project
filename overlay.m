@@ -28,6 +28,7 @@ for i = 1:n
     title('Airfoil geometry') 
     hold on
     plot(xs,ys, 'color',colors(i,:),'DisplayName',geometry,'LineWidth', 1.2)
+    axis('equal')
     legend
     hold off
 %     subplot(3,1,2)

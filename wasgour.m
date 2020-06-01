@@ -81,7 +81,7 @@ names = ["Stagnation point","natural transition","laminar separation",...
     "laminar separation","turbulent reattachment","turbulent separation"];
 Re = 5e5; % default to slow aerofoil
 alpha = 0;
-alphaswp = 0:5:20;
+alphaswp = 0:1:15;
 np = 400;
 % replotting = 0;
 Rebg = uibuttongroup('Visible', 'off',...
@@ -108,7 +108,7 @@ uicontrol('Style', 'text', 'String', 'np', 'Position', [0, 55, 20, 20]);
 uicontrol('Style', 'edit', 'String', '0', 'Position', [40, 80, 60, 20], 'Callback', @Setalpha);
 uicontrol('Style', 'text', 'String', 'alpha', 'Position', [0, 80, 40, 20]);
 % alphaswp
-uicontrol('Style', 'edit', 'String', '0:5:20', 'Position', [5, 105, 100, 20], 'Callback', @Setalphaswp);
+uicontrol('Style', 'edit', 'String', '0:1:15', 'Position', [5, 105, 100, 20], 'Callback', @Setalphaswp);
 uicontrol('Style', 'text', 'String', 'alpha sweep', 'Position', [5, 130, 100, 20]);
 
 % finito w extra ui
@@ -678,7 +678,7 @@ uicontrol('style','text','Fontsize',10, ...
 
     function Replot() % this is for the live updating while we move
         
-    [x_foil, y_foil, cp_foil, ~, ~, ~, iss] = foilsolve([1;x;1],[0;y;0], np, Re, alpha, alphaswp);
+    [x_foil, y_foil, cp_foil, ~, cl_foil, cd_foil, iss] = foilsolve([1;x;1],[0;y;0], np, Re, alpha, alphaswp);
     %[x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(x_foil, y_foil);
     [xspln, yspln] = splinefit ( x, y, np*5 );
     rte = sqrt((xspln-1).^2 + yspln.^2);
@@ -718,8 +718,12 @@ uicontrol('style','text','Fontsize',10, ...
     hold off
     %[x_cam, y_cam, max_thicc, max_thicc_position] = cambersolve(x_foil, y_foil);
     %plot(x_cam,y_cam, '--') % want to get thickness, hence camber etc...
-    %text(0.9,-0.15,['Max thicc: ' num2str(round(max_thicc)) '%'])
-    %text(0.9,-0.16,['At position x/c: ' num2str(round(max_thicc_position,2))])
+    textplot = {};
+    for i = 3:1:15
+        textplot(i) = {[num2str(alphaswp(i)) '  :  ' num2str(cl_foil(i)/cd_foil(i))]};
+    end
+    text(0.4,-0.1,textplot,'FontSize',13)
+    %text(0.1,-0.16,num2str(alphaswp(3:15)))
     end
 
     function Regraph() % this happens when we ask for it
